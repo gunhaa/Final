@@ -106,6 +106,9 @@ Servers/
 hs_err_pid*
 replay_pid*
 
+# Build output directory
+target/   # Add this line to ignore the target directory
+
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse
 .project
 .classpath
