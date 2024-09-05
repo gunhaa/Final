@@ -1,4 +1,4 @@
-package com.tlink.project.controller;
+package com.tlink.project.myPage.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.tlink.project.main.model.chatting;
+package com.tlink.project.chatting.model.websocket;
 
 
 import java.util.Collections;

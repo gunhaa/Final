@@ -1,4 +1,4 @@
-package com.tlink.project;
+package com.tlink.project.chatting.model.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
