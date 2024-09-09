@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="userMapper">
+
+    
+   <resultMap type="User" id="user_rm">
+   
+      <!-- DB의 기본 키(복합키면 여러 개 작성) -->
+      <id property="userNo" column="USER_NO" />
+
+      <!-- DB의 일반 컬럼들 -->
+      <result property="userEmail" column="USER_EMAIL" />
+      <result property="userPw" column="USER_PW" />
+      <result property="userName" column="USER_NAME" />
+      <result property="userPhone" column="USER_PHONE" />
+      
+      <result property="userAddr" column="USER_ADDR" />
+      
+      <result property="profileImg" column="PROFILE_IMG" />
+      <result property="enrollDate" column="ENROLL_DATE" />
+<!-- <result property="userDeleteFlag" column="USER_DEL_FL" /> -->
+      <result property="role" column="ROLE" />
+   </resultMap>
+	
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="User" resultMap="user_rm">
+		SELECT USER_NO, USER_EMAIL, USER_NAME, USER_PHONE, USER_ADDR, PROFILE_IMG, ENROLL_DATE, ROLE, USER_PW
+		FROM "USER"
+		WHERE USER_EMAIL = #{userEmail}
+		AND USER_DEL_FL = 'N'
+	</select>
+	
+	<!-- 회원가입 -->
+	<insert id="signUp" parameterType="User">
+		INSERT INTO "USER"
+		VALUES(SEQ_USER_NO.NEXTVAL,
+		 #{userEmail},
+		 #{userPw},
+		 #{userName},
+		 #{userPhone},
+		 #{userAddr},
+		 NULL, DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+	
+</mapper>

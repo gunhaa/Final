@@ -31,7 +31,7 @@
                     <div class="menu" onclick="location.href='secession'">회원 탈퇴</div>
                 </div>
                 <div class="bot">
-                    <div class="logout" onclick="location.href='/login'">로그아웃</div>
+                    <div class="logout" onclick="location.href='/logout'">로그아웃</div>
                 </div>
             </div>
         </section>

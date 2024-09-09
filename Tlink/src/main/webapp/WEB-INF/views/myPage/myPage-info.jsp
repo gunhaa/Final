@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,11 +27,11 @@
                     <div class="card">
                         <div class="card-row">
                             <div class="row-title">이름</div>
-                            <div class="row-content">유저일</div>
+                            <div class="row-content">${loginUser.userName}</div>
                         </div>
                         <div class="card-row">
                             <div class="row-title">이메일</div>
-                            <div class="row-content">user01@kh.or.kr</div>
+                            <div class="row-content">${loginUser.userEmail}</div>
                         </div>
                     </div>
                     <!-- 하단 카드 -->
@@ -37,26 +39,28 @@
                         <div class="card-row">
                             <div class="row-title">전화번호</div>
                             <div class="row-content">
-                                <input type="text" value="010-1234-1234">
+                                <input type="text" value="${loginUser.userPhone}">
                             </div>
                         </div>
                         <div class="card-row">
+                            <c:set var="addr" value="${fn:split(loginUser.userAddr, '^^^') }" />
+
                             <div class="row-title">우편번호</div>
                             <div class="row-content">
-                                <input type="text" value="123456" id="sample6_postcode">
+                                <input type="text" value="${addr[0]}" id="sample6_postcode">
                                 <button type="button" onclick="sample6_execDaumPostcode()">검색</button>
                             </div>
                         </div>
                         <div class="card-row">
                             <div class="row-title">주소</div>
                             <div class="row-content">
-                                <input type="text" value="테헤란로 12길 3" id="sample6_address">
+                                <input type="text" value="${addr[1]}" id="sample6_address">
                             </div>
                         </div>
                         <div class="card-row">
                             <div class="row-title">상세주소</div>
                             <div class="row-content">
-                                <input type="text" value="3층" id="sample6_detailAddress">
+                                <input type="text" value="${addr[2]}" id="sample6_detailAddress">
                             </div>
                         </div>
                     </div>

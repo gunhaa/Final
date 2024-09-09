@@ -17,32 +17,33 @@
 ${pageContext.request.contextPath}
         <div class="small-logo" onclick="location.href='/'"></div>
         <section>
-            <form action="">
+            <form action="/signUp" method="POST">
                 <div class="title">회원가입</div>
                 <div class="card">
                     <div class="card-row">
                         <div class="row-title">이메일</div>
                         <div class="row-content">
-                            <input type="text" placeholder="이메일을 입력해주세요.">
-                            <button type="button">인증</button>
+                            <input type="text" name="userEmail" placeholder="이메일을 입력해주세요.">
+                            <button type="button">전송</button>
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">인증번호</div>
                         <div class="row-content">
-                            <input type="text" placeholder="인증번호를 입력해주세요.">
+                            <input type="text" name="authKey" placeholder="인증번호를 입력해주세요.">
+                            <button type="button">인증</button>
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">비밀번호</div>
                         <div class="row-content">
-                            <input type="text" placeholder="비밀번호를 입력해주세요.">
+                            <input type="text" name="userPw" placeholder="비밀번호를 입력해주세요.">
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">비밀번호 확인</div>
                         <div class="row-content">
-                            <input type="text" placeholder="비밀번호를 확인해주세요.">
+                            <input type="text" id="pwCheck" placeholder="비밀번호를 확인해주세요.">
                         </div>
                     </div>
                 </div>
@@ -51,32 +52,33 @@ ${pageContext.request.contextPath}
                     <div class="card-row">
                         <div class="row-title">이름</div>
                         <div class="row-content">
-                            <input type="text" placeholder="이름을 입력해주세요.">
+                            <input type="text" name="userName" placeholder="이름을 입력해주세요.">
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">전화번호</div>
                         <div class="row-content">
-                            <input type="text" placeholder="전화번호를 입력해주세요.">
+                            <input type="text" name="userPhone" placeholder="전화번호를 입력해주세요.">
                         </div>
                     </div>
+
                     <div class="card-row">
                         <div class="row-title">우편번호</div>
                         <div class="row-content">
-                            <input type="text" id="sample6_postcode">
+                            <input type="text" name="userAddr" id="sample6_postcode">
                             <button type="button" onclick="sample6_execDaumPostcode()">검색</button>
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">주소</div>
                         <div class="row-content">
-                            <input type="text" id="sample6_address">
+                            <input type="text" name="userAddr" id="sample6_address">
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">상세주소</div>
                         <div class="row-content">
-                            <input type="text" placeholder="상세주소를 입력해주세요." id="sample6_detailAddress">
+                            <input type="text" name="userAddr" placeholder="상세주소를 입력해주세요." id="sample6_detailAddress">
                         </div>
                     </div>
                 </div>

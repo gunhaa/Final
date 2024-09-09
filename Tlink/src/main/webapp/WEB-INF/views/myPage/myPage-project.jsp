@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +23,7 @@
                 <!-- 프로젝트 모음 -->
                 <div class="content">
                     <div class="title">
-                        유저일님의 프로젝트
+                        ${loginUser.userName}님의 프로젝트
                         <i class="fa-solid fa-file-circle-plus"></i>
                     </div>
                     <!-- 검색창 -->
