@@ -30,12 +30,68 @@
                     <div id="title-container"><b>오늘 점심은 뭐먹을까</b></div>
                     <div id="middle-container">
                         <div id="video-container">
-                            <div class="video-item"></div>
-                            <div class="video-item"></div>
-                            <div class="video-item"></div>
-                            <div class="video-item"></div>
                         </div>
-                        <div id="chat-container"></div>
+                        <div id="chat-container">
+                            <div class="chat-itembox">
+                                    <span class="today">2024-09-09</span>
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>                                
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>   
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>   
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>   
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>   
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>   
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>
+                                <div class="chat-item">
+                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
+                                    <div class="chat-id">배지환</div>
+                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
+                                </div>   
+                            </div>
+                           <div class="chat-inputbox">
+                                <div class="chat-background">
+                                    <input class="chat-input">
+                                </div>
+                           </div>
+                            
+                        </div>
                     </div>
                     <div id="button-container">
                         <div id="btn-box">
@@ -43,7 +99,7 @@
                             <div class="btn btn1" id="mic-btn">마</div>
                             <!-- <div class="btn btn1" id="display-btn">화</div> -->
                             <div class="btn btn1" id="change-btn">전환</div>
-                            <div class="btn btn2" id="changeTitle-btn"><b>주제 변경</b></div>
+                            <div class="btn btn1" id="changeTitle-btn">주제 변경</div>
                             <div class="optionBox none" id="option-window">
                                 <div class="options1">카메라(사용중)</div>
                                 <div class="options2">화면 공유</div>

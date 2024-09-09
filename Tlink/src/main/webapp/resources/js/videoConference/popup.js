@@ -8,7 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+// declare const memberNo: any;
 const changeTitleBtn = document.querySelector("#changeTitle-btn");
+let memberNo = new URLSearchParams(location.search).get("memberNo");
+let myStream;
+let camera = true;
+let mic = true;
+let display = true;
+let otherMemberNoSet = new Set();
+let peerConnectionMap = new Map();
+let state = "camera";
+const cameraBtn = document.querySelector("#video-btn");
+const micBtn = document.querySelector("#mic-btn");
+const displayBtn = document.querySelector("#display-btn");
+const exitBtn = document.querySelector("#exit-btn");
+const changeBtn = document.querySelector("#change-btn");
+const optionBox = document.querySelector(".optionBox");
+const option1 = document.querySelector(".options1");
+const option2 = document.querySelector(".options2");
+const myVideo = document.querySelector("#video-container");
 changeTitleBtn.addEventListener("click", e => {
     inputModal("주제 변경", "이 화상회의의 주제는 무엇인가요?");
 });
@@ -57,57 +75,73 @@ function inputModal(title, placeHolder) {
 }
 // 웹소켓 코드
 let socket;
-connectWebsocket();
-function connectWebsocket() {
-    socket = new SockJS(`${req}/videoConference`);
-    socket.onopen = (e) => {
-        console.log("websocket 연결됨");
-    };
-    socket.onmessage = (e) => __awaiter(this, void 0, void 0, function* () {
-        //console.log("받은거" + e);
-        const parsedMessage = yield JSON.parse(e.data);
-        console.log("Received Message:", parsedMessage);
-        // if (parsedMessage.type == "offer") {
-        // 상대방에게서 실행되는 코드
-        // await handleOffer(parsedMessage);
-        // console.log("handleOffer 전달됨");
-        //console.log(parsedMessage.sdp)
-        // }
-        // if (parsedMessage.type == "answer") {
-        // await handleAnswer(parsedMessage);
-        //console.log(parsedMessage);
-        //console.log("answer 전달에 성공했음 handleAnswer 하면됨")
-        // }
-        // if (parsedMessage.hasOwnProperty("candidate")) {
-        // console.log("candidate에 들어가는 그거는 이거임 : " , parsedMessage)
-        // handleIceCandidate(parsedMessage);
-        //console.log(parsedMessage);
-        //console.log("candidate만 실행되는 메소드 만들기에 도달했음");
-        // }
-        // if(parsedMessage.msg == "somebodyjoinroom"){
-        // 	console.log("원하는거 실행됬고, 이곳에서 offer 함수 실행되야함");
-        // 	makeOffer();
-        // }
+const connectWebsocket = () => {
+    return new Promise((resolve, reject) => {
+        socket = new SockJS(`${req}/videoConference`);
+        socket.onopen = (e) => {
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                    "type": "addSession",
+                    "memberNo": memberNo
+                }));
+            }
+            else {
+                console.log('WebSocket 연결이 아직 준비되지 않았습니다.');
+            }
+            resolve();
+            console.log("websocket 연결됨");
+        };
+        socket.onmessage = (e) => __awaiter(void 0, void 0, void 0, function* () {
+            //console.log("받은거" + e);
+            const parsedMessage = yield JSON.parse(e.data);
+            console.log("Received Message:", parsedMessage);
+            // 모두가 실행되는 코드
+            if (parsedMessage.type === "needMemberKey") {
+                socket.send(JSON.stringify({
+                    "type": "memberNo",
+                    "memberNo": memberNo
+                }));
+            }
+            if (parsedMessage.type === "otherMemberNo") {
+                if (parsedMessage.memberNo != memberNo) {
+                    otherMemberNoSet.add(parsedMessage.memberNo);
+                }
+            }
+            // 상대방에게서 실행되는 코드
+            if (parsedMessage.type === "offer") {
+                //console.log("parsedMessage.makeAnswerMemberNo : 보내는 곳이 이곳임 : ", parsedMessage.makeAnswerMemberNo);
+                // console.log("parsedMessage.type", parsedMessage.type);
+                // console.log("parsedMessage.sdp", parsedMessage.sdp);
+                peerConnectionMap.set(parsedMessage.makeAnswerMemberNo, createConnection(parsedMessage.makeAnswerMemberNo));
+                peerConnectionMap.get(parsedMessage.makeAnswerMemberNo).setRemoteDescription(new RTCSessionDescription({ type: parsedMessage.type, sdp: parsedMessage.sdp }));
+                // map 세팅완료
+                // answer 보내야함
+                sendAnswer(peerConnectionMap.get(parsedMessage.makeAnswerMemberNo), parsedMessage.makeAnswerMemberNo);
+            }
+            if (parsedMessage.type === "answer") {
+                peerConnectionMap.get(parsedMessage.setAnswerMemberNo).setRemoteDescription(new RTCSessionDescription({ type: parsedMessage.type, sdp: parsedMessage.sdp }));
+                console.log("answer응답 받았음, map에 원격 세팅중", parsedMessage.setAnswerMemberNo);
+            }
+            if (parsedMessage.type === "icecandidate") {
+                peerConnectionMap.get(parsedMessage.iceSender).addIceCandidate(new RTCIceCandidate({ candidate: parsedMessage.candidate, sdpMLineIndex: parsedMessage.sdpMLineIndex, sdpMid: parsedMessage.sdpMid }));
+            }
+            if (parsedMessage.type === "exit") {
+                peerConnectionMap.delete(parsedMessage.exitMemberNo);
+                otherMemberNoSet.delete(parsedMessage.exitMemberNo);
+                const video = document.getElementById(parsedMessage.exitMemberNo);
+                video === null || video === void 0 ? void 0 : video.remove();
+                console.log("제거 완료");
+            }
+            // console.log("받은 exitMember", parsedMessage.exitMemberNo);
+        });
+        socket.onclose = (e) => {
+            reject();
+            console.log(e);
+            console.log("websocket 끊겼음");
+        };
     });
-    socket.onclose = (e) => {
-        console.log("websocket 끊겼음");
-    };
-}
-// 화상회의 코드
-let myStream;
-let camera = true;
-let mic = true;
-let display = true;
-let state = "camera";
-const cameraBtn = document.querySelector("#video-btn");
-const micBtn = document.querySelector("#mic-btn");
-const displayBtn = document.querySelector("#display-btn");
-const exitBtn = document.querySelector("#exit-btn");
-const changeBtn = document.querySelector("#change-btn");
-const optionBox = document.querySelector(".optionBox");
-const option1 = document.querySelector(".options1");
-const option2 = document.querySelector(".options2");
-const myVideo = document.querySelectorAll(".video-item")[0];
+};
+// 화상 회의
 const getMedia = (deviceId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const initialConstrains = {
@@ -125,17 +159,41 @@ const getMedia = (deviceId) => __awaiter(void 0, void 0, void 0, function* () {
             video: { deviceId: { exact: deviceId } }
         };
         myStream = yield navigator.mediaDevices.getUserMedia(deviceId ? cameraConstraints : initialConstrains);
-        myVideo.innerHTML = "";
         let video = document.createElement("video");
-        video.height = 210;
-        video.width = 210;
+        video.height = 270;
+        video.width = 270;
         video.autoplay = true;
+        video.id = memberNo;
         video.srcObject = myStream;
         myVideo.appendChild(video);
+        video.addEventListener("click", () => {
+            video.requestFullscreen();
+        });
         // 카메라 바꾸기
         // if (!deviceId) {
         //     await getCameras();
         // }
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+// 카메라 변경
+const getMedia2 = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const initialConstrains = {
+            audio: {
+                echoCancellation: true,
+                noiseSuppression: true
+            },
+            video: { facingMode: "user" }
+        };
+        myStream = yield navigator.mediaDevices.getUserMedia(initialConstrains);
+        let video = document.querySelectorAll("video")[0];
+        video.srcObject = myStream;
+        video.addEventListener("click", () => {
+            video.requestFullscreen();
+        });
     }
     catch (err) {
         console.log(err);
@@ -152,17 +210,12 @@ const getDisplay = () => __awaiter(void 0, void 0, void 0, function* () {
             audio: false
         });
         myStream = screenStream;
-        myVideo.innerHTML = "";
-        let video = document.createElement("video");
-        video.height = 210;
-        video.width = 210;
-        video.autoplay = true;
+        let video = document.querySelectorAll("video")[0];
         video.srcObject = myStream;
         // 비디오 클릭 시 전체화면 전환 이벤트 추가
         video.addEventListener("click", () => {
             video.requestFullscreen();
         });
-        myVideo.appendChild(video);
     }
     catch (e) {
         console.log(e);
@@ -201,7 +254,7 @@ const option1btn = () => {
         option1.innerText = "카메라(사용중)";
         option2.innerText = "화면공유";
         state = "camera";
-        getMedia();
+        getMedia2();
     }
     else {
         optionBox.classList.toggle("none");
@@ -224,12 +277,111 @@ const option2btn = () => {
 const byebye = () => {
     window.close();
 };
-//displayBtn.addEventListener("click", getDisplay);
+const createConnection = (otherMemberNo) => {
+    const configuration = {
+        iceServers: [
+            {
+                urls: [
+                    "stun:stun.l.google.com:19302"
+                ]
+            }
+        ]
+    };
+    const myPeerConnection = new RTCPeerConnection(configuration);
+    myPeerConnection.addEventListener("icecandidate", (event) => {
+        iceHandler(event, otherMemberNo);
+    });
+    myPeerConnection.addEventListener("track", (event) => {
+        trackHandler(event, otherMemberNo);
+    });
+    if (myStream !== undefined) {
+        myStream.getTracks().forEach(track => {
+            myPeerConnection.addTrack(track, myStream);
+        });
+    }
+    return myPeerConnection;
+};
+const trackHandler = (event, otherMemberNo) => {
+    if (document.getElementById(`${otherMemberNo}`) === null) {
+        const video = document.createElement('video');
+        video.height = 270;
+        video.width = 270;
+        video.autoplay = true;
+        video.id = otherMemberNo;
+        video.srcObject = event.streams[0];
+        myVideo.appendChild(video);
+    }
+    else {
+        const video = document.getElementById(`${otherMemberNo}`);
+        video.srcObject = event.streams[0];
+    }
+};
+const iceHandler = (event, targetNo) => {
+    console.log("ICE실행");
+    if (event.candidate) {
+        socket.send(JSON.stringify({
+            "type": "icecandidate",
+            "body": event.candidate,
+            "targetNo": targetNo,
+            "iceSender": memberNo
+        }));
+    }
+};
+const setLocal = (myPeerConnection, offerOrAnswer) => {
+    myPeerConnection.setLocalDescription(offerOrAnswer);
+};
+const needMemberKey = () => {
+    socket.send(JSON.stringify({
+        "type": "needMemberKey"
+    }));
+};
+const sendOffer = (myPeerConnection, targetNo) => {
+    myPeerConnection.createOffer().then((offer) => {
+        setLocal(myPeerConnection, offer);
+        socket.send(JSON.stringify({
+            "type": "offer",
+            "body": offer,
+            "targetNo": targetNo,
+            "makeAnswerMemberNo": memberNo
+        }));
+        console.log("send Offer");
+    });
+};
+const sendAnswer = (myPeerConnection, targetNo) => {
+    myPeerConnection.createAnswer().then((answer) => {
+        setLocal(myPeerConnection, answer);
+        socket.send(JSON.stringify({
+            "type": "answer",
+            "body": answer,
+            "targetNo": targetNo,
+            "setAnswerMemberNo": memberNo
+        }));
+        console.log("send Answer");
+    });
+};
+const startVideoConference = () => __awaiter(void 0, void 0, void 0, function* () {
+    // 소켓을 연결한다.
+    yield connectWebsocket();
+    // 1. 해당 방의 현재인원을 검색해서, 4명이 넘는다면 창을 끄고 종료시킨다.(경고 모달 출력)
+    // 2. 화면을 얻어온다.
+    yield getMedia();
+    // 3. signaling server에 신호를 보내 otherMemberList를 채운다.
+    yield needMemberKey();
+    // 방의 인원을 select해오고, 인원이 맞으면 해당 코드 실행으로 바꾸기 넣어야함
+    setTimeout(() => {
+        otherMemberNoSet.forEach((otherMemberNo) => {
+            if (!peerConnectionMap.has(otherMemberNo)) {
+                peerConnectionMap.set(otherMemberNo, createConnection(otherMemberNo));
+                sendOffer(peerConnectionMap.get(otherMemberNo), otherMemberNo);
+            }
+        });
+    }, 1000);
+});
 option1.addEventListener("click", option1btn);
 option2.addEventListener("click", option2btn);
 cameraBtn.addEventListener("click", handleCameraBtn);
 micBtn.addEventListener("click", handleMicBtn);
 changeBtn.addEventListener("click", handleChangeBtn);
 exitBtn.addEventListener("click", byebye);
-getMedia();
+startVideoConference();
 //# sourceMappingURL=popup.js.map
