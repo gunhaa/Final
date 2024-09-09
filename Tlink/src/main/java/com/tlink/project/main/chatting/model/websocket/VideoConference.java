@@ -1,4 +1,4 @@
-package com.tlink.project.chatting.model.websocket;
+package com.tlink.project.main.chatting.model.websocket;
 
 import java.io.IOException;
 import java.util.Collections;

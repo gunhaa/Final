@@ -17,7 +17,7 @@
     <main>
 
         <input id="memberNo" placeholder="memberNo 입력">
-
+        <input id="roomNo" placeholder="roomNo 입력">
         <button id="btn_videoConference">입장</button>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
