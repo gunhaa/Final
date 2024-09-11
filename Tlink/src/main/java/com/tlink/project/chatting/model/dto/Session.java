@@ -1,4 +1,4 @@
-package com.tlink.project.main.chatting.model.dto;
+package com.tlink.project.chatting.model.dto;
 
 import org.springframework.web.socket.WebSocketSession;
 

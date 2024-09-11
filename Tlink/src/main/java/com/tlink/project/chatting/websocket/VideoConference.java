@@ -1,12 +1,8 @@
-package com.tlink.project.chatting.model.websocket;
+package com.tlink.project.chatting.websocket;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -17,8 +13,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tlink.project.main.chatting.model.dto.MyObjectType;
-import com.tlink.project.main.chatting.model.dto.Session;
+import com.tlink.project.chatting.model.dto.MyObjectType;
+
 
 public class VideoConference extends TextWebSocketHandler {
 

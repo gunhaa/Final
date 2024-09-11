@@ -74,7 +74,7 @@
 	<task:annotation-driven/>
 
 	<!-- 웹소켓 처리 클래스를 bean으로 등록 -->
-	<beans:bean id="webSocketHandler" class="com.tlink.project.chatting.model.websocket.VideoConference"></beans:bean>
+	<beans:bean id="webSocketHandler" class="com.tlink.project.chatting.websocket.VideoConference"></beans:bean>
 	
 	<!-- 어떤 주소로 웹소켓 요청이 오면 세션을 가로챌지 지정 위 beans와 세트로 사용 된다 -->
 	<websocket:handlers>
