@@ -33,64 +33,20 @@
                         </div>
                         <div id="chat-container">
                             <div class="chat-itembox">
-                                    <span class="today">2024-09-09</span>
+                                <span class="today">2024-09-09</span>
                                 <div class="chat-item">
                                     <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
                                     <div class="chat-id">배지환</div>
                                     <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
                                 </div>
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>                                
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>   
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>   
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>   
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>   
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>   
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>   
                             </div>
                            <div class="chat-inputbox">
                                 <div class="chat-background">
                                     <input class="chat-input">
                                 </div>
+                                <button class="chat-send">d</button>
+                                <button class="chat-booked">d</button>
                            </div>
-                            
                         </div>
                     </div>
                     <div id="button-container">

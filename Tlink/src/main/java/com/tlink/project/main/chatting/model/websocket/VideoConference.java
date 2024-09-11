@@ -25,12 +25,11 @@ public class VideoConference extends TextWebSocketHandler {
 	private static final String MSG_TYPE_OFFER = "offer";
 	private static final String MSG_TYPE_ANSWER = "answer";
 	private static final String MSG_TYPE_ICECANDIDATE = "icecandidate";
-	private static final String MSG_TYPE_PROJECTNO = "projectNo";
+	private static final String MSG_TYPE_CHAT = "chat";
 	private static final String MSG_TYPE_MEMBERNO = "memberNo";
 	private static final String MSG_TYPE_needMemberKey = "needMemberKey";
 	private static final String MSG_TYPE_addSession = "addSession";
 	private static final String MSG_TYPE_EXIT = "exit";
-	private static final String MSG_TYPE_NULL = "null";
 
 	private Logger logger = LoggerFactory.getLogger(VideoConference.class);
 
@@ -62,6 +61,8 @@ public class VideoConference extends TextWebSocketHandler {
 		MyObjectType obj = objectMapper.readValue(message.getPayload(), MyObjectType.class);
 //		logger.info("obj의 body : " +  obj.getBody());
 
+		logger.info("obj.getType : {}" , obj.getType());
+		
 		if (obj.getType().equals(MSG_TYPE_addSession)) {
 
 			sessions.put(obj.getMemberNo(), session);
@@ -116,7 +117,7 @@ public class VideoConference extends TextWebSocketHandler {
 			msg.put("makeAnswerMemberNo", obj.getMakeAnswerMemberNo());
 
 			String jsonMsg = objectMapper.writeValueAsString(msg);
-			logger.info("offer가 보낸 targetNo : " + obj.getTargetNo());
+			logger.info("offer가 보낸 targetNo : {}" , obj.getTargetNo());
 			WebSocketSession ses = sessions.get(obj.getTargetNo());
 			ses.sendMessage(new TextMessage(jsonMsg));
 
@@ -133,7 +134,7 @@ public class VideoConference extends TextWebSocketHandler {
 			msg.put("setAnswerMemberNo", obj.getSetAnswerMemberNo());
 
 			String jsonMsg = objectMapper.writeValueAsString(msg);
-			logger.info("answer가 보낸 targetNo : " + obj.getTargetNo());
+			logger.info("answer가 보낸 targetNo : {} " , obj.getTargetNo());
 			WebSocketSession ses = sessions.get(obj.getTargetNo());
 			ses.sendMessage(new TextMessage(jsonMsg));
 
@@ -151,11 +152,33 @@ public class VideoConference extends TextWebSocketHandler {
 			msg.put("iceSender", obj.getIceSender());
 
 			String jsonMsg = objectMapper.writeValueAsString(msg);
-			logger.info("answer가 보낸 targetNo : {}" + obj.getTargetNo());
+			logger.info("icecandidate가 보낸 targetNo : {}" , obj.getTargetNo());
 
 			WebSocketSession ses = sessions.get(obj.getTargetNo());
 			ses.sendMessage(new TextMessage(jsonMsg));
 
+		}
+
+		
+
+		if (obj.getType().equals(MSG_TYPE_CHAT)) {
+			logger.info("CHAT 실행");
+			
+			Map<String, Object> msg = new HashMap<>();
+
+			msg.put("type", MSG_TYPE_CHAT);
+			msg.put("chatContent", obj.getChatContent());
+			msg.put("memberNo", obj.getMemberNo());
+			
+			String jsonMsg = objectMapper.writeValueAsString(msg);
+			
+			sessions.forEach((memberId, s) -> {
+				try {
+					s.sendMessage(new TextMessage(jsonMsg));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
 		}
 
 	}
@@ -188,8 +211,10 @@ public class VideoConference extends TextWebSocketHandler {
 		String jsonMsg = objectMapper.writeValueAsString(msg);
 		sessions.forEach((memberId, s) -> {
 			try {
+				
 				s.sendMessage(new TextMessage(jsonMsg));
 				logger.info("삭제 요청 메시지 보낸 상대 : {} " + memberId);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
