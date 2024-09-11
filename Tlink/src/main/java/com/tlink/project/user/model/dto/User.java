@@ -1,6 +1,9 @@
 package com.tlink.project.user.model.dto;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.tlink.project.project.model.dto.Project;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,5 +24,7 @@ public class User {
     private Date enrollDate;         // 가입일
     private char userDeleteFlag;     // 탈퇴여부 
     private char role;          // 역할
+    
+    private List<Project> projectList;
 	
 }

@@ -43,7 +43,7 @@
 
                     <div class="card">
                         <div class="card-row">
-                            <div class="confirm">
+                            <div class="agree">
                                 위의 약관을 확인했습니다.
                             </div>
                             <div>

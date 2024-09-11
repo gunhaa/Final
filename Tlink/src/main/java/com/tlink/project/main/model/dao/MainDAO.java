@@ -1,9 +1,12 @@
 package com.tlink.project.main.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tlink.project.project.model.dto.Project;
 import com.tlink.project.user.model.dto.User;
 
 @Repository
@@ -22,6 +25,17 @@ public class MainDAO {
 	public int signUp(User inputUser) {
 		
 		return sqlSession.insert("userMapper.signUp", inputUser);
+	}
+
+	// 이메일 중복 검사
+	public int selectDupEmail(String email) {
+		
+		return sqlSession.selectOne("userMapper.selectDupEmail", email);
+	}
+
+	// 프로젝트 리스트 조회
+	public List<Project> selectProjectList(int userNo) {
+		return sqlSession.selectList("userMapper.selectProjectList", userNo);
 	}
 
 }

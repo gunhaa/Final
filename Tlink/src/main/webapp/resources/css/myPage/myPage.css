@@ -104,7 +104,7 @@ button {
     font-size: 12px;
 }
 
-.confirm{
+.agree{
     margin-left: 10px;
     flex-basis: 95%;
     font-weight: bold;
@@ -306,6 +306,14 @@ select{
     border-radius: 5px;
     width: 100px;
     height: 30px;
+}
+
+.error{
+    color: red;
+}
+
+.confirm{
+    color: forestgreen;
 }
 
 

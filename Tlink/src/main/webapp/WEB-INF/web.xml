@@ -39,6 +39,7 @@
 			<param-value>
 			classpath:spring/appServlet/servlet-context.xml
 			classpath:spring/security-context.xml
+			classpath:spring/email-context.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

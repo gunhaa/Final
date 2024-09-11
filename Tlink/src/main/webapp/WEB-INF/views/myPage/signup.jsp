@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
+    <script src="${pageContext.request.contextPath}/resources/js/user/signup.js" defer></script>
     <script src="https://kit.fontawesome.com/e245e5bbb1.js" crossorigin="anonymous"></script>
 </head>
 
@@ -17,33 +18,34 @@
 ${pageContext.request.contextPath}
         <div class="small-logo" onclick="location.href='/'"></div>
         <section>
-            <form action="/signUp" method="POST">
+            <form action="/signUp" method="POST" id="signUpFrm">
                 <div class="title">회원가입</div>
                 <div class="card">
                     <div class="card-row">
                         <div class="row-title">이메일</div>
                         <div class="row-content">
-                            <input type="text" name="userEmail" placeholder="이메일을 입력해주세요.">
-                            <button type="button">전송</button>
+                            <input type="text" name="userEmail" id="userEmail" placeholder="이메일을 입력해주세요.">
+                            <button type="button" id="sendAuthKeyBtn">전송</button>
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">인증번호</div>
                         <div class="row-content">
-                            <input type="text" name="authKey" placeholder="인증번호를 입력해주세요.">
-                            <button type="button">인증</button>
+                            <span id="authKeyMessage"></span>
+                            <input type="text" id="authKey" placeholder="인증번호를 입력해주세요." style="width: 150px;">
+                            <button type="button" id="checkAuthKeyBtn">인증</button>
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">비밀번호</div>
                         <div class="row-content">
-                            <input type="text" name="userPw" placeholder="비밀번호를 입력해주세요.">
+                            <input type="password" name="userPw" id="userPw" placeholder="영어,숫자,특수문자(!,@,#,-,_) 6~20글자 사이로 입력해주세요.">
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">비밀번호 확인</div>
                         <div class="row-content">
-                            <input type="text" id="pwCheck" placeholder="비밀번호를 확인해주세요.">
+                            <input type="password" id="pwCheck" placeholder="비밀번호를 확인해주세요.">
                         </div>
                     </div>
                 </div>
@@ -52,13 +54,13 @@ ${pageContext.request.contextPath}
                     <div class="card-row">
                         <div class="row-title">이름</div>
                         <div class="row-content">
-                            <input type="text" name="userName" placeholder="이름을 입력해주세요.">
+                            <input type="text" name="userName" id="userName" placeholder="이름을 입력해주세요.">
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">전화번호</div>
                         <div class="row-content">
-                            <input type="text" name="userPhone" placeholder="전화번호를 입력해주세요.">
+                            <input type="text" name="userPhone" id="userPhone" placeholder="전화번호를 입력해주세요.(- 제외)">
                         </div>
                     </div>
 

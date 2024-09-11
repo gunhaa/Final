@@ -13,6 +13,8 @@
     <script src="https://kit.fontawesome.com/e245e5bbb1.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <c:set var = "projectList" value = "${loginUser.projectList}"/>
+
 
     <main>
 
@@ -37,7 +39,21 @@
                         <div class="swiper-button-next" style="color:#643BAB;"></div>
                         <div class="wrapper swiper-wrapper">
                             <!-- .project : 프로젝트 하나 -->
-                            <div class="project swiper-slide">
+
+                            <c:forEach var="project" items="${projectList}">
+                                <div class="project swiper-slide">
+                                    <div class="project-title">${project.projectTitle}</div>
+                                    <div class="thumbnail">
+                                        <img src="/resources/images/common/dashboard.png">
+                                    </div>
+                                    <div class="project-info">${project.projectInfo}</div>
+                                    <div class="project-info">멤버 ${project.userCount}</div>
+                                    <div class="project-info">${project.createDate}</div>
+                                </div>
+                            </c:forEach>
+
+
+<!--                             <div class="project swiper-slide">
                                 <div class="project-title">세미프로젝트</div>
                                 <div class="thumbnail">
                                     <img src="/resources/images/common/dashboard.png">
@@ -72,16 +88,7 @@
                                 <div class="project-info">kh 세미프로젝트입니다</div>
                                 <div class="project-info">멤버 6</div>
                                 <div class="project-info">2024.08.29</div>
-                            </div>
-                            <div class="project swiper-slide">
-                                <div class="project-title">세미프로젝트</div>
-                                <div class="thumbnail">
-                                    <img src="/resources/images/common/dashboard.png">
-                                </div>
-                                <div class="project-info">kh 세미프로젝트입니다</div>
-                                <div class="project-info">멤버 6</div>
-                                <div class="project-info">2024.08.29</div>
-                            </div>
+                            </div> -->
 
                         </div>
                         <div class="swiper-button-prev" style="color:#643BAB;"></div>

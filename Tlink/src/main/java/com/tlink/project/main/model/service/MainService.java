@@ -10,4 +10,7 @@ public interface MainService {
 	// 회원가입
 	int signUp(User inputUser);
 
+	// 이메일 중복 검사
+	int selectDupEmail(String email);
+
 }

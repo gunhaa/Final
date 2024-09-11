@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -110,6 +111,17 @@ public class MainController {
 		
 		
 		return path;
+	}
+	
+	// 중복 이메일 검사
+	// produces 속성은 한글이 깨질 때 사용
+	@GetMapping("/selectDupEmail")
+	@ResponseBody // HttpMessageConverter를 이용해서
+				  // JS에서 인식할 수 있는 형태(text/JSON) 변환 후
+				  // 비동기 요청한 곳으로 돌아감
+	public int selectDupEmail(String email) {
+
+		return service.selectDupEmail(email);
 	}
 	
 	
