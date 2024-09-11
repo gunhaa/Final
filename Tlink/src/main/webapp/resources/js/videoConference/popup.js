@@ -88,7 +88,7 @@ const inputBookedModal = (title, placeHolder) => {
                     <div id="content-box-wrapper2">
                     <div id="content-box-item1">${title}</div>
                     <input id="content-box-item2" placeholder="${placeHolder}"></input>
-                    <input id="content-box-item2" type="datetime-local"></input>
+                    <input id="content-box-item2" type="datetime-local" class="datetime"></input>
                     <button id="content-box-item3" class="btn">확인</button>
                     <button id="content-box-item4" class="btn">취소</button>
                  </div>
@@ -100,17 +100,20 @@ const inputBookedModal = (title, placeHolder) => {
         if (confirmButton) {
             confirmButton.addEventListener("click", () => {
                 // fetch를 통한 업데이트 구문 추가
-                const nowtitle = document.querySelector("#title-container");
-                const input = document.querySelector("#content-box-item2");
-                if (nowtitle) {
-                    nowtitle.innerHTML = `<b>${input === null || input === void 0 ? void 0 : input.value}</b>`;
-                    const existingModal = document.querySelector("#main-container");
-                    if (existingModal) {
-                        existingModal.remove();
-                    }
-                }
-                else {
-                    console.log("title이 없습니다.");
+                const bookedInput = document.querySelector(".datetime");
+                const msgInput = document.querySelector("#content-box-item2");
+                // console.log(bookedInput!.value);
+                // console.log(msgInput!.value);
+                socket.send(JSON.stringify({
+                    "type": "booked",
+                    "bookedMsg": msgInput.value,
+                    "bookedTime": bookedInput.value,
+                    "projectNo": projectNo,
+                    "memberNo": memberNo,
+                }));
+                const existingModal = document.querySelector("#main-container");
+                if (existingModal) {
+                    existingModal.remove();
                 }
             });
         }
@@ -541,5 +544,5 @@ changeBtn.addEventListener("click", handleChangeBtn);
 exitBtn.addEventListener("click", byebye);
 chatBtn.addEventListener("click", sendChat);
 startVideoConference();
-// 수정 projectNo
+// 수정 projectNo4
 //# sourceMappingURL=popup.js.map

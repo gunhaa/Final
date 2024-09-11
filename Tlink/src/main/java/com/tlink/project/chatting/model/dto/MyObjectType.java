@@ -18,6 +18,8 @@ public class MyObjectType {
 	private String type;
 	private String memberNo;
 	private String projectNo;
+	private String bookedMsg;
+	private String bookedTime;
 	private Map<String, Object> body;
 	private String targetNo;
 	private String makeAnswerMemberNo;
