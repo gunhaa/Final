@@ -42,7 +42,7 @@
 
                             <c:if test="${!empty projectList}">
                                 <c:forEach var="project" items="${projectList}">
-                                    <div class="project swiper-slide">
+                                    <div class="project swiper-slide" onclick="location.href='/project?projectNo=${project.projectNo}'">
                                         <div class="project-title">${project.projectTitle}</div>
                                         <div class="thumbnail">
                                             <img src="/resources/images/common/dashboard.png">
