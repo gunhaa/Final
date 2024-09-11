@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class VideoController {
 	
 
-	@RequestMapping("/*")
+	@RequestMapping("*")
 	public String myPageProject() {
 		return "/videoConference/videoConference";
 	}

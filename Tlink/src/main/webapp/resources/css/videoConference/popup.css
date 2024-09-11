@@ -68,7 +68,21 @@ video {
     /* justify-content: center; */
 }
 
+.nameTag1{
+    position: absolute;
+    top: 30px;
+    left: 250px;
+}
 
+.nameTag2{
+    position: absolute;
+    top: 15px;
+    left: 120px;
+}
+
+.videoParent{
+    position: relative;
+}
 
 #chat-container {
     /* background-color: aqua; */
@@ -115,6 +129,8 @@ video {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .chat-prof-img{
@@ -134,12 +150,13 @@ video {
     align-items: center;
     margin: 5px;
     white-space : nowrap;
+    width: 50px;
 }
 
 .chat-content{
     font-size: 12px;
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
     align-items: center;
     height: 100%;
     width: 250px;

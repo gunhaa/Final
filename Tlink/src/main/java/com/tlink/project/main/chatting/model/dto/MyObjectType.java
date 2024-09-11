@@ -22,5 +22,6 @@ public class MyObjectType {
 	private String makeAnswerMemberNo;
 	private String setAnswerMemberNo;
 	private String iceSender;
+	private String chatContent;
 	private String key;
 }
