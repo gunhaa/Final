@@ -9,8 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 // declare const memberNo: any;
-const changeTitleBtn = document.querySelector("#changeTitle-btn");
 let memberNo = new URLSearchParams(location.search).get("memberNo");
+let projectNo = new URLSearchParams(location.search).get("projectNo");
 let myStream;
 let camera = true;
 let mic = true;
@@ -18,6 +18,8 @@ let display = true;
 let otherMemberNoSet = new Set();
 let peerConnectionMap = new Map();
 let state = "camera";
+const changeTitleBtn = document.querySelector("#changeTitle-btn");
+const bookedMessageBtn = document.querySelector(".chat-booked");
 const cameraBtn = document.querySelector("#video-btn");
 const micBtn = document.querySelector("#mic-btn");
 const displayBtn = document.querySelector("#display-btn");
@@ -30,14 +32,17 @@ const myVideo = document.querySelector("#video-container");
 const chatInput = document.querySelector(".chat-input");
 const chatBtn = document.querySelector(".chat-send");
 changeTitleBtn.addEventListener("click", e => {
-    inputModal("주제 변경", "이 화상회의의 주제는 무엇인가요?");
+    inputTitleModal("주제 변경", "이 화상회의의 주제는 무엇인가요?");
 });
-function inputModal(title, placeHolder) {
+bookedMessageBtn.addEventListener("click", e => {
+    inputBookedModal("메시지 예약", "메시지를 입력해주세요.");
+});
+const inputTitleModal = (title, placeHolder) => {
     var _a;
     (_a = document.querySelector("main")) === null || _a === void 0 ? void 0 : _a.insertAdjacentHTML("afterbegin", `<div id="main-container">
             <div class="modal-background">
-                <div id="content-box">
-                    <div id="content-box-wrapper">
+                <div id="content-box1">
+                    <div id="content-box-wrapper1">
                     <div id="content-box-item1">${title}</div>
                     <input id="content-box-item2" placeholder="${placeHolder}"></input>
                     <button id="content-box-item3" class="btn">확인</button>
@@ -74,7 +79,51 @@ function inputModal(title, placeHolder) {
             });
         }
     }, 10);
-}
+};
+const inputBookedModal = (title, placeHolder) => {
+    var _a;
+    (_a = document.querySelector("main")) === null || _a === void 0 ? void 0 : _a.insertAdjacentHTML("afterbegin", `<div id="main-container">
+            <div class="modal-background">
+                <div id="content-box2">
+                    <div id="content-box-wrapper2">
+                    <div id="content-box-item1">${title}</div>
+                    <input id="content-box-item2" placeholder="${placeHolder}"></input>
+                    <input id="content-box-item2" type="datetime-local"></input>
+                    <button id="content-box-item3" class="btn">확인</button>
+                    <button id="content-box-item4" class="btn">취소</button>
+                 </div>
+            </div>
+        </div>`);
+    setTimeout(() => {
+        const confirmButton = document.querySelector("#content-box-item3");
+        const cancelButton = document.querySelector("#content-box-item4");
+        if (confirmButton) {
+            confirmButton.addEventListener("click", () => {
+                // fetch를 통한 업데이트 구문 추가
+                const nowtitle = document.querySelector("#title-container");
+                const input = document.querySelector("#content-box-item2");
+                if (nowtitle) {
+                    nowtitle.innerHTML = `<b>${input === null || input === void 0 ? void 0 : input.value}</b>`;
+                    const existingModal = document.querySelector("#main-container");
+                    if (existingModal) {
+                        existingModal.remove();
+                    }
+                }
+                else {
+                    console.log("title이 없습니다.");
+                }
+            });
+        }
+        if (cancelButton) {
+            cancelButton.addEventListener("click", () => {
+                const existingModal = document.querySelector("#main-container");
+                if (existingModal) {
+                    existingModal.remove();
+                }
+            });
+        }
+    }, 10);
+};
 // 웹소켓 코드
 let socket;
 const connectWebsocket = () => {
@@ -84,7 +133,8 @@ const connectWebsocket = () => {
             if (socket.readyState === WebSocket.OPEN) {
                 socket.send(JSON.stringify({
                     "type": "addSession",
-                    "memberNo": memberNo
+                    "memberNo": memberNo,
+                    "projectNo": projectNo,
                 }));
             }
             else {
@@ -102,7 +152,8 @@ const connectWebsocket = () => {
             if (parsedMessage.type === "needMemberKey") {
                 socket.send(JSON.stringify({
                     "type": "memberNo",
-                    "memberNo": memberNo
+                    "memberNo": memberNo,
+                    "projectNo": projectNo,
                 }));
             }
             if (parsedMessage.type === "otherMemberNo") {
@@ -123,13 +174,13 @@ const connectWebsocket = () => {
             }
             if (parsedMessage.type === "answer") {
                 peerConnectionMap.get(parsedMessage.setAnswerMemberNo).setRemoteDescription(new RTCSessionDescription({ type: parsedMessage.type, sdp: parsedMessage.sdp }));
-                console.log("answer응답 받았음, map에 원격 세팅중", parsedMessage.setAnswerMemberNo);
+                // console.log("answer응답 받았음, map에 원격 세팅중", parsedMessage.setAnswerMemberNo);
             }
             if (parsedMessage.type === "icecandidate") {
                 peerConnectionMap.get(parsedMessage.iceSender).addIceCandidate(new RTCIceCandidate({ candidate: parsedMessage.candidate, sdpMLineIndex: parsedMessage.sdpMLineIndex, sdpMid: parsedMessage.sdpMid }));
             }
             if (parsedMessage.type === "chat") {
-                console.log("chat 실행됬음");
+                // console.log("chat 실행됬음");
                 const content = makeChatBlock(parsedMessage.memberNo, parsedMessage.chatContent);
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = content;
@@ -242,12 +293,12 @@ const getDisplay = () => __awaiter(void 0, void 0, void 0, function* () {
 const handleCameraBtn = () => {
     myStream.getVideoTracks()[0].enabled = !(myStream.getVideoTracks()[0].enabled);
     if (camera) {
-        cameraBtn.innerText = "비X";
+        cameraBtn.innerHTML = '<span class="material-symbols-outlined">videocam_off</span>';
         camera = false;
         display = false;
     }
     else {
-        cameraBtn.innerText = "비";
+        cameraBtn.innerHTML = '<span class="material-symbols-outlined">videocam</span>';
         camera = true;
         display = false;
     }
@@ -255,11 +306,11 @@ const handleCameraBtn = () => {
 const handleMicBtn = () => {
     myStream.getAudioTracks()[0].enabled = !(myStream.getAudioTracks()[0].enabled);
     if (mic) {
-        micBtn.innerText = "마X";
+        micBtn.innerHTML = '<span class="material-symbols-outlined">mic_off</span>';
         mic = false;
     }
     else {
-        micBtn.innerText = "마";
+        micBtn.innerHTML = '<span class="material-symbols-outlined">mic</span>';
         mic = true;
     }
 };
@@ -353,7 +404,8 @@ const iceHandler = (event, targetNo) => {
             "type": "icecandidate",
             "body": event.candidate,
             "targetNo": targetNo,
-            "iceSender": memberNo
+            "iceSender": memberNo,
+            "projectNo": projectNo,
         }));
     }
 };
@@ -362,7 +414,8 @@ const setLocal = (myPeerConnection, offerOrAnswer) => {
 };
 const needMemberKey = () => {
     socket.send(JSON.stringify({
-        "type": "needMemberKey"
+        "type": "needMemberKey",
+        "projectNo": projectNo,
     }));
 };
 const sendOffer = (myPeerConnection, targetNo) => {
@@ -372,7 +425,8 @@ const sendOffer = (myPeerConnection, targetNo) => {
             "type": "offer",
             "body": offer,
             "targetNo": targetNo,
-            "makeAnswerMemberNo": memberNo
+            "makeAnswerMemberNo": memberNo,
+            "projectNo": projectNo,
         }));
         console.log("send Offer");
     });
@@ -384,7 +438,8 @@ const sendAnswer = (myPeerConnection, targetNo) => {
             "type": "answer",
             "body": answer,
             "targetNo": targetNo,
-            "setAnswerMemberNo": memberNo
+            "setAnswerMemberNo": memberNo,
+            "projectNo": projectNo,
         }));
         console.log("send Answer");
     });
@@ -407,7 +462,8 @@ const sendChat = () => {
     socket.send(JSON.stringify({
         "type": "chat",
         "chatContent": chatInput.value,
-        "memberNo": memberNo
+        "memberNo": memberNo,
+        "projectNo": projectNo,
     }));
     console.log("send 실행");
     chatInput.value = "";
@@ -459,7 +515,7 @@ const videoSizeHandler = () => {
     }
 };
 const startVideoConference = () => __awaiter(void 0, void 0, void 0, function* () {
-    // 소켓을 연결한다.
+    // 1. 소켓을 연결한다.
     yield connectWebsocket();
     // 2. 화면을 얻어온다.
     yield getMedia();
@@ -485,5 +541,5 @@ changeBtn.addEventListener("click", handleChangeBtn);
 exitBtn.addEventListener("click", byebye);
 chatBtn.addEventListener("click", sendChat);
 startVideoConference();
-// 수정 ts
+// 수정 projectNo
 //# sourceMappingURL=popup.js.map

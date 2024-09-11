@@ -1,4 +1,4 @@
-package com.tlink.project.main.chatting.model.dto;
+package com.tlink.project.chatting.model.dto;
 
 import java.util.Map;
 
@@ -17,6 +17,7 @@ public class MyObjectType {
 
 	private String type;
 	private String memberNo;
+	private String projectNo;
 	private Map<String, Object> body;
 	private String targetNo;
 	private String makeAnswerMemberNo;

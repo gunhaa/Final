@@ -9,6 +9,7 @@
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
                 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/videoConference/popup.css">
                 <script src="https://kit.fontawesome.com/4bef400c33.js" crossorigin="anonymous"></script>
             </head>
@@ -34,34 +35,30 @@
                         <div id="chat-container">
                             <div class="chat-itembox">
                                 <span class="today">2024-09-09</span>
-                                <div class="chat-item">
-                                    <img src="<%=request.getContextPath()%>/resources/images/loofy1.jpg" class="chat-prof-img">
-                                    <div class="chat-id">배지환</div>
-                                    <div class="chat-content">내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게요내일올게68글자임</div>
-                                </div>
+
                             </div>
                            <div class="chat-inputbox">
                                 <div class="chat-background">
                                     <input class="chat-input">
                                 </div>
-                                <button class="chat-send">d</button>
-                                <button class="chat-booked">d</button>
+                                <button class="chat-send btn btn2"><span class="material-symbols-outlined">send</span></button>
+                                <button class="chat-booked btn btn2"><span class="material-symbols-outlined">alarm</span></button>
                            </div>
                         </div>
                     </div>
                     <div id="button-container">
                         <div id="btn-box">
-                            <div class="btn btn1" id="video-btn">비</div>
-                            <div class="btn btn1" id="mic-btn">마</div>
+                            <div class="btn btn1" id="video-btn"><span class="material-symbols-outlined">videocam</span></div>
+                            <div class="btn btn1" id="mic-btn"><span class="material-symbols-outlined">mic</span></div>
                             <!-- <div class="btn btn1" id="display-btn">화</div> -->
-                            <div class="btn btn1" id="change-btn">전환</div>
+                            <div class="btn btn1" id="change-btn"><span class="material-symbols-outlined">screen_share</span></div>
                             <div class="btn btn1" id="changeTitle-btn">주제 변경</div>
                             <div class="optionBox none" id="option-window">
                                 <div class="options1">카메라(사용중)</div>
                                 <div class="options2">화면 공유</div>
                             </div>
                         </div>
-                        <div class="btn btn3" id="exit-btn">
+                        <div class="btn" id="exit-btn">
                             <b>나가기</b>
                         </div>
                     </div>

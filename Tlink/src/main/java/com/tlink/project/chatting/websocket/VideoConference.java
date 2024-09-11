@@ -1,12 +1,8 @@
-package com.tlink.project.chatting.model.websocket;
+package com.tlink.project.chatting.websocket;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
@@ -17,8 +13,9 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tlink.project.main.chatting.model.dto.MyObjectType;
-import com.tlink.project.main.chatting.model.dto.Session;
+import com.tlink.project.chatting.common.Util;
+import com.tlink.project.chatting.model.dto.MyObjectType;
+
 
 public class VideoConference extends TextWebSocketHandler {
 
@@ -27,14 +24,15 @@ public class VideoConference extends TextWebSocketHandler {
 	private static final String MSG_TYPE_ICECANDIDATE = "icecandidate";
 	private static final String MSG_TYPE_CHAT = "chat";
 	private static final String MSG_TYPE_MEMBERNO = "memberNo";
-	private static final String MSG_TYPE_needMemberKey = "needMemberKey";
-	private static final String MSG_TYPE_addSession = "addSession";
+	private static final String MSG_TYPE_NEEDMEMBERKEY = "needMemberKey";
+	private static final String MSG_TYPE_ADDSESSION = "addSession";
 	private static final String MSG_TYPE_EXIT = "exit";
 
 	private Logger logger = LoggerFactory.getLogger(VideoConference.class);
 
-
-	private Map<String, WebSocketSession> sessions = new ConcurrentHashMap<String, WebSocketSession>();
+	// 프로젝트번호 저장용 map
+	private Map<String, Map<String, WebSocketSession>> projectMap = new ConcurrentHashMap<String, Map<String,WebSocketSession>>();
+	
 
 	@Override
 	public void afterConnectionEstablished(final WebSocketSession session) throws Exception {
@@ -54,18 +52,28 @@ public class VideoConference extends TextWebSocketHandler {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		MyObjectType obj = objectMapper.readValue(message.getPayload(), MyObjectType.class);
-//		logger.info("obj의 body : " +  obj.getBody());
-
-		logger.info("obj.getType : {}" , obj.getType());
 		
-		if (obj.getType().equals(MSG_TYPE_addSession)) {
+		
+		if (obj.getType().equals(MSG_TYPE_ADDSESSION)) {
 
-			sessions.put(obj.getMemberNo(), session);
-
+			
+	        Map<String, WebSocketSession> projectSessions = projectMap.get(obj.getProjectNo());
+	        if (projectSessions == null) {
+	            projectSessions = new ConcurrentHashMap<>();
+	            projectMap.put(obj.getProjectNo(), projectSessions);
+	        }
+	        projectSessions.put(obj.getMemberNo(), session); 
+			
 			logger.info("새로운 세션 추가됨");
 		}
 
-		if (obj.getType().equals(MSG_TYPE_needMemberKey)) {
+		Map<String, WebSocketSession> project = projectMap.get(obj.getProjectNo());
+		
+		logger.info("obj.getType : {}" , obj.getType());
+		
+		logger.info("obj.getProjectNo : {}" , obj.getProjectNo());
+		
+		if (obj.getType().equals(MSG_TYPE_NEEDMEMBERKEY)) {
 			logger.info("NEEDMEMBERKEY 실행");
 
 			Map<String, Object> msg = new HashMap<>();
@@ -73,13 +81,17 @@ public class VideoConference extends TextWebSocketHandler {
 
 			String jsonMsg = objectMapper.writeValueAsString(msg);
 
-			sessions.forEach((memberId, s) -> {
-				try {
-					s.sendMessage(new TextMessage(jsonMsg));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
+			
+			Util.broadCasting(project,jsonMsg);
+			
+			
+//			project.forEach((memberId, s) -> {
+//				try {
+//					s.sendMessage(new TextMessage(jsonMsg));
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			});
 
 		}
 
@@ -92,13 +104,15 @@ public class VideoConference extends TextWebSocketHandler {
 
 			String jsonMsg = objectMapper.writeValueAsString(msg);
 
-			sessions.forEach((memberId, s) -> {
-				try {
-					s.sendMessage(new TextMessage(jsonMsg));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
+			Util.broadCasting(project,jsonMsg);
+			
+//			project.forEach((memberId, s) -> {
+//				try {
+//					s.sendMessage(new TextMessage(jsonMsg));
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			});
 
 		}
 
@@ -113,7 +127,7 @@ public class VideoConference extends TextWebSocketHandler {
 
 			String jsonMsg = objectMapper.writeValueAsString(msg);
 			logger.info("offer가 보낸 targetNo : {}" , obj.getTargetNo());
-			WebSocketSession ses = sessions.get(obj.getTargetNo());
+			WebSocketSession ses = project.get(obj.getTargetNo());
 			ses.sendMessage(new TextMessage(jsonMsg));
 
 //			logger.info("obj의 sdp찾기에 성공해서 보여줄거임 : " + obj.getBody().get("sdp"));
@@ -130,7 +144,7 @@ public class VideoConference extends TextWebSocketHandler {
 
 			String jsonMsg = objectMapper.writeValueAsString(msg);
 			logger.info("answer가 보낸 targetNo : {} " , obj.getTargetNo());
-			WebSocketSession ses = sessions.get(obj.getTargetNo());
+			WebSocketSession ses = project.get(obj.getTargetNo());
 			ses.sendMessage(new TextMessage(jsonMsg));
 
 		}
@@ -149,7 +163,7 @@ public class VideoConference extends TextWebSocketHandler {
 			String jsonMsg = objectMapper.writeValueAsString(msg);
 			logger.info("icecandidate가 보낸 targetNo : {}" , obj.getTargetNo());
 
-			WebSocketSession ses = sessions.get(obj.getTargetNo());
+			WebSocketSession ses = project.get(obj.getTargetNo());
 			ses.sendMessage(new TextMessage(jsonMsg));
 
 		}
@@ -164,16 +178,18 @@ public class VideoConference extends TextWebSocketHandler {
 			msg.put("type", MSG_TYPE_CHAT);
 			msg.put("chatContent", obj.getChatContent());
 			msg.put("memberNo", obj.getMemberNo());
-			
+
 			String jsonMsg = objectMapper.writeValueAsString(msg);
+
+			Util.broadCasting(project,jsonMsg);
 			
-			sessions.forEach((memberId, s) -> {
-				try {
-					s.sendMessage(new TextMessage(jsonMsg));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			});
+//			project.forEach((memberId, s) -> {
+//				try {
+//					s.sendMessage(new TextMessage(jsonMsg));
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			});
 		}
 
 	}
@@ -183,20 +199,51 @@ public class VideoConference extends TextWebSocketHandler {
 	public synchronized void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) throws Exception {
 
 		logger.info("웹소켓 연결 끊김, 코드: {}, 이유: {}", status.getCode(), status.getReason());
+		
 
-		String exitMemberNo = "";
+	    String exitMemberNo = null;
+	    String exitProjectNo = null;
 
-		if(sessions.containsValue(session)) {
-			for(Entry<String, WebSocketSession> s : sessions.entrySet()) {
-				
-				if(s.getValue()==session) {
-					exitMemberNo = s.getKey();
-				}
-				
-			}
-		}
-		sessions.remove(exitMemberNo);
 
+	    for (Map.Entry<String, Map<String, WebSocketSession>> projectEntry : projectMap.entrySet()) {
+	        Map<String, WebSocketSession> sessionMap = projectEntry.getValue();
+	        String projectNo = projectEntry.getKey(); // 현재 프로젝트 번호
+
+	        String memberNoToRemove = null;
+	        for (Map.Entry<String, WebSocketSession> sessionEntry : sessionMap.entrySet()) {
+	            if (sessionEntry.getValue().equals(session)) {
+	                memberNoToRemove = sessionEntry.getKey(); // 해당 세션 ID를 찾음
+	                exitMemberNo = sessionEntry.getKey(); // 나간 멤버의 번호
+	                exitProjectNo = projectNo; // 나간 세션의 프로젝트 번호
+	                logger.info("나간 exitMemberNo : {}", exitMemberNo);
+	                break; 
+	            }
+	        }
+
+	        if (memberNoToRemove != null) {
+	            sessionMap.remove(memberNoToRemove);
+
+	            // 나간 프로젝트 번호 로그 출력
+	            logger.info("나간 exitProjectNo : {}", exitProjectNo);
+
+	            if (sessionMap.isEmpty()) {
+	                projectMap.remove(projectNo);
+	                exitProjectNo = ""; 
+	                logger.info("프로젝트 {}에서 세션이 모두 제거되어 프로젝트 삭제됨", projectNo);
+	            }
+	            break; 
+	        }
+	    }
+
+	    // 세션이 속한 프로젝트가 없을 때 처리
+	    if (exitProjectNo == null) {
+	        logger.info("세션이 속한 프로젝트가 없음");
+	    }
+	    
+
+		
+		
+		
 		Map<String, Object> msg = new HashMap<>();
 
 		msg.put("type", MSG_TYPE_EXIT);
@@ -204,16 +251,27 @@ public class VideoConference extends TextWebSocketHandler {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		String jsonMsg = objectMapper.writeValueAsString(msg);
-		sessions.forEach((memberId, s) -> {
-			try {
+
+		final String lambdaExitProjectNo = exitProjectNo;
+		
+		projectMap.forEach((targetProjectNo, projectSessions) -> {
+
+			if(targetProjectNo == lambdaExitProjectNo) {
 				
-				s.sendMessage(new TextMessage(jsonMsg));
-				logger.info("삭제 요청 메시지 보낸 상대 : {} " + memberId);
+				Util.broadCasting(projectSessions,jsonMsg);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
+//				projectSessions.forEach((memberNo, s)->{
+//					try {
+//						s.sendMessage(new TextMessage(jsonMsg));
+//					} catch (IOException e) {
+//						e.printStackTrace();
+//					}
+//				});
+				
 			}
+			
 		});
+		
 
 	}
 
