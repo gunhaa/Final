@@ -40,17 +40,26 @@
                         <div class="wrapper swiper-wrapper">
                             <!-- .project : 프로젝트 하나 -->
 
-                            <c:forEach var="project" items="${projectList}">
-                                <div class="project swiper-slide">
-                                    <div class="project-title">${project.projectTitle}</div>
-                                    <div class="thumbnail">
-                                        <img src="/resources/images/common/dashboard.png">
+                            <c:if test="${!empty projectList}">
+                                <c:forEach var="project" items="${projectList}">
+                                    <div class="project swiper-slide">
+                                        <div class="project-title">${project.projectTitle}</div>
+                                        <div class="thumbnail">
+                                            <img src="/resources/images/common/dashboard.png">
+                                        </div>
+                                        <div class="project-info">${project.projectInfo}</div>
+                                        <div class="project-info">멤버 ${project.userCount}</div>
+                                        <div class="project-info">${project.createDate}</div>
                                     </div>
-                                    <div class="project-info">${project.projectInfo}</div>
-                                    <div class="project-info">멤버 ${project.userCount}</div>
-                                    <div class="project-info">${project.createDate}</div>
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="${empty projectList}">
+                                <div class="empty">
+                                    <img src="/resources/images/common/TLink_logo.png">
+                                    <div class="create">새로운 프로젝트를 시작해보세요!</div>
                                 </div>
-                            </c:forEach>
+                            </c:if>
+
 
 
 <!--                             <div class="project swiper-slide">

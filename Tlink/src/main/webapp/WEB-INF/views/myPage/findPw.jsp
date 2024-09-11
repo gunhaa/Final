@@ -8,7 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>비밀번호 찾기</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
+    <script src="${pageContext.request.contextPath}/resources/js/user/findPw.js" defer></script>
     <script src="https://kit.fontawesome.com/e245e5bbb1.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -26,14 +28,14 @@
                     <div class="card-row">
                         <div class="row-title">이름</div>
                         <div class="row-content">
-                            <input type="text" placeholder="이름을 입력해주세요.">
+                            <input type="text" id="userName" placeholder="이름을 입력해주세요.">
                         </div>
                     </div>
                     <div class="card-row">
                         <div class="row-title">이메일</div>
                         <div class="row-content">
-                            <input type="text" placeholder="가입시 입력한 이메일을 입력해주세요.">
-                            <button type="button">전송</button>
+                            <input type="text" id="userEmail" placeholder="가입시 입력한 이메일을 입력해주세요.">
+                            <button type="button" id="sendPwBtn">전송</button>
                         </div>
                     </div>
 

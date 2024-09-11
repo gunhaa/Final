@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlink.project.main.model.service.MainService;
 import com.tlink.project.user.model.dto.User;
@@ -47,34 +48,41 @@ public class MainController {
 	
 	// 로그인
 	@PostMapping("/login")
-	public String login(User inputUser, Model model) {
+	public String login(User inputUser, Model model, RedirectAttributes ra) {
 		
 		User loginUser = service.login(inputUser);
 		
 		String path = "redirect:";
+		String message = "";
 		
 		if(loginUser != null) {
 			model.addAttribute("loginUser", loginUser);
 			path += "/myPage/project";
+			message = loginUser.getUserName() + "님 환영합니다.";
 		}else {
-			path += "/";
+			path += "/login";
+			message = "아이디 또는 비밀번호가 일치하지 않습니다.";
 		}
+		
+		ra.addFlashAttribute("message", message);
 		
 		return path;
 	}
 	
 	// 로그아웃
 	@GetMapping("/logout")
-	public String logout(SessionStatus status) {
+	public String logout(SessionStatus status, RedirectAttributes ra) {
 		
 		status.setComplete();
+		
+		ra.addFlashAttribute("message", "로그아웃 되었습니다.");
 		
 		return "redirect:/";
 	}
 	
 	// 회원가입 진행
 	@PostMapping("/signUp")
-	public String signUp(User inputUser, String[] userAddr) {
+	public String signUp(User inputUser, String[] userAddr, RedirectAttributes ra) {
 		// ------------------ 매개변수 설명 -----------------------
 		
 
@@ -95,20 +103,23 @@ public class MainController {
 		
 		// 가입 성공 여부에 따라서 주소 결정
 		String path = "redirect:";
+		String message = "";
 		
 		if(result > 0) { // 가입 성공
 			// 메인 페이지
 			// 000님의 가입을 환영합니다.
 			path += "/";
-			
+			message = inputUser.getUserName() + "님의 가입을 환영합니다.";
 			
 		}else { // 가입 실패
 			// 회원가입 페이지
 			// 회원가입 실패
 			// path += "/member/signUp"; // 절대 경로
 			path += "signUp"; // 상대 경로
+			message = "회원가입 실패";
 		}
 		
+		ra.addFlashAttribute("message", message);
 		
 		return path;
 	}

@@ -197,6 +197,25 @@ button {
     font-weight: bold;
 }
 
+/* 프로젝트가 없을 경우 */
+.empty{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.create{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.empty img{
+    width: 500px;
+    height: 150px;
+}
+
 /* 마이페이지 전 */
 .container2{
     width: 100%;

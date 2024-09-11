@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원탈퇴</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
-    <script src="../JS/myPage.js" defer></script>
+    <script src="${pageContext.request.contextPath}/resources/js/myPage/secession.js"></script>
 </head>
 
 <body>
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="btn-area">
-                        <button>탈퇴</button>
+                        <button onclick="{secession()}">탈퇴</button>
                     </div>
             </div>
         </section>
