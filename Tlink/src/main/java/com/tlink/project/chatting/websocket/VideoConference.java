@@ -1,18 +1,24 @@
 package com.tlink.project.chatting.websocket;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tlink.project.chatting.common.Schduling;
 import com.tlink.project.chatting.common.Util;
 import com.tlink.project.chatting.model.dto.MyObjectType;
 
@@ -26,10 +32,14 @@ public class VideoConference extends TextWebSocketHandler {
 	private static final String MSG_TYPE_MEMBERNO = "memberNo";
 	private static final String MSG_TYPE_NEEDMEMBERKEY = "needMemberKey";
 	private static final String MSG_TYPE_ADDSESSION = "addSession";
+	private static final String MSG_TYPE_BOOKED = "booked";
 	private static final String MSG_TYPE_EXIT = "exit";
 
 	private Logger logger = LoggerFactory.getLogger(VideoConference.class);
 
+	@Autowired
+    private Schduling schduling;
+	
 	// 프로젝트번호 저장용 map
 	private Map<String, Map<String, WebSocketSession>> projectMap = new ConcurrentHashMap<String, Map<String,WebSocketSession>>();
 	
@@ -168,7 +178,26 @@ public class VideoConference extends TextWebSocketHandler {
 
 		}
 
-		
+		if (obj.getType().equals(MSG_TYPE_BOOKED)) {
+			logger.info("BOOKED 실행");
+			
+	        String dateTimeString = obj.getBookedTime();
+	        
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+	        
+	        LocalDateTime localDateTime = LocalDateTime.parse(dateTimeString, formatter);
+	        
+			Map<String, Object> msg = new HashMap<>();
+
+			msg.put("type", MSG_TYPE_CHAT);
+			msg.put("chatContent", obj.getBookedMsg());
+			msg.put("memberNo", obj.getMemberNo());
+	        
+			String jsonMsg = objectMapper.writeValueAsString(msg);
+			
+			schduling.scheduleMessage(jsonMsg, localDateTime , project);
+			
+		}
 
 		if (obj.getType().equals(MSG_TYPE_CHAT)) {
 			logger.info("CHAT 실행");
