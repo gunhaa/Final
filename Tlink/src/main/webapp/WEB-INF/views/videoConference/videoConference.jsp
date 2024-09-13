@@ -12,6 +12,31 @@
     <title>화상회의</title>
 
     <script src="https://kit.fontawesome.com/4bef400c33.js" crossorigin="anonymous"></script>
+    <style>
+/* @keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+} */
+</style>
+</head>
+<body>
+<head>
+
 </head>
 <body>
     <main>

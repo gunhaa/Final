@@ -31,7 +31,8 @@
         <result property="manager" column="MANAGER"/>
         <result property="userCount" column="USER_COUNT"/>
    </resultMap>
-	
+   
+
 	
 	<!-- 로그인 -->
 	<select id="login" parameterType="User" resultMap="user_rm">
