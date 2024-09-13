@@ -34,6 +34,14 @@
 	<update id="deleteProfile">
 		UPDATE "USER" SET
 		PROFILE_IMG = NULL
+		WHERE USER_NO =
+		#{userNo}
+	</update>
+
+	<update id="updateinfo">
+		UPDATE "USER" SET
+		USER_PHONE = #{userPhone},
+		USER_ADDR = #{userAddr}
 		WHERE USER_NO = #{userNo}
 	</update>
 

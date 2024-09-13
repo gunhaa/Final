@@ -44,6 +44,8 @@ document.getElementById("delete-image").addEventListener("click", function(){
     .then(response => response.text())
     .then(result => {
         if(result > 0){
+            // 프로필 이미지를 기본 이미지로 변경
+            document.getElementById("image").setAttribute("src", contextPath + "/resources/images/common/user.png");
             alert("프로필 이미지가 삭제되었습니다.");
         }else{
             alert("프로필 이미지 삭제 실패");
@@ -53,8 +55,6 @@ document.getElementById("delete-image").addEventListener("click", function(){
         console.error('Error:', error);
     });
 
-    // 프로필 이미지를 기본 이미지로 변경
-    document.getElementById("image").setAttribute("src", contextPath + "/resources/images/common/user.png");
 
 
 })

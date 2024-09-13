@@ -38,8 +38,6 @@ public class MyPageController {
 	@Autowired
 	private MyPageService service;
 	
-    @Autowired
-    private ServletContext servletContext;
 	
 	// 프로젝트 목록 페이지
 	@GetMapping("/project")
@@ -65,6 +63,7 @@ public class MyPageController {
 	public String secession() {
 		return "/myPage/myPage-secession";
 	}
+	
 	
 	// 비밀번호 변경
 	@PostMapping("/changePw")
@@ -112,8 +111,6 @@ public class MyPageController {
 		// 실제로 이미지 파일이 저장되야 하는 서버 컴퓨터 경로
 		String filePath = session.getServletContext().getRealPath(webPath);
 		
-		System.out.println(filePath);
-		
 		return service.updateProfile(profileImage, webPath, filePath, loginUser);
 	}
 	
@@ -121,7 +118,32 @@ public class MyPageController {
 	@GetMapping("/profileImage")
 	@ResponseBody
 	public int deleteProfile(@SessionAttribute("loginUser") User loginUser) {
+		
+		loginUser.setProfileImg(null);
+		
 		return service.deleteProfile(loginUser.getUserNo());
 	}
 	
+	// 내 정보 페이지
+	@PostMapping("/info")
+	public String userInfo( @SessionAttribute("loginUser") User loginUser, User inputUser, String[] userAddr) {
+		
+		loginUser.setUserPhone(inputUser.getUserPhone());
+		
+		// 만약 주소를 입력하지 않은 경우(,,) null로 변경
+		 if(inputUser.getUserAddr().equals(",,")) {
+			 inputUser.setUserAddr(null);
+		 }else {
+			 // Stirng.join("구분자", String[])
+			 // 배열의 요소를 하나의 문자열로 변경
+			 // 단, 요소 사이에 "구분자" 추가
+			String addr = String.join("^^^", userAddr);
+			loginUser.setUserAddr(addr);
+		 }
+		
+		
+		int result = service.updateInfo(loginUser);
+		
+		return "/myPage/myPage-info";
+	}
 }

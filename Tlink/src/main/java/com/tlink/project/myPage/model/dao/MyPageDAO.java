@@ -36,5 +36,9 @@ public class MyPageDAO {
 		return sqlSession.update("myPageMapper.deleteProfile", userNo);
 	}
 
+	public int updateinfo(User loginUser) {
+		return sqlSession.update("myPageMapper.updateinfo", loginUser);
+	}
+
 
 }

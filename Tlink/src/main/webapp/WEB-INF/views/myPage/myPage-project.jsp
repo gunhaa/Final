@@ -9,7 +9,7 @@
     <title>내 프로젝트</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
-    <script src="${pageContext.request.contextPath}/resources/js/myPage/myPage.js" defer></script>
+    <script src="${pageContext.request.contextPath}/resources/js/myPage/project.js" defer></script>
     <script src="https://kit.fontawesome.com/e245e5bbb1.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -26,7 +26,7 @@
                 <div class="content">
                     <div class="title">
                         ${loginUser.userName}님의 프로젝트
-                        <i class="fa-solid fa-file-circle-plus"></i>
+                        <i class="fa-solid fa-file-circle-plus" id="show-modal"></i>
                     </div>
                     <!-- 검색창 -->
                     <div class="search-area">
@@ -56,7 +56,7 @@
                             <c:if test="${empty projectList}">
                                 <div class="empty">
                                     <img src="/resources/images/common/TLink_logo.png">
-                                    <div class="create">새로운 프로젝트를 시작해보세요!</div>
+                                    <div class="create" id="show-modal">새로운 프로젝트를 시작해보세요!</div>
                                 </div>
                             </c:if>
 

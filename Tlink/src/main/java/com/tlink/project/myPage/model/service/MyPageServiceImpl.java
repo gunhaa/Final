@@ -104,4 +104,9 @@ public class MyPageServiceImpl implements MyPageService{
 		return dao.deleteProfile(userNo);
 	}
 
+	@Override
+	public int updateInfo(User loginUser) {
+		return dao.updateinfo(loginUser);
+	}
+
 }

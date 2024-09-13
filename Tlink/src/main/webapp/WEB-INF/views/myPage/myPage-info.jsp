@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 정보</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
+    <script src="${pageContext.request.contextPath}/resources/js/myPage/info.js" defer></script>
 </head>
 
 <body>
@@ -20,7 +21,7 @@
         	<jsp:include page="/WEB-INF/views/myPage/sideMenu.jsp"/>
             <!-- 우측 -->
             <div class="content">
-                <form action="#">
+                <form action="info" id="infoFrm" method="post">
                     <div class="title">내 정보</div>
 
                     <!-- 상단 카드 -->
@@ -39,7 +40,7 @@
                         <div class="card-row">
                             <div class="row-title">전화번호</div>
                             <div class="row-content">
-                                <input type="text" name="userPhone" value="${loginUser.userPhone}">
+                                <input type="text" name="userPhone" value="${loginUser.userPhone}" id="userPhone">
                             </div>
                         </div>
                         <div class="card-row">

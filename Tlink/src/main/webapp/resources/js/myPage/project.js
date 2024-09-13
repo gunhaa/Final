@@ -14,3 +14,7 @@ var swiper = new Swiper(".swiper-project", {
 	    prevEl: ".swiper-button-prev"
     }
 });
+
+document.getElementById("show-modal").addEventListener("click", e=>{
+    console.log("모달")
+})

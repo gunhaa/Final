@@ -16,4 +16,6 @@ public interface MyPageService {
 
 	int deleteProfile(int userNo);
 
+	int updateInfo(User loginUser);
+
 }
