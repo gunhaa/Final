@@ -83,7 +83,6 @@ public class VideoConference extends TextWebSocketHandler {
             	logger.info("res : {}" , res);
             	
             } catch(Exception e) {
-            	
             	// 있다면, 프로젝트 멤버의 상태를 변경한다.
             	int res = service.changeStatusY(obj.getProjectNo(), obj.getMemberNo());
             	logger.info("changeY : {}" , res);
