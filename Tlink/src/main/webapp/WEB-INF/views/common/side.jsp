@@ -1,0 +1,226 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+</head>
+
+<body>
+
+   
+    <aside class="aside">
+        <div class="asideTop">
+            <ul>
+                <li>
+                    <div><a href="#">1</a></div>
+                </li>
+                <li>
+
+                </li>
+            </ul>
+        </div>
+        <div id="aside">
+            <div class="sort"
+                style="width: 70px; display: flex; justify-content: space-between; flex-direction: column;">
+                <div>
+                    <ul style="list-style-type: none; padding: 0 0 0 0px; text-align: center; margin: 0;">
+                        <li><a href="#tab1"><span class="material-symbols-outlined"
+                                    style="font-size: 30px;">home</span></a></li>
+                        <li><a href="#tab2"><span class="material-symbols-outlined"
+                                    style="font-size: 30px;">sms</span></a></li>
+                        <li><a href="#tab3"><span class="material-symbols-outlined"
+                                    style="font-size: 30px;">info</span></a></li>
+                    </ul>
+                </div>
+                <div>
+                    <ul style="list-style-type: none; padding: 0; text-align: center; margin: 0;">
+                            <li><a href="#"><span class="material-symbols-outlined"
+                                        style="transform: rotate(180deg); font-size: 30px;">logout</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="tab1">
+                <ul>
+                    <li style=""><a href="/workList/gantChart">워크스페이스</a></li>
+                    <li><a href="/todoList">해야할 일</a></li>
+                    <li><a href="">캘린더</a></li>
+                    <li><a href="">화상회의</a></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div id="tab2">
+                <ul style="">
+                    <li><a href="">1</a></li>
+                    <li><a href="">2</a></li>
+                    <li><a href="">3</a></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div id="tab3">
+                <ul style="">
+                    <li><a href="">멤버관리</a></li>
+                    <li><a href="">프로젝트 탈퇴</a></li>
+                    <li><a href="">프로젝트 삭제</a> -매니저한테만</li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+
+    
+
+
+</body>
+
+</html>
+
+<style>
+    * { box-sizing: border-box; }
+    body{ margin: 0; }
+    .aside {
+        list-style: none;
+        width: 350px;
+    }
+
+    .aside ul{
+        margin: 0;
+        padding: 0;
+    }
+    
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js"
+    integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
+<script>
+
+    function cen() { return `display:flex; justify-content: center; align-items: center;`; } //중앙정렬 함수
+
+    $('a').attr("style", `
+               text-decoration: none; 
+               color: white; 
+            `);
+    $(function () { $("#aside").tabs(); });
+
+
+
+    $('#aside').attr("style", `
+         background-color: #643BAB; 
+         width:350px; 
+         height:100vh;
+    
+         display:flex;
+    
+         `);
+
+
+    //하단*좌측
+    $('.sort').children().eq(0).find("a").on("click", function () {
+
+        $('.sort').find("li").removeAttr("style");
+        $('.sort').find("li").attr("style", `
+                padding: 10px;
+                width: 70px;
+                height: 70px;
+                `
+            + cen()
+        );
+        $(this).parent("li").attr("style", `
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 10% 0 0 10%;
+                padding: 10px;
+                filter: drop-shadow(0 0 3px white);
+    
+                width: 70px;
+                height: 70px;
+                `
+            + cen()
+        );
+
+    })
+
+
+
+    $('.sort').find("li").attr("style", `
+            padding: 10px;
+            width: 70px;
+            height: 70px;
+            `
+        + cen()
+    );
+    $('.sort').find("li").eq(0).attr("style",
+        $('.sort').find("li").eq(0).attr(`style`) +
+        `
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10% 0 0 10%;
+            padding: 10px;
+            filter: drop-shadow(0 0 3px white);
+            width: 70px;
+            height: 70px;
+            `
+        + cen()
+    );
+
+
+
+    //하단*우측
+    $('.sort').siblings().attr("style", `
+         width:280px; 
+         color: black; 
+         background-color: rgba(255, 255, 255, 0.1);
+         border-radius: 0 10px 10px 10px;
+         margin: 0px 30px 0 0;   
+         font-size: 14px; 
+         filter: drop-shadow(0 0 0.3px white);
+         height:98vh;
+         `
+    );
+
+    $('.sort').siblings().find("ul").attr("style", `list-style-type: none; padding: 0 0 0 10px;`);
+    $('.sort').siblings().find("li").attr("style" , `margin: 15px;`);
+
+    $(`.asideTop`).attr("style", `
+            height:70px;
+            width: 350px;
+            background-color:#643BAB;
+        `)
+    $(`.asideTop ul`).attr(`style`, `display:flex;`);
+    $(`.asideTop li`).attr(`style`, `
+        width:70px;
+        height: 70px;
+        `
+        + cen()
+    );
+    $(`.asideTop li`).eq(1).attr(`style`,
+        $(`.asideTop li`).eq(1).attr(`style`)
+        + `
+            color:white;
+            `
+        + cen()
+    );
+    $(`.asideTop div`).attr(`style`, `
+            width:  50px;
+            height: 50px;
+            
+            border-radius:100%;
+            background-color:#ddd;
+            `
+        + cen()
+    );
+
+
+
+
+</script>
