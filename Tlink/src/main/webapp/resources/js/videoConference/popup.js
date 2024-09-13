@@ -251,7 +251,7 @@ const getMedia = () => __awaiter(void 0, void 0, void 0, function* () {
             });
         }
         else {
-            console.log("videoparent 실행");
+            console.log("camera video 만들기 실행");
             let videoParent = document.createElement("div");
             videoParent.classList.add("videoParent");
             myVideo.appendChild(videoParent);
@@ -270,12 +270,16 @@ const getMedia = () => __awaiter(void 0, void 0, void 0, function* () {
                 newVideo.requestFullscreen();
             });
         }
-        if (myStream === undefined) {
+    }
+    catch (e) {
+        console.error('Error occurred in getUserMedia:', e);
+        if (e.name === 'NotFoundError' || e.name === 'DevicesNotFoundError' || e.name === 'NotReadableError') {
+            console.log('No media devices found. Switching to getDisplay.');
             getDisplay();
         }
-    }
-    catch (err) {
-        console.log(err);
+        else {
+            console.log('An unexpected error occurred:', e);
+        }
     }
 });
 // 화면 공유
@@ -290,8 +294,29 @@ const getDisplay = () => __awaiter(void 0, void 0, void 0, function* () {
         });
         myStream = screenStream;
         let video = document.querySelectorAll("video")[0];
-        video.srcObject = myStream;
-        //추가 부분
+        if (video) {
+            video.srcObject = myStream;
+        }
+        else {
+            console.log("display video 만들기 실행");
+            let videoParent = document.createElement("div");
+            videoParent.classList.add("videoParent");
+            myVideo.appendChild(videoParent);
+            let newVideo = document.createElement("video");
+            newVideo.autoplay = true;
+            newVideo.id = memberNo;
+            newVideo.srcObject = myStream;
+            videoParent.appendChild(newVideo);
+            let nameTag = document.createElement("div");
+            nameTag.id = `${memberNo}$1`;
+            nameTag.classList.add("nameTag1");
+            nameTag.innerText = memberName;
+            videoParent.appendChild(nameTag);
+            videoSizeHandler();
+            newVideo.addEventListener("click", () => {
+                newVideo.requestFullscreen();
+            });
+        }
         // 비디오 클릭 시 전체화면 전환 이벤트 추가
         video.addEventListener("click", () => {
             video.requestFullscreen();
@@ -391,6 +416,7 @@ const createConnection = (otherMemberNo) => {
     return myPeerConnection;
 };
 const trackHandler = (event, otherMemberNo) => {
+    fetch("/video/");
     if (document.getElementById(`${otherMemberNo}`) === null) {
         let videoParent = document.createElement("div");
         videoParent.classList.add("videoParent");
