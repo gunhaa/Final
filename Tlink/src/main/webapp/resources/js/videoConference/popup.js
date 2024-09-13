@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// declare const memberNo: any;
 let memberNo = new URLSearchParams(location.search).get("memberNo");
 let projectNo = new URLSearchParams(location.search).get("projectNo");
+let memberName = new URLSearchParams(location.search).get("memberName");
 let myStream;
 let camera = true;
 let mic = true;
@@ -58,16 +58,33 @@ const inputTitleModal = (title, placeHolder) => {
                 // fetch를 통한 업데이트 구문 추가
                 const nowtitle = document.querySelector("#title-container");
                 const input = document.querySelector("#content-box-item2");
-                if (nowtitle) {
-                    nowtitle.innerHTML = `<b>${input === null || input === void 0 ? void 0 : input.value}</b>`;
-                    const existingModal = document.querySelector("#main-container");
-                    if (existingModal) {
-                        existingModal.remove();
+                fetch("/video/changeRoomName", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        projectNo: projectNo,
+                        title: input === null || input === void 0 ? void 0 : input.value
+                    })
+                })
+                    .then(resp => resp.json())
+                    .then(data => {
+                    // console.log(data);
+                    if (data > 0) {
+                        nowtitle.innerHTML = `<b>${input.value}</b>`;
+                        const existingModal = document.querySelector("#main-container");
+                        if (existingModal) {
+                            existingModal.remove();
+                        }
                     }
-                }
-                else {
-                    console.log("title이 없습니다.");
-                }
+                    else {
+                        alert("주제 변경 실패");
+                    }
+                })
+                    .catch(e => {
+                    console.log("주제 변경 실패 : ", e);
+                });
             });
         }
         if (cancelButton) {
@@ -246,7 +263,7 @@ const getMedia = () => __awaiter(void 0, void 0, void 0, function* () {
             let nameTag = document.createElement("div");
             nameTag.id = `${memberNo}$1`;
             nameTag.classList.add("nameTag1");
-            nameTag.innerText = memberNo;
+            nameTag.innerText = memberName;
             videoParent.appendChild(nameTag);
             videoSizeHandler();
             newVideo.addEventListener("click", () => {
@@ -457,17 +474,29 @@ const roomlimit = () => {
     }
 };
 const sendChat = () => {
-    // const content = makeChatBlock(chatInput.value);
-    // const tempDiv = document.createElement('div');  
-    // tempDiv.innerHTML = content;                   
-    // const chatBlock = tempDiv.firstElementChild!;    
-    // document.querySelector(".chat-itembox")?.insertAdjacentElement("beforeend", chatBlock);
     socket.send(JSON.stringify({
         "type": "chat",
         "chatContent": chatInput.value,
         "memberNo": memberNo,
         "projectNo": projectNo,
     }));
+    // fetch("/video/chatSend", {
+    //     method : "POST",
+    //     headers : {
+    //         "Content-Type" : "application/json",
+    //     },
+    //     body : JSON.stringify({
+    //         "memberNo": memberNo,
+    //         "projectNo": projectNo,
+    //         "chatContent" : chatInput.value,
+    //     })
+    // })
+    // .then(resp => resp.json())
+    // .then(data => {
+    // })
+    // .catch(e => {
+    //     console.log("채팅 전송 실패 : ", e);
+    // })
     console.log("send 실행");
     chatInput.value = "";
 };

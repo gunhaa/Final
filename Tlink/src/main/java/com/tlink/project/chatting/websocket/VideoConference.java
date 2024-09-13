@@ -1,6 +1,5 @@
 package com.tlink.project.chatting.websocket;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -10,8 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -21,6 +18,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tlink.project.chatting.common.Schduling;
 import com.tlink.project.chatting.common.Util;
 import com.tlink.project.chatting.model.dto.MyObjectType;
+import com.tlink.project.chatting.model.service.VideoService;
+
 
 
 public class VideoConference extends TextWebSocketHandler {
@@ -39,6 +38,9 @@ public class VideoConference extends TextWebSocketHandler {
 
 	@Autowired
     private Schduling schduling;
+	
+	@Autowired
+	private VideoService service;
 	
 	// 프로젝트번호 저장용 map
 	private Map<String, Map<String, WebSocketSession>> projectMap = new ConcurrentHashMap<String, Map<String,WebSocketSession>>();
@@ -70,10 +72,23 @@ public class VideoConference extends TextWebSocketHandler {
 	        Map<String, WebSocketSession> projectSessions = projectMap.get(obj.getProjectNo());
 	        if (projectSessions == null) {
 	            projectSessions = new ConcurrentHashMap<>();
+	            
 	            projectMap.put(obj.getProjectNo(), projectSessions);
 	        }
-	        projectSessions.put(obj.getMemberNo(), session); 
-			
+	        projectSessions.put(obj.getMemberNo(), session);
+	        
+            try {
+            	// 방에 없다면 프로젝트 멤버로 삽입한다.
+            	int res = service.makeRoom(obj.getProjectNo(), obj.getMemberNo());
+            	logger.info("res : {}" , res);
+            	
+            } catch(Exception e) {
+            	
+            	// 있다면, 프로젝트 멤버의 상태를 변경한다.
+            	int res = service.changeStatusY(obj.getProjectNo(), obj.getMemberNo());
+            	logger.info("changeY : {}" , res);
+            }
+            
 			logger.info("새로운 세션 추가됨");
 		}
 
@@ -94,15 +109,6 @@ public class VideoConference extends TextWebSocketHandler {
 			
 			Util.broadCasting(project,jsonMsg);
 			
-			
-//			project.forEach((memberId, s) -> {
-//				try {
-//					s.sendMessage(new TextMessage(jsonMsg));
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			});
-
 		}
 
 		if (obj.getType().equals(MSG_TYPE_MEMBERNO)) {
@@ -116,13 +122,6 @@ public class VideoConference extends TextWebSocketHandler {
 
 			Util.broadCasting(project,jsonMsg);
 			
-//			project.forEach((memberId, s) -> {
-//				try {
-//					s.sendMessage(new TextMessage(jsonMsg));
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			});
 
 		}
 
@@ -140,7 +139,7 @@ public class VideoConference extends TextWebSocketHandler {
 			WebSocketSession ses = project.get(obj.getTargetNo());
 			ses.sendMessage(new TextMessage(jsonMsg));
 
-//			logger.info("obj의 sdp찾기에 성공해서 보여줄거임 : " + obj.getBody().get("sdp"));
+
 		}
 
 		if (obj.getType().equals(MSG_TYPE_ANSWER)) {
@@ -195,7 +194,17 @@ public class VideoConference extends TextWebSocketHandler {
 	        
 			String jsonMsg = objectMapper.writeValueAsString(msg);
 			
-			schduling.scheduleMessage(jsonMsg, localDateTime , project);
+			schduling.scheduleMessage(jsonMsg, localDateTime , project , obj.getProjectNo(), obj.getMemberNo(), obj.getBookedMsg());
+
+			msg.put("projectNo", obj.getProjectNo());
+			// db insert
+			int res = service.insertBookedChat(msg);
+			
+			if(res>0) {
+				logger.info("예약 메시지 db 삽입 완료");
+			} else {
+				logger.info("예약 메시지 db 삽입 실패");
+			}
 			
 		}
 
@@ -212,13 +221,15 @@ public class VideoConference extends TextWebSocketHandler {
 
 			Util.broadCasting(project,jsonMsg);
 			
-//			project.forEach((memberId, s) -> {
-//				try {
-//					s.sendMessage(new TextMessage(jsonMsg));
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			});
+			// db에도 삽입시킨다.
+			msg.put("projectNo", obj.getProjectNo());
+			int res = service.chatSend(msg);
+			if(res>0) {
+				logger.info("chat db저장 완료");
+			} else {
+				logger.info("chat db저장 실패");			
+			}
+			
 		}
 
 	}
@@ -244,6 +255,10 @@ public class VideoConference extends TextWebSocketHandler {
 	                memberNoToRemove = sessionEntry.getKey(); // 해당 세션 ID를 찾음
 	                exitMemberNo = sessionEntry.getKey(); // 나간 멤버의 번호
 	                exitProjectNo = projectNo; // 나간 세션의 프로젝트 번호
+	               
+	            	int res = service.changeStatusN(exitProjectNo, exitMemberNo);
+	            	logger.info("changeY : {}" , res);
+	                
 	                logger.info("나간 exitMemberNo : {}", exitMemberNo);
 	                break; 
 	            }
@@ -288,14 +303,7 @@ public class VideoConference extends TextWebSocketHandler {
 			if(targetProjectNo == lambdaExitProjectNo) {
 				
 				Util.broadCasting(projectSessions,jsonMsg);
-				
-//				projectSessions.forEach((memberNo, s)->{
-//					try {
-//						s.sendMessage(new TextMessage(jsonMsg));
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//					}
-//				});
+
 				
 			}
 			

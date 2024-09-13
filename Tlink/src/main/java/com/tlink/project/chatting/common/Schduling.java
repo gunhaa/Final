@@ -3,15 +3,18 @@ package com.tlink.project.chatting.common;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.tlink.project.chatting.model.service.VideoService;
 import com.tlink.project.chatting.websocket.VideoConference;
 
 @Component
@@ -21,11 +24,15 @@ public class Schduling {
 	
     private final TaskScheduler taskScheduler;
 
+	@Autowired
+	private VideoService service;
+    
+    
     public Schduling(TaskScheduler taskScheduler) {
         this.taskScheduler = taskScheduler;
     }
 
-    public ScheduledFuture<?> scheduleMessage(String msg, LocalDateTime scheduledTime, Map<String, WebSocketSession> projectMemberMap) {
+    public ScheduledFuture<?> scheduleMessage(String msg, LocalDateTime scheduledTime, Map<String, WebSocketSession> projectMemberMap, String projectNo, String memberNo, String chatContent) {
         
     	
     	long delay = Duration.between(LocalDateTime.now(), scheduledTime).toMillis();
@@ -35,6 +42,28 @@ public class Schduling {
         return taskScheduler.schedule(() -> {
             // 메시지 전송 로직
             Util.broadCasting(projectMemberMap, msg);
+            
+            int res = service.updateBookedChatStatusY(projectNo, memberNo);
+            
+            if(res >0 ) {
+            	logger.info("예약 메시지 전송 후 상태 바꾸기 성공");
+            	
+    			Map<String, Object> inputMap = new HashMap<>();
+
+    			inputMap.put("chatContent", chatContent);
+    			inputMap.put("memberNo", memberNo);
+    			inputMap.put("projectNo", projectNo);
+            	res = service.chatSend(inputMap);
+            	if(res > 0) {
+                	logger.info("예약 메시지 전송 후 메시지 db 삽입");
+            	} else {
+            		logger.info("예약 메시지 전송 후 메시지 db 삽입 실패");
+            	}
+            	
+            	
+            } else {
+            	logger.info("예약 메시지 전송 후 상태 바꾸기 실패");
+            }
             
         }, new Date(System.currentTimeMillis() + delay));
     }
