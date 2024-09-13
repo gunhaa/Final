@@ -1,16 +1,32 @@
 package com.tlink.project.myPage.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlink.project.myPage.model.service.MyPageService;
 import com.tlink.project.user.model.dto.User;
@@ -21,6 +37,9 @@ public class MyPageController {
 	
 	@Autowired
 	private MyPageService service;
+	
+    @Autowired
+    private ServletContext servletContext;
 	
 	// 프로젝트 목록 페이지
 	@GetMapping("/project")
@@ -50,11 +69,59 @@ public class MyPageController {
 	// 비밀번호 변경
 	@PostMapping("/changePw")
 	@ResponseBody
-	public int changePw(@RequestBody Map<String, String> map) {
+	public int changePw(@RequestBody Map<String, String> map, @SessionAttribute("loginUser") User user) {
 		
-		return service.changePw(map);
+		return service.changePw(map, user.getUserNo());
 	}
 	
 	// 회원 탈퇴
+	@PostMapping("/secession")
+	public String secession(String inputPw, @SessionAttribute("loginUser") User user,
+			RedirectAttributes ra, SessionStatus status) {
+		
+		int result = service.secession(inputPw, user.getUserNo());
+		
+		String path = "redirect:";
+		String message = "";
+		
+		if(result > 0) {
+			path += "/";
+			message = "탈퇴되었습니다.";
+			status.setComplete();
 
+		}else {
+			path += "secession";
+			message = "비밀번호가 일치하지 않습니다.";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		return path;
+	}
+	
+	// 프로필 이미지 수정
+	@PostMapping("/profileImage")
+	@ResponseBody
+	public int updateProfile(@RequestParam("profileImage") MultipartFile profileImage
+			, @SessionAttribute("loginUser") User loginUser
+			, RedirectAttributes ra
+			, HttpSession session)throws Exception{
+		
+		// 웹 접근 경로
+		String webPath = "/resources/images/user/";
+		
+		// 실제로 이미지 파일이 저장되야 하는 서버 컴퓨터 경로
+		String filePath = session.getServletContext().getRealPath(webPath);
+		
+		System.out.println(filePath);
+		
+		return service.updateProfile(profileImage, webPath, filePath, loginUser);
+	}
+	
+	// 프로필 이미지 수정(삭제)
+	@GetMapping("/profileImage")
+	@ResponseBody
+	public int deleteProfile(@SessionAttribute("loginUser") User loginUser) {
+		return service.deleteProfile(loginUser.getUserNo());
+	}
+	
 }

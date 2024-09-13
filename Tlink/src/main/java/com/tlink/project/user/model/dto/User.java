@@ -22,8 +22,8 @@ public class User {
     private String userAddr;         // 주소
     private String profileImg;       // 프로필 이미지
     private Date enrollDate;         // 가입일
-    private char userDeleteFlag;     // 탈퇴여부 
-    private char role;          // 역할
+    private String userDeleteFlag;     // 탈퇴여부 
+    private String role;          // 역할
     
     private List<Project> projectList;
 	

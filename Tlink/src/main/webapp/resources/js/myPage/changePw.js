@@ -2,7 +2,6 @@ document.getElementById("changePwBtn").addEventListener("click", ()=>{
     const currentPw =  document.getElementById("currentPw");
     const newPw =  document.getElementById("newPw");
     const pwCheck =  document.getElementById("pwCheck");
-    const userNo = document.getElementById("userNo");
 
     if(newPw.value == pwCheck.value){
         fetch("/myPage/changePw", {
@@ -10,8 +9,7 @@ document.getElementById("changePwBtn").addEventListener("click", ()=>{
             headers : {"Content-Type" : "application/json"},
             body : JSON.stringify({
                 "currentPw" : currentPw.value,
-                "newPw" : newPw.value,
-                "userNo" : userNo.value
+                "newPw" : newPw.value
             })
             // JSON.stringify : JS객체 -> JSON
             // JSON.parse()   : JSON -> JS객체

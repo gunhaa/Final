@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원탈퇴</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
-    <script src="${pageContext.request.contextPath}/resources/js/myPage/secession.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/myPage/secession.js" defer></script>
 </head>
 
 <body>
@@ -16,17 +17,18 @@
     <main>
 
         <section class="container">
-        	<jsp:include page="/WEB-INF/views/myPage/sideMenu.jsp"/>
+            <jsp:include page="/WEB-INF/views/myPage/sideMenu.jsp"/>
             <!-- 우측 -->
             <div class="content">
-                    <div class="title">회원탈퇴</div>
+                <div class="title">회원탈퇴</div>
 
-                    <!-- 상단 카드 -->
+                <!-- 상단 카드 -->
+                <form action="/myPage/secession" method="post" id="secessionFrm">
                     <div class="card">
                         <div class="card-row">
                             <div class="row-title">현재 비밀번호</div>
                             <div class="row-content">
-                                <input type="text" placeholder="현재 비밀번호를 입력해주세요.">
+                                <input type="password" id="inputPw" name="inputPw" placeholder="현재 비밀번호를 입력해주세요.">
                             </div>
                         </div>
                     </div>
@@ -47,20 +49,19 @@
                                 위의 약관을 확인했습니다.
                             </div>
                             <div>
-                                <input type="checkbox">
+                                <input type="checkbox" id="agree">
                             </div>
                         </div>
                     </div>
 
                     <div class="btn-area">
-                        <button onclick="{secession()}">탈퇴</button>
+                        <button type="submit">탈퇴</button>
                     </div>
+                </form>
             </div>
         </section>
     </main>
 
-
-    
 </body>
 
 </html>

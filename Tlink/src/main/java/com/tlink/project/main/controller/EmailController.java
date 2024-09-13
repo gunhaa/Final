@@ -39,7 +39,7 @@ public class EmailController {
     
     @GetMapping("/findPw")
     @ResponseBody
-    public int findPw(User inputUser, RedirectAttributes ra) {
+    public int findPw(User inputUser) {
     	
     	// 입력한 값과 일치하는 회원 조회
     	int result = service.selectUser(inputUser);

@@ -39,7 +39,7 @@
                         <div class="card-row">
                             <div class="row-title">전화번호</div>
                             <div class="row-content">
-                                <input type="text" value="${loginUser.userPhone}">
+                                <input type="text" name="userPhone" value="${loginUser.userPhone}">
                             </div>
                         </div>
                         <div class="card-row">
@@ -47,20 +47,20 @@
 
                             <div class="row-title">우편번호</div>
                             <div class="row-content">
-                                <input type="text" value="${addr[0]}" id="sample6_postcode">
+                                <input type="text" name="userAddr" value="${addr[0]}" id="sample6_postcode">
                                 <button type="button" onclick="sample6_execDaumPostcode()">검색</button>
                             </div>
                         </div>
                         <div class="card-row">
                             <div class="row-title">주소</div>
                             <div class="row-content">
-                                <input type="text" value="${addr[1]}" id="sample6_address">
+                                <input type="text" name="userAddr" value="${addr[1]}" id="sample6_address">
                             </div>
                         </div>
                         <div class="card-row">
                             <div class="row-title">상세주소</div>
                             <div class="row-content">
-                                <input type="text" value="${addr[2]}" id="sample6_detailAddress">
+                                <input type="text" name="userAddr" value="${addr[2]}" id="sample6_detailAddress">
                             </div>
                         </div>
                     </div>

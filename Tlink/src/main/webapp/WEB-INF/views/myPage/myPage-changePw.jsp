@@ -15,8 +15,6 @@
 
     <main>
 
-        <input type="hidden" value="${loginUser.userNo}" id="userNo">
-
         <section class="container">
         	<jsp:include page="/WEB-INF/views/myPage/sideMenu.jsp"/>
             <!-- 우측 -->

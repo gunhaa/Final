@@ -12,6 +12,20 @@ INSERT INTO "USER" VALUES(
     DEFAULT                                 -- 탈퇴 여부 (USER_DEL_FL)
 );
 
+-- ADMIN 관리자 데이터 삽입
+INSERT INTO "USER" VALUES(
+    SEQ_USER_NO.NEXTVAL,                  -- 사용자 번호 (USER_NO)
+    'ad01@kh.or.kr',              -- 이메일 (USER_EMAIL)
+    '$2a$10$eeylz0XV81KRZBA.UN09Hu52FXyehKvb.z1COFF7Yi1eRmK7feSzq',                      -- 비밀번호 (USER_PW)
+    '관리자',                         -- 이름 (USER_NAME)
+    '01012345678',                      -- 전화번호 (USER_PHONE)
+    NULL,-- 주소 (USER_ADDR)
+    NULL,  -- 프로필 이미지 (PROFILE_IMG)
+    SYSDATE,                            -- 가입일 (ENROLL_DATE)
+    'A',                                -- 역할 (ROLE)
+    DEFAULT                                 -- 탈퇴 여부 (USER_DEL_FL)
+);
+
 -- 유저 데이터 삽입
 INSERT INTO "USER" VALUES(
     SEQ_USER_NO.NEXTVAL,                  -- 사용자 번호 (USER_NO)
