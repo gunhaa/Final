@@ -9,7 +9,6 @@
     <title>내 프로젝트</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
-    <script src="${pageContext.request.contextPath}/resources/js/myPage/project.js" defer></script>
     <script src="https://kit.fontawesome.com/e245e5bbb1.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -26,13 +25,13 @@
                 <div class="content">
                     <div class="title">
                         ${loginUser.userName}님의 프로젝트
-                        <i class="fa-solid fa-file-circle-plus" id="show-modal"></i>
+                        <i class="fa-solid fa-file-circle-plus modal-btn"></i>
                     </div>
                     <!-- 검색창 -->
                     <div class="search-area">
                         <div class="search-bar">
                             <input type="text">
-                            <div class="fa-solid fa-magnifying-glass glass"></div>
+                            <div class="fa-solid fa-magnifying-glass glass modal-btn"></div>
                         </div>
                     </div>
                     <div class="projects swiper swiper-project">
@@ -56,7 +55,7 @@
                             <c:if test="${empty projectList}">
                                 <div class="empty">
                                     <img src="/resources/images/common/TLink_logo.png">
-                                    <div class="create" id="show-modal">새로운 프로젝트를 시작해보세요!</div>
+                                    <div class="create modal-btn" id="show-modal">새로운 프로젝트를 시작해보세요!</div>
                                 </div>
                             </c:if>
 
@@ -108,6 +107,8 @@
         </section>
     </main>
 
+    <jsp:include page="/WEB-INF/views/myPage/project-modal.jsp"/>
+    <script src="${pageContext.request.contextPath}/resources/js/myPage/project.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     
 </body>
