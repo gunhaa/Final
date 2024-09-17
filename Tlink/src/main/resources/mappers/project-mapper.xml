@@ -37,6 +37,25 @@
 	    #{projectNo} 
 		)
    </insert>
+   
+   <!-- 자동 완성 -->
+   	<select id="autocomplete" resultMap="project_rm">
+	<![CDATA[
+		SELECT * FROM (
+		    SELECT ROWNUM AS NUM, PROJECT_TITLE, PROJECT_NO
+		    FROM (
+		        SELECT *
+		        FROM PROJECT
+		        JOIN USER_PROJECT USING(PROJECT_NO)
+		        WHERE PROJECT_TITLE LIKE '%${query}%'
+		        AND USER_NO = #{userNo}
+		        ORDER BY PROJECT_NO DESC
+		    )
+		    WHERE ROWNUM <= 10
+		)
+		WHERE NUM >= 1
+		]]>
+	</select>
 	
 	
 </mapper>

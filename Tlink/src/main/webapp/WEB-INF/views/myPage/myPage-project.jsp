@@ -9,7 +9,7 @@
     <title>내 프로젝트</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
-    <script src="https://kit.fontawesome.com/e245e5bbb1.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <c:set var = "projectList" value = "${loginUser.projectList}"/>
@@ -30,12 +30,13 @@
                     <!-- 검색창 -->
                     <div class="search-area">
                         <div class="search-bar">
-                            <input type="text">
-                            <div class="fa-solid fa-magnifying-glass glass modal-btn"></div>
+                            <input type="text" name="query" id="query">
+                            <div class="fa-solid fa-magnifying-glass glass"></div>
                         </div>
+                        <div id="autocomplete"></div>
                     </div>
                     <div class="projects swiper swiper-project">
-                        <div class="swiper-button-next" style="color:#643BAB;"></div>
+                        <div class="swiper-button-next" style="color:#643BAB;" id="search-btn"></div>
                         <div class="wrapper swiper-wrapper">
                             <!-- .project : 프로젝트 하나 -->
 

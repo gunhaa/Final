@@ -9,7 +9,7 @@
     <title>로그인</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main/main.css">
     <script src="${pageContext.request.contextPath}/resources/js/main/main.js" defer></script>
-    <script src="https://kit.fontawesome.com/e245e5bbb1.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     

@@ -51,4 +51,11 @@ public class ProjectServiceImpl implements ProjectService{
 		
 		return projectList;
 	}
+
+	@Override
+	public List<Project> autocomplete(Map<String, Object> map) {
+		return dao.autocomplete(map);
+	}
+
+
 }

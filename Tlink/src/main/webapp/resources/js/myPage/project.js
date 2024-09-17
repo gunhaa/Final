@@ -29,3 +29,60 @@ modalClose.addEventListener('click',function(){
     //'on' class 제거
     modal.classList.remove('on');
 });
+
+// 자동완성
+const query = document.getElementById("query");
+const autocomplete = document.getElementById("autocomplete");
+
+query.addEventListener("input", e => {
+    
+    if (query.value.trim().length != 0) {
+        
+        fetch("/project/autocomplete?query=" + e.target.value.trim())
+        .then(response => response.json())
+        .then(list => {
+            autocomplete.style.display = "block";
+            
+            const queryValue = query.value.trim();
+
+            console.log(queryValue)
+                if (list.length > 0) {
+
+                    autocomplete.innerHTML = "";
+
+                    const ul = document.createElement("ul");
+
+                    
+                    for (let project of list) {
+                        
+                        const li = document.createElement("li");
+                        
+                        // board.boardTitle에서 queryValue를 두껍게 표현
+                        li.innerHTML = project.projectTitle.replace(queryValue, "<span class='match'>" + queryValue + "</span>");
+
+                        li.addEventListener("click", () => {
+                            location.href = "/workList?projectNo="+project.projectNo;
+                        })
+
+                        ul.append(li);
+                    }
+
+                    autocomplete.append(ul);
+                }
+
+
+            })
+            .catch(e => console.log(e))
+    } else {
+        autocomplete.innerText = "";
+    }
+
+
+})
+
+// 클릭 시 자동완성 숨기기
+document.addEventListener("click", e => {
+    if (!autocomplete.contains(e.target) && e.target !== query) {
+        autocomplete.style.display = "none";
+    }
+});

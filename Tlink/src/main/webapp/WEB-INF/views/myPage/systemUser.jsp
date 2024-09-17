@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     
     <body>
@@ -50,7 +51,7 @@
                                             ${admin.userEmail}
                                         </div>
                                         <c:if test="${loginUser.userNo != admin.userNo}">
-                                            <i class="fa-solid fa-user-xmark" onclick="location.href='/deleteAdmin?userNo=${admin.userNo}'">x</i>
+                                            <i class="fa-solid fa-user-xmark" onclick="location.href='/deleteAdmin?userNo=${admin.userNo}'"></i>
                                         </c:if>
                                     </div>
                                 </c:forEach>

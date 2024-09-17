@@ -43,7 +43,7 @@ public class MyPageController {
 	
 	// 프로젝트 목록 페이지
 	@GetMapping("/project")
-	public String myPageProject(@SessionAttribute("loginUser") User user) {
+	public String myPageProject() {
 		
 		return "/myPage/myPage-project";
 	}
