@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tlink.project.main.model.dao.MainDAO;
+import com.tlink.project.myPage.model.dao.MyPageDAO;
 import com.tlink.project.project.model.dto.Project;
 import com.tlink.project.user.model.dto.User;
 
@@ -15,6 +16,9 @@ public class MainServiceImpl implements MainService {
 
 	@Autowired
 	private MainDAO dao;
+	
+	@Autowired
+	private MyPageDAO myPageDAO;
 
 	@Autowired // bean으로 등록된 객체 중 타입이 일치하는 Bean을 DI private BCryptPasswordEncoder
 	private BCryptPasswordEncoder bcrypt;
@@ -61,6 +65,21 @@ public class MainServiceImpl implements MainService {
 	public int selectDupEmail(String email) {
 
 		return dao.selectDupEmail(email);
+	}
+
+	// 관리자 생성
+	@Override
+	public int createAdmin(User inputUser) {
+		
+		inputUser.setUserPw(bcrypt.encode(inputUser.getUserPw()));
+		
+		return dao.createAdmin(inputUser);
+	}
+
+	// 관리자 삭제
+	@Override
+	public int deleteAdmin(int userNo) {
+		return myPageDAO.secession(userNo);
 	}
 
 }

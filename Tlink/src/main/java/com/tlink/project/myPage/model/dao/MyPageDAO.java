@@ -1,5 +1,6 @@
 package com.tlink.project.myPage.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -38,6 +39,10 @@ public class MyPageDAO {
 
 	public int updateinfo(User loginUser) {
 		return sqlSession.update("myPageMapper.updateinfo", loginUser);
+	}
+
+	public List<User> selectAdmin() {
+		return sqlSession.selectList("myPageMapper.selectAdmin");
 	}
 
 

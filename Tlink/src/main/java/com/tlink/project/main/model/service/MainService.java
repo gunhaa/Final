@@ -13,4 +13,8 @@ public interface MainService {
 	// 이메일 중복 검사
 	int selectDupEmail(String email);
 
+	int createAdmin(User inputUser);
+
+	int deleteAdmin(int userNo);
+
 }

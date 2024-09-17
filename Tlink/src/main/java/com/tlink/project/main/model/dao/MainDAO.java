@@ -38,4 +38,11 @@ public class MainDAO {
 		return sqlSession.selectList("userMapper.selectProjectList", userNo);
 	}
 
+	// 관리자 생성
+	public int createAdmin(User inputUser) {
+		return sqlSession.insert("userMapper.createAdmin", inputUser);
+	}
+
+
+
 }

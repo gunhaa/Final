@@ -294,7 +294,7 @@ button {
     color: gray;
 }
 
-.fa-user-slash{
+.fa-user-xmark{
     align-content: center;
     font-size: 14px;
     color: #643BAB;
@@ -334,6 +334,8 @@ select{
 .confirm{
     color: forestgreen;
 }
+
+
 
 
 

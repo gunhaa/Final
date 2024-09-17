@@ -13,7 +13,7 @@
 <form action="/project/create" method="post">
     <div class="modal">
         <div class="modal_popup">
-            <h3>프로젝트 생성</h3>
+            <h3 style="margin-bottom: 20px;">프로젝트 생성</h3>
             <div class="modal-row">
                 <span class="input-title">프로젝트명</span><input type="text" name="projectTitle">
             </div>

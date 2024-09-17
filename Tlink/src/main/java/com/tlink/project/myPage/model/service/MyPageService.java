@@ -1,5 +1,6 @@
 package com.tlink.project.myPage.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -17,5 +18,7 @@ public interface MyPageService {
 	int deleteProfile(int userNo);
 
 	int updateInfo(User loginUser);
+
+	List<User> selectAdmin();
 
 }
