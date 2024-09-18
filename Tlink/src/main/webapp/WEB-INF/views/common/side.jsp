@@ -1,6 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
+
+
+
+<c:forEach var="project" items="${loginUser.projectList}">
+  <c:if test="${project.projectNo==projectNo}">
+     <c:set var="projectTitle" value="${project.projectTitle}"/>
+  </c:if>
+</c:forEach>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,10 +31,18 @@
         <div class="asideTop">
             <ul>
                 <li>
-                    <div><a href="#">1</a></div>
+                    <div>
+
+                        <c:if test="${loginUser.profileImg==null}">
+                            <a href="#"><img src="/resources/images/loofy1.jpg"/></a>
+                        </c:if>
+                        <c:if test="${loginUser.profileImg!=null}">
+                            <a href="#"><img src="${loginUser.profileImg}"/></a>
+                        </c:if>
+                    </div>
                 </li>
                 <li>
-					
+					${projectTitle}
                 </li>
             </ul>
         </div>
@@ -97,7 +116,15 @@
         margin: 0;
         padding: 0;
     }
-    
+    .asideTop div{
+        overflow: hidden;
+    }
+
+    .asideTop img{
+        width: auto;
+        height: 70px;
+    }
+
 </style>
 
 
@@ -207,6 +234,7 @@
         $(`.asideTop li`).eq(1).attr(`style`)
         + `
             color:white;
+            min-width: 200px;
             `
         + cen()
     );

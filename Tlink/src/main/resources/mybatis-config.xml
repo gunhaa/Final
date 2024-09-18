@@ -22,6 +22,9 @@
 		<typeAlias type="com.tlink.project.chatting.model.dto.MyObjectType" alias="MyObjectType" />
 		<typeAlias type="com.tlink.project.chatting.model.dto.videoConference" alias="videoConference" />
 		<typeAlias type="com.tlink.project.chatting.model.dto.Chat" alias="Chat" />
+		<typeAlias type="com.tlink.project.work.model.dto.Work" alias="Work" />
+		
+		
 <!-- 		<typeAlias type="edu.kh.project.member.model.dto.Member" alias="Member" />
 		<typeAlias type="edu.kh.project.board.model.dto.Board" alias="Board" />
 		<typeAlias type="edu.kh.project.board.model.dto.BoardImage" alias="BoardImage" />
@@ -36,6 +39,8 @@
 	 	 <mapper resource="/mappers/email-mapper.xml" /> 
 	 	 <mapper resource="/mappers/myPage-mapper.xml" /> 
 	 	 <mapper resource="/mappers/video-mapper.xml" />
+	 	 <mapper resource="/mappers/work-mapper.xml" />
+	 	 <mapper resource="/mappers/workRest-mapper.xml" />
 	
 <!-- 		<mapper resource="/mappers/member-mapper.xml" />
 		<mapper resource="/mappers/myPage-mapper.xml" />

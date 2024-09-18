@@ -2,18 +2,35 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
+<c:set var="path" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 
 
         <nav class="nav">
             <ul>
-                <li><a href="/workList/gantChart">간트차트</a></li>
-                <li><a href="/workList/workChart">작업차트</a></li>
-                <li><a href="/workList/table">표</a></li>
-                <li><a href="/workList/mywork">내 작업</a></li>
-                <li><a href="/workList/list">리스트</a></li>
-                <li><a href="/workList/managerBy">담당자별</a></li>
-                <li><a href="/workList/projectBy">프로젝트별</a></li>
-                <li><a href="/workList/stateBy">상태별</a></li>
+                <li><a href="/workList/gantChart?projectNo=${projectNo}"  
+                        <c:if test="${path=='/workList/gantChart' || path=='/workList/sankeyChart' || path=='/workList/treeChart'}"> style="background-color: #540D6E; color:white;" </c:if> 
+                    >간트차트</a></li>
+                <li><a href="/workList/workChart?projectNo=${projectNo}"
+                        <c:if test="${path=='/workList/workChart' || path=='/workList/pieChart' || path=='/workList/lineChart'}"> style="background-color: #540D6E; color:white;" </c:if> 
+                    >작업차트</a></li>
+                <li><a href="/workList/table?projectNo=${projectNo}"
+                        <c:if test="${path=='/workList/table'}"> style="background-color: #540D6E; color:white;" </c:if> 
+                    >표</a></li>
+                <li><a href="/workList/mywork?projectNo=${projectNo}"
+                        <c:if test="${path=='/workList/mywork'}"> style="background-color: #540D6E; color:white;" </c:if> 
+                    >내 작업</a></li>
+                <li><a href="/workList/list?projectNo=${projectNo}"
+                        <c:if test="${path=='/workList/list'}"> style="background-color: #540D6E; color:white;" </c:if> 
+                    >리스트</a></li>
+                <li><a href="/workList/managerBy?projectNo=${projectNo}"
+                        <c:if test="${path=='/workList/managerBy'}"> style="background-color: #540D6E; color:white;" </c:if> 
+                    >담당자별</a></li>
+                <li><a href="/workList/projectBy?projectNo=${projectNo}"
+                        <c:if test="${path=='/workList/projectBy'}"> style="background-color: #540D6E; color:white;" </c:if> 
+                    >프로젝트별</a></li>
+                <li><a href="/workList/stateBy?projectNo=${projectNo}"
+                        <c:if test="${path=='/workList/stateBy'}"> style="background-color: #540D6E; color:white;" </c:if> 
+                    >상태별</a></li>
                 <li class="drop">
                     <span style="font-size: 10px; font-weight: bold;">●</span>
                     <ul>
@@ -47,7 +64,6 @@
 
         <style>
             * {
-                box-sizing: border-box;
                 padding: 0;
                 margin: 0;
             }

@@ -23,6 +23,38 @@ public class WorkRestServiceImpl implements WorkRestService{
 	public int delete(Map<String, Object> data) {
 		return dao.delete(data);
 	}
+
+	@Override
+	public int insertTable(Map<String, Object> data) {
+		return dao.insertTable(data);
+	}
+
+	
+	
+	@Override
+	public int updateWorkTitle(Map<String, Object> data) {
+		return dao.updateWorkTitle(data);
+	}
+	@Override
+	public int updateDueDate(Map<String, Object> data) {
+		return dao.updateDueDate(data);
+	}
+	@Override
+	public int updateWorkState(Map<String, Object> data) {
+		return dao.updateWorkState(data);
+	}
+	@Override
+	public int updateWorkPriority(Map<String, Object> data) {
+		return dao.updateWorkPriority(data);
+	}
+	@Override
+	public int updateWorkManager(Map<String, Object> data) {
+		return dao.updateWorkManager(data);
+	}
+	@Override
+	public int updateParentNo(Map<String, Object> data) {
+		return dao.updateParentNo(data);
+	}
 	
 
 	

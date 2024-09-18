@@ -1,12 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
+<c:forEach var="work" items="${wList}">
+    <c:set var="projectTitle" value="${work.projectName}"/>
+</c:forEach>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="/resources/css/work/common.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
     <link rel="shortcut icon" href="#">
 
 
@@ -29,7 +41,9 @@
 
             <section class="tbCon">
                 <span class="tgBtn">▶</span>
-                <span style="font-weight: bold;">개인 프로젝트</span>
+                <span style="font-weight: bold;">${projectTitle}</span>
+                
+
                 <div class="tbBox">
                     <table>
                         <thead>
@@ -73,44 +87,79 @@
 
 
                         <tbody class="row">
-                            <tr>
-                                <td>
-                                    <a href="/workSheet"><span class="material-symbols-outlined">draft</span></a>
-                                </td>
-                                <td contenteditable="true"></td>
-                                <td><span><input type="date"></span></td>
-                                <td>
-                                    <select name="" id="">
-                                        <option value="0">시작 전</option>
-                                        <option value="1">진행 중</option>
-                                        <option value="2">완료 후</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="" id="">
-                                        <option value="">낮음</option>
-                                        <option value="">중간</option>
-                                        <option value="">높음</option>
-                                    </select>
-                                </td>
-                                <td contenteditable="true"></td>
-                                <td contenteditable="true"></td>
-                                <td contenteditable="true"></td>
-                                
-                                <td >
-                                    <span class="material-symbols-outlined mis"> disabled_by_default</span>
-                                </td>
-                            </tr>
+                            <c:forEach var="work" items="${wList}">
+                                <tr>
+                                    <td>
+                                        <span class="workNo" hidden>${work.workNo}</span>
+                                        <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
+                                    </td>
+                                    <td class="workTitle" contenteditable="true">${work.workTitle}</td>
+                                    <td ><span><input class="dueDate" type="date" value="${work.dueDate}"></span></td>
+                                    <td>
+                                        <select class="workState" name="" id="">
+                                            <option value="0" <c:if test="${work.workState==0}">selected</c:if> >시작 전</option>
+                                            <option value="1" <c:if test="${work.workState==1}">selected</c:if> >진행 중</option>
+                                            <option value="2" <c:if test="${work.workState==2}">selected</c:if> >완료 후</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="workPriority" name="" id="">
+                                            <option value="0"  <c:if test="${work.workPriority==0}">selected</c:if> >낮음</option>
+                                            <option value="1"  <c:if test="${work.workPriority==1}">selected</c:if> >중간</option>
+                                            <option value="2"  <c:if test="${work.workPriority==2}">selected</c:if> >높음</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="workManager">
+
+                                            <c:forEach var="user" items="${mList}">
+                                                <option value="${user.userNo}" <c:if test="${work.workManager==user.userNo}">selected</c:if> >${user.userName}</option>
+                                            </c:forEach>
+
+                                        </select>
+                                    </td>
+                                    <td>${work.projectName}</td>
+                                    <td>
+                                        <select class="parentNo">
+                                            <option value=""                     <c:if test="${work.parentNo==0}">selected</c:if> >없음</option>
+                                            <c:forEach var="parentWork" items="${pList}">
+                                                <c:if test="${parentWork.workNo!=work.workNo}">
+                                                    <option value="${parentWork.workNo}" <c:if test="${work.parentNo==parentWork.workNo}">selected</c:if> >${parentWork.workTitle}</option>
+                                                </c:if>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                    
+                                    <td >
+                                        <span class="material-symbols-outlined mis">disabled_by_default</span>
+                                    </td>
+                                </tr>
+
+
+                            </c:forEach>
+                           
+                            
+
+
+
+                            
                         </tbody>
 
                         <tfoot>
                             <tr>
-                                <td class="" colspan="5" >
+                                <td class="" colspan="9" >
                                     <span class="material-symbols-outlined pls" >add_circle</span>
+                                    
                                 </td>
                             </tr>
+
                         </tfoot>
-                    </table>
+                    </table><br>
+
+                    <span class="updateNavigator" hidden></span>
+                   
+
+
                 </div>
             </section>
         </div>
@@ -123,9 +172,7 @@
 
 
 <style>
-    * {box-sizing: border-box;}
-    body{margin: 0;}
-    [contenteditable] {outline: none;}
+
 
     .tbCon {
         margin: 20px 0 0 10px;
@@ -186,8 +233,8 @@
 
 
     .pls, .mis{
-    color: rgba(0, 0, 0, 0.05);
-
+        color: rgba(0, 0, 0, 0.05);
+        cursor: pointer;
     }
 
 </style>
@@ -196,48 +243,110 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="/resources/js/work/udf.js"></script>
+<script src="/resources/js/work/tableUpdate.js"></script>
 <script>
+    const projectNo=${projectNo};
+
+    function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
+    let optionSum="";
+    function pListUpdate(){
+        const data={ "projectNo" : ${projectNo}, };
+        fetch("/workList/table/pList", {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(data)
+            }
+        )
+        .then (rep => rep.json())
+        .then (pList => {
+            for(let work of pList ){optionSum=`<option value="\${work.workNo}">\${work.workTitle}</option>`}
+        })
+        .catch(err => console.log(err))
+    }
 
 
+    function plsRw(workNo) {
+        $(`.row`).append(`<tr>
+                                    <td>
+                                        <span class="workNo" hidden>workNo</span>
+                                        <a href="/workSheet?workNo=\${workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
+                                    </td>
+                                    <td class="workTitle" contenteditable="true">제목</td>
+                                    <td><span><input type="date" value="new Date().toISOString().substring(0, 10)"></span></td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="0" selected>시작 전</option>
+                                            <option value="1" >진행 중</option>
+                                            <option value="2" >완료 후</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="" id="">
+                                            <option value="0"  selected >낮음</option>
+                                            <option value="1" >중간</option>
+                                            <option value="2" >높음</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select>
 
+                                            <c:forEach var="user" items="${mList}">
+                                                <option value="${user.userNo}" >${user.userName}</option>
+                                            </c:forEach>
 
+                                        </select>
+                                    </td>
+                                    <td>${projectTitle}</td>
+                                    <td>
 
+                                        <select class="parentNo">
 
+                                            <option value="" selected >없음</option>
 
-    function plsRw(i) {
-        $(`.row`).append(`
-                                                <tr>
-                        <td contenteditable="true"></td>
-                        <td><span><input type="date"></span></td>
-                        <td>
-                            <select name="" id="">
-                                <option value="0">시작 전</option>
-                                <option value="1">진행 중</option>
-                                <option value="2">완료 후</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select name="" id="">
-                                <option value="">낮음</option>
-                                <option value="">중간</option>
-                                <option value="">높음</option>
-                            </select>
-                        </td>
-                        <td contenteditable="true"></td>
-                        <td contenteditable="true"></td>
-                        <td class="mis">
-                            <span class="material-symbols-outlined"> disabled_by_default</span>
-                        </td>
-                    </tr>
+                                            <c:forEach var="parentWork" items="${pList}">
+                                                <option value="${parentWork.workNo}">${parentWork.workTitle}</option>
+                                            </c:forEach> 
+
+                                            \${optionSum}
+
+                                        </select>
+                                        
+                                    </td>
+                                    
+                                    <td >
+                                        <span class="material-symbols-outlined mis">disabled_by_default</span>
+                                    </td>
+                                </tr>
             
             </tr>`);
     }
 
+
     $(`.pls`).on("click", function () {
 
+        console.log( ${projectNo} );
+        const data={
+            "projectNo"      : ${projectNo}, 
+        };
 
-        // plsRw(7);
-        // serial();
+        fetch("/workList/table", {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(data)
+            }
+        )
+        .then (rep => rep.text())
+        .then (res => {
+            console.log(res);
+            res!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다.") ;
+
+            if(res!=0){
+                plsRw(res);
+                pListUpdate();
+            }
+        })
+        .catch(err => console.log(err))
+
 
 
     })
@@ -263,10 +372,38 @@
 
 
 
+
+
+
     //삭제버튼
     $(document).on(`click`, ".mis", function (e) {
-        $(e.target).parents(`tr`).remove();
-        serial();
+        
+
+        if(confirm("삭제하시겠습니까??")){
+            console.log( $(this).parents(`tr`).find(`.workNo`).text() );
+            
+            const data={
+                "workNo"      : $(this).parents(`tr`).find(`.workNo`).text(), 
+            };
+        
+            fetch("/workSheet/detail", {
+                    method: "DELETE",
+                    headers: {"Content-Type" : "application/json"},
+                    body: JSON.stringify(data)
+                }
+            )
+            .then (rep => rep.text())
+            .then (res => {
+                alertResult(res); 
+                if(res==1){
+                    $(e.target).parents(`tr`).remove();
+                }
+            })
+            .catch(err => console.log(err))
+        }
+        return;
+    
+        
     })
 
 
@@ -277,11 +414,8 @@
     $('.tgBtn').on("click", function () {
         $('.tbBox').slideToggle();
         $(`.tgBtn`).toggleTextRotate90();
-
     })
    
-
-
 
 </script>
     

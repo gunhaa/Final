@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="workRestMapper">
+	
+	
+
+   
+	
+	<update id="update">
+		UPDATE WORK SET
+		WORK_TITLE= #{workTitle},
+		WORK_CONTENT=#{workContent},
+		UPDATE_DT=SYSDATE,
+		DUE_DT=#{dueDt},
+		WORK_PR_ST=#{workPrSt},
+		WORK_PR	  =#{workPr},
+		WORK_MN_NO=#{workMnNo},
+		PARENT_NO=#{parentNo},
+		PROJECT_NO=#{projectNo}
+		WHERE WORK_NO=#{workNo}
+	</update>
+	
+	<delete id="delete">
+		UPDATE WORK SET
+		WORK_ST=0
+		WHERE WORK_NO=#{workNo}
+	</delete>
+	
+	
+	
+	
+	<insert id="insertTable">
+		INSERT INTO WORK
+		VALUES(
+		SEQ_WORK_NO.NEXTVAL, DEFAULT, DEFAULT, 
+		DEFAULT, DEFAULT, DEFAULT,
+		DEFAULT, DEFAULT, DEFAULT,
+		DEFAULT, DEFAULT, #{projectNo}
+		)
+	</insert>
+	<select id="selectWorkNo" resultType="_int">
+		SELECT SEQ_WORK_NO.CURRVAL
+		FROM DUAL
+	</select>
+	
+
+
+
+	
+	<update id="updateWorkTitle">
+		UPDATE WORK SET
+		WORK_TITLE= #{workTitle}
+		WHERE WORK_NO=#{workNo}
+		AND PROJECT_NO=#{projectNo}
+	</update>
+	<update id="updateDueDate">
+		UPDATE WORK SET
+		DUE_DT=#{dueDate}
+		WHERE WORK_NO=#{workNo}
+		AND PROJECT_NO=#{projectNo}
+	</update>
+	<update id="updateWorkState">
+		UPDATE WORK SET
+		WORK_PR_ST=#{workState}
+		WHERE WORK_NO=#{workNo}
+		AND PROJECT_NO=#{projectNo}
+	</update>
+	<update id="updateWorkPriority">
+		UPDATE WORK SET
+		WORK_PR	  =#{workPriority}
+		WHERE WORK_NO=#{workNo}
+		AND PROJECT_NO=#{projectNo}
+	</update>
+	<update id="updateWorkManager">
+		UPDATE WORK SET
+		WORK_MN_NO=#{workManager}
+		WHERE WORK_NO=#{workNo}
+		AND PROJECT_NO=#{projectNo}
+	</update>
+	<update id="updateParentNo">
+		UPDATE WORK SET
+		PARENT_NO=#{parentNo}
+		WHERE WORK_NO=#{workNo}
+		AND PROJECT_NO=#{projectNo}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+</mapper>

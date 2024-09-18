@@ -1,17 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+${wList}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="/resources/css/work/common.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="shortcut icon" href="#">
 <style>
-    * {box-sizing: border-box;}
-    body{margin: 0;}
-    [contenteditable] {outline: none;}
 
 
     .tbCon th, 
@@ -148,31 +150,51 @@
 
 
                 <tbody class="row">
-                    <tr>
-                        <td contenteditable="true"></td>
-                        <td><span><input type="date"></span></td>
-                        <td>
-                            <select name="" id="">
-                                <option value="0">시작 전</option>
-                                <option value="1">진행 중</option>
-                                <option value="2">완료 후</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select name="" id="">
-                                <option value="">낮음</option>
-                                <option value="">중간</option>
-                                <option value="">높음</option>
-                            </select>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        
-                        <td >
-                            <span class="material-symbols-outlined mis"> disabled_by_default</span>
-                        </td>
-                    </tr>
+                    <c:forEach var="work" items="${wList}">
+                        <tr>
+                            <td>
+                                <select class="workManager">
+                                    <c:forEach var="user" items="${mList}">
+                                        <option value="${user.userNo}" <c:if test="${work.workManager==user.userNo}">selected</c:if> >${user.userName}</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                            <td>
+                                <span class="workNo" hidden>${work.workNo}</span>
+                                <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
+                                <span class="workTitle" contenteditable="true">${work.workTitle}</span>
+                            </td>
+                            <td ><span><input class="dueDate" type="date" value="${work.dueDate}"></span></td>
+                            <td>
+                                <select class="workState" name="" id="">
+                                    <option value="0" <c:if test="${work.workState==0}">selected</c:if> >시작 전</option>
+                                    <option value="1" <c:if test="${work.workState==1}">selected</c:if> >진행 중</option>
+                                    <option value="2" <c:if test="${work.workState==2}">selected</c:if> >완료 후</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="workPriority" name="" id="">
+                                    <option value="0"  <c:if test="${work.workPriority==0}">selected</c:if> >낮음</option>
+                                    <option value="1"  <c:if test="${work.workPriority==1}">selected</c:if> >중간</option>
+                                    <option value="2"  <c:if test="${work.workPriority==2}">selected</c:if> >높음</option>
+                                </select>
+                            </td>
+                            <td>${work.projectName}</td>
+                            <td>
+                                <select class="parentNo">
+                                    <option value=""                     <c:if test="${work.parentNo==0}">selected</c:if> >없음</option>
+                                    <c:forEach var="parentWork" items="${pList}">
+                                        <c:if test="${parentWork.workNo!=work.workNo}">
+                                            <option value="${parentWork.workNo}" <c:if test="${work.parentNo==parentWork.workNo}">selected</c:if> >${parentWork.workTitle}</option>
+                                        </c:if>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                            <td>
+                                <span class="material-symbols-outlined mis"> disabled_by_default</span>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
 
                 <tfoot>
@@ -184,6 +206,10 @@
                 </tfoot>
                 
             </table>
+
+            <span class="updateNavigator" hidden></span>
+
+
         </div>
     </section>
         </div>
@@ -195,21 +221,10 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="/resources/js/work/udf.js"></script>
-        
+<script src="/resources/js/work/tableUpdate.js"></script>
 
 <script>
-
-    //재정렬함수
-    function serial() { for (let i = 0; i < $(`.index`).length; i++) { $(`.index`).eq(i).text(i + 1); } }
-
-    $(function () {
-        serial();
-        // $(".col").sortable();
-        // $(".row").sortable(); 
-
-
-    });
-
+    const projectNo=${projectNo};
 
 
 
@@ -251,10 +266,6 @@
 
     $(`.pls`).on("click", function () {
 
-
-        
-
-
         // plsRw(7);
         // serial();
 
@@ -266,18 +277,6 @@
 
 
 
-    // $(".row").sortable({
-    //     start: function (event, ui) {
-    //         console.log("drag : " + (ui.item.index()));
-    //     },
-    //     stop: function (event, ui) {
-    //         console.log("drop : " + (ui.item.index()));
-    //         console.log( $(ui.item));
-
-    //         serial();
-    //         // +추후 비동기 날리기.!!!
-    //     },
-    // });
 
 
 
@@ -285,7 +284,7 @@
     //삭제버튼
     $(document).on(`click`, ".mis", function (e) {
         $(e.target).parents(`tr`).remove();
-        serial();
+        
     })
 
 
