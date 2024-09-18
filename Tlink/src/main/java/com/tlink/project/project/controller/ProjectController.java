@@ -29,19 +29,19 @@ public class ProjectController {
 
 	@PostMapping("/create")
 	public String create(Project project, @SessionAttribute("loginUser") User loginUser,
-			RedirectAttributes ra, Model model) {
+			RedirectAttributes ra) {
 		
 		project.setManager(loginUser.getUserNo());
 		
-		System.out.println(project);
+		int result = service.create(project);
 		
-		List<Project> projectList = service.create(project);
+		String message = null;
+		if(result > 0) message = project.getProjectTitle() + "이(가) 생성되었습니다.";
+		else message = "프로젝트 생성 실패";
 		
-		loginUser.setProjectList(projectList);
 		
-		ra.addFlashAttribute("message", project.getProjectTitle() + "이(가) 생성되었습니다.");
+		ra.addFlashAttribute("message", message);
 		
-		model.addAttribute("loginUser", loginUser);
 		
 		return "redirect:/myPage/project";
 	}
@@ -57,6 +57,37 @@ public class ProjectController {
 		map.put("userNo", loginUser.getUserNo());
 		
 		return service.autocomplete(map);
+	}
+	
+	// 프로젝트 삭제 페이지
+	@GetMapping("/delete")
+	public String delete() {
+		
+		return "/project/project-delete";
+	}
+	
+	// 프로젝트 삭제
+	@GetMapping("/deleteProject")
+	public String deleteProject(int projectNo, RedirectAttributes ra) {
+		
+		int result = service.deleteProject(projectNo);
+		
+		System.out.println(result);
+		
+		String message = null;
+		String path = "redirect:";
+		
+		if(result > 0) {
+			message = "프로젝트가 삭제되었습니다.";
+			path += "/myPage/project";
+		}else {
+			message = "프로젝트 삭제 실패";
+			path += "/project/delete";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return path;
 	}
 	
 	

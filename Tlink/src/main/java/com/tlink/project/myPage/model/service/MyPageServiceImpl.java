@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tlink.project.chatting.common.Util;
 import com.tlink.project.myPage.model.dao.MyPageDAO;
+import com.tlink.project.project.model.dto.Project;
 import com.tlink.project.user.model.dto.User;
 
 @Service
@@ -114,6 +115,12 @@ public class MyPageServiceImpl implements MyPageService{
 	@Override
 	public List<User> selectAdmin() {
 		return dao.selectAdmin();
+	}
+
+	// 프로젝트 목록 조회
+	@Override
+	public List<Project> selectProjectList(int userNo) {
+		return dao.selectProjectList(userNo);
 	}
 
 }

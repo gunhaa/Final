@@ -57,5 +57,15 @@
 		]]>
 	</select>
 	
+	<delete id="deleteProject">
+		DELETE FROM PROJECT
+		WHERE PROJECT_NO = #{projectNo}
+	</delete>
+	
+	<delete id="deleteUserProject">
+		DELETE FROM USER_PROJECT
+		WHERE PROJECT_NO = #{projectNo}
+	</delete>
+	
 	
 </mapper>

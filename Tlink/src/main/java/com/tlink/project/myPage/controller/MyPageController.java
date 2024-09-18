@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlink.project.myPage.model.service.MyPageService;
+import com.tlink.project.project.model.dto.Project;
 import com.tlink.project.user.model.dto.User;
 
 @Controller
@@ -43,7 +44,11 @@ public class MyPageController {
 	
 	// 프로젝트 목록 페이지
 	@GetMapping("/project")
-	public String myPageProject() {
+	public String myPageProject(@SessionAttribute("loginUser") User loginUser, Model model) {
+		
+		List<Project> projectList = service.selectProjectList(loginUser.getUserNo());
+		
+		model.addAttribute("projectList", projectList);
 		
 		return "/myPage/myPage-project";
 	}

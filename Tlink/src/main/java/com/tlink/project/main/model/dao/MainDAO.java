@@ -33,10 +33,6 @@ public class MainDAO {
 		return sqlSession.selectOne("userMapper.selectDupEmail", email);
 	}
 
-	// 프로젝트 리스트 조회
-	public List<Project> selectProjectList(int userNo) {
-		return sqlSession.selectList("userMapper.selectProjectList", userNo);
-	}
 
 	// 관리자 생성
 	public int createAdmin(User inputUser) {

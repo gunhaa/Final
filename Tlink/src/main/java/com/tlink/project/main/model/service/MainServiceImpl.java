@@ -29,12 +29,6 @@ public class MainServiceImpl implements MainService {
 
 		User loginUser = dao.login(inputUser);
 
-		if (loginUser != null) {
-
-
-			List<Project> projectList = dao.selectProjectList(loginUser.getUserNo());
-			
-			loginUser.setProjectList(projectList);
 			
 			if (bcrypt.matches(inputUser.getUserPw(), loginUser.getUserPw())) {
 
@@ -45,8 +39,6 @@ public class MainServiceImpl implements MainService {
 				loginUser = null;
 			}
 
-
-		}
 
 		return loginUser;
 	}

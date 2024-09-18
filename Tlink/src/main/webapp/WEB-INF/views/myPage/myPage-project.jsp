@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <c:set var = "projectList" value = "${loginUser.projectList}"/>
 
 
     <main>
@@ -30,8 +29,8 @@
                     <!-- 검색창 -->
                     <div class="search-area">
                         <div class="search-bar">
-                            <input type="text" name="query" id="query">
                             <div class="fa-solid fa-magnifying-glass glass"></div>
+                            <input type="text" name="query" id="query">
                         </div>
                         <div id="autocomplete"></div>
                     </div>

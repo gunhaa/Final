@@ -24,14 +24,13 @@ public class ProjectServiceImpl implements ProjectService{
 
 	// 프로젝트 생성
 	@Override
-	public List<Project> create(Project project) {
+	public int create(Project project) {
 		
 		int result = dao.create(project);
 		
 		// 생성된 프로젝트 아이디를 반환
 		int projectNo = project.getProjectNo();
 		
-		List<Project> projectList = new ArrayList<Project>();
 		
 		if(result > 0) {
 			
@@ -42,19 +41,24 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			result = dao.insertUser(map);
 			
-			// 프로젝트 생성된 경우
-			if(result > 0) {
-				projectList = mainDAO.selectProjectList(project.getManager());
-			}
-			
 		}
 		
-		return projectList;
+		return result;
 	}
 
 	@Override
 	public List<Project> autocomplete(Map<String, Object> map) {
 		return dao.autocomplete(map);
+	}
+
+	// 프로젝트 삭제
+	@Override
+	public int deleteProject(int projectNo) {
+		int result = dao.deleteProject(projectNo);
+		
+		if(result > 0) result = dao.deleteUserProject(projectNo); 
+		
+		return result;
 	}
 
 

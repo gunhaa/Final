@@ -7,9 +7,11 @@ import com.tlink.project.project.model.dto.Project;
 
 public interface ProjectService {
 
-	List<Project> create(Project project);
+	int create(Project project);
 
 	List<Project> autocomplete(Map<String, Object> map);
+
+	int deleteProject(int projectNo);
 	
 
 }

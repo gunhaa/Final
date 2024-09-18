@@ -29,5 +29,13 @@ public class ProjectDAO {
 		return sqlSession.selectList("projectMapper.autocomplete", map);
 	}
 
+	public int deleteProject(int projectNo) {
+		return sqlSession.delete("projectMapper.deleteProject", projectNo);
+	}
+
+	public int deleteUserProject(int projectNo) {
+		return sqlSession.delete("projectMapper.deleteUserProject", projectNo);
+	}
+
 
 }
