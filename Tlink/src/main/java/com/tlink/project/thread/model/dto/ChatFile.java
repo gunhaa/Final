@@ -1,4 +1,4 @@
-package com.trink.project.thread.model.dto;
+package com.tlink.project.thread.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

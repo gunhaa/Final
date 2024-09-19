@@ -1,4 +1,4 @@
-package com.trink.project.thread.model.dao;
+package com.tlink.project.thread.model.dao;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.trink.project.thread.model.dto.Chat;
-import com.trink.project.thread.model.dto.ChatFile;
+import com.tlink.project.thread.model.dto.Chat;
+import com.tlink.project.thread.model.dto.ChatFile;
 
 @Repository
 public class ChatDAO {

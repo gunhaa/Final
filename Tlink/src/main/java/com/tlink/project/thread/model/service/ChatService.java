@@ -1,11 +1,11 @@
-package com.trink.project.thread.model.service;
+package com.tlink.project.thread.model.service;
 
 import java.io.IOException;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.trink.project.thread.model.dto.Chat;
+import com.tlink.project.thread.model.dto.Chat;
 
 public interface ChatService {
 
