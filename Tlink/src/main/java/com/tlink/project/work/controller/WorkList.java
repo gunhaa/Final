@@ -2,6 +2,8 @@ package com.tlink.project.work.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.tlink.project.myPage.model.service.MyPageService;
+import com.tlink.project.project.model.dto.Project;
 import com.tlink.project.user.model.dto.User;
 import com.tlink.project.work.model.dto.Work;
 import com.tlink.project.work.model.service.WorkService;
@@ -18,13 +22,36 @@ public class WorkList {
 	
 	
 	@Autowired private WorkService service;
-	
+	@Autowired private MyPageService myPageservice;
 	
 
-	@GetMapping("/workList") public String workList( @RequestParam(value="projectNo") int projectNo, Model model) { 
+	@GetMapping("/workList") public String workList( @RequestParam(value="projectNo") int projectNo, Model model
+			, @SessionAttribute("loginUser") User loginUser
+			, HttpSession session
+			) { 
+		
 		model.addAttribute("projectNo", projectNo);
+		
+		List<Project> projectList =myPageservice.selectProjectList(loginUser.getUserNo());
+		session.setAttribute("projectList", projectList);
+		
 		return "redirect:/workList/gantChart"; 
 	}
+	
+	
+//	
+//	@GetMapping("/project")
+//	public String myPageProject(@SessionAttribute("loginUser") User loginUser, Model model) {
+//		
+//		List<Project> projectList = service.selectProjectList(loginUser.getUserNo());
+//		
+//		model.addAttribute("projectList", projectList);
+//		
+//		return "/myPage/myPage-project";
+//	}
+	
+	
+	
 	
 
 	@GetMapping("/workList/gantChart")     	    public String gantChart  (@RequestParam(value="projectNo") int projectNo, Model model)      { 

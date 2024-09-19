@@ -22,7 +22,7 @@
 		<typeAlias type="com.tlink.project.chatting.model.dto.MyObjectType" alias="MyObjectType" />
 		<typeAlias type="com.tlink.project.chatting.model.dto.videoConference" alias="videoConference" />
 		<typeAlias type="com.tlink.project.chatting.model.dto.Chat" alias="Chat" />
-		<typeAlias type="com.tlink.project.work.model.dto.Work" alias="Work" />
+    <typeAlias type="com.tlink.project.work.model.dto.Work" alias="Work" />
 		<typeAlias type="com.tlink.project.calendar.model.dto.CalendarData" alias="CalendarData" />
 		<typeAlias type="com.tlink.project.notice.model.dto.Notice" alias="Notice" />
 		<typeAlias type="com.tlink.project.notice.model.dto.NoticeComment" alias="NoticeComment" />
