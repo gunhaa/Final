@@ -32,7 +32,7 @@
             <article class="main-middle">
                 <div>
                     <span><a href="/notice">공지사항</a></span>
-                    <c:if test="${loginMember.memberNo == 1}">
+                    <c:if test="${loginUser.userNo == 1}">
                         <button><a href="/notice2/insert">게시글 생성</a></button>
                     </c:if>
                 </div>

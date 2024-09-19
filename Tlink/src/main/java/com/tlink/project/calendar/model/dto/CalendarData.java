@@ -20,8 +20,8 @@ import lombok.ToString;
 @ToString
 public class CalendarData {
 
-	private int memberNo;
-	private String memberNickname;
+	private int userNo;
+	private String userName;
 	private int scheduleNo;
 	private String scheduleType;
 	private String scheduleTitle;

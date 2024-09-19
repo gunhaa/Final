@@ -37,14 +37,14 @@
                             <!-- 사용자 -->
                             <c:if test="${loginUser.role == 'U'}">
                                 <div class="menu" onclick="location.href='project'">프로젝트</div>
-                                <div class="menu">공지사항</div>
+                                <div class="menu" onclick="location.href='/notice'">공지사항</div>
                                 <div class="menu" onclick="location.href='info'">내 정보</div>
                                 <div class="menu" onclick="location.href='changePw'">비밀번호 변경</div>
                                 <div class="menu" onclick="location.href='secession'">회원 탈퇴</div>
                             </c:if>
                             <!-- 시스템 관리자 -->
                             <c:if test="${loginUser.role != 'U'}">
-                                <div class="menu">공지사항</div>
+                                <div class="menu" onclick="location.href='/notice'">공지사항</div>
                                 <c:if test="${loginUser.role == 'S'}">
                                     <div class="menu" onclick="location.href='systemUser'">관리자 계정</div>
                                 </c:if>

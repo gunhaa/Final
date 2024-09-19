@@ -133,20 +133,20 @@ public class CalendarServiceImpl implements CalendarService {
 	// 일정 삭제하기
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int deleteEvent(int scheduleNo, int memberNo) {
-		return dao.deleteEvent(scheduleNo, memberNo);
+	public int deleteEvent(int scheduleNo, int userNo) {
+		return dao.deleteEvent(scheduleNo, userNo);
 	}
 	
 	// 휴가 삭제하기
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int deleteHoliday(int scheduleNo, int memberNo) {
+	public int deleteHoliday(int scheduleNo, int userNo) {
 		
 		// 파일삭제하기
 		int result1 = dao.deleteHolidayFile(scheduleNo);
 		
 		// 휴가 일정 삭제하기
-		int result2 = dao.deleteEvent(scheduleNo, memberNo);
+		int result2 = dao.deleteEvent(scheduleNo, userNo);
 		
 		int result = 0;
 		

@@ -9,7 +9,7 @@
            #{commentContent},
            DEFAULT, DEFAULT,
            #{noticeNo},
-           #{memberNo},
+           #{userNo},
            
            <!-- 동적 sql : if문(부모 댓글인지 자식 댓글 인지 파악) -->
            <if test="parentNo == 0">NULL</if>           

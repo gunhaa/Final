@@ -258,7 +258,7 @@ function showEventDetails(event) {
     } else if (event.extendedProps.scheduleType.trim() === "2" || event.extendedProps.scheduleType.trim() === "3") {
       // 연가 혹은 병가일 경우
   
-      if(memberNo == event.extendedProps.memberNo){
+      if(userNo == event.extendedProps.userNo){
   
         const isAnnualLeave = event.extendedProps.scheduleType.trim() === '2';
         const isSickLeave = event.extendedProps.scheduleType.trim() === '3';

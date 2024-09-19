@@ -91,7 +91,7 @@ public class NoticeController  {
 			
 			// 쿠키를 이용한 조회수 증가 처리
 			// 1. 로그인한 회원의 글이 아닌 경우
-			if(loginUser.getUserNo() != notice.getMemberNo()) {
+			if(loginUser.getUserNo() != notice.getUserNo()) {
 				// 2. 쿠키 얻어오기
 				Cookie c = null;
 

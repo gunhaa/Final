@@ -98,7 +98,7 @@
                         </div>
                         <div class="btn-area">
                             <button><a href="/notice">목록으로</a></button>
-                            <c:if test="${loginMember.memberNo == 1}">
+                            <c:if test="${loginUser.userNo == 1}">
                                 <div>
                                     <button><a href="/notice2/${notice.noticeNo}/update">수정하기</a></button>
                                     <button id="deleteBtn" onclick="confirmDelete()">삭제하기</button>
@@ -121,7 +121,7 @@
         const noticeCopy = "${notice.noticeCopy}"
 
         // 로그인한 회원 번호 변수로 선언
-        const loginMemberNo = "${loginMember.memberNo}";
+        const loginUserNo = "${loginUser.userNo}";
 
     </script>
 

@@ -51,8 +51,8 @@ function selectCommentList(){
                 }
     
                 // 작성자 닉네임
-                const memberNickname = document.createElement("span");
-                memberNickname.innerText = comment.memberNickname;
+                const userName = document.createElement("span");
+                userName.innerText = comment.userName;
                 
                 // 작성일
                 const commentDate = document.createElement("span");
@@ -60,7 +60,7 @@ function selectCommentList(){
                 commentDate.innerText =  "(" + comment.commentCreateDate + ")";
     
                 // 작성자 영역(p)에 프로필,닉네임,작성일 마지막 자식으로(append) 추가
-                commentWriter.append(profileImage , memberNickname , commentDate);
+                commentWriter.append(profileImage , userName , commentDate);
     
                 // 댓글 내용
                 const commentContent = document.createElement("p");
@@ -71,7 +71,7 @@ function selectCommentList(){
                 commentRow.append(commentWriter, commentContent);
                 
                 // 로그인이 되어있는 경우 답글 버튼 추가
-                if(loginMemberNo != ""){
+                if(logiuUserNo != ""){
                     // 버튼 영역
                     const commentBtnArea = document.createElement("div");
                     commentBtnArea.classList.add("comment-btn-area");
@@ -85,7 +85,7 @@ function selectCommentList(){
                     commentBtnArea.append(childCommentBtn);
     
                     // 로그인한 회원번호와 댓글 작성자의 회원번호가 같을 때만 버튼 추가
-                    if( loginMemberNo == comment.memberNo   ){
+                    if( loginUserNo == comment.userNo   ){
     
                         // 수정 버튼
                         const updateBtn = document.createElement("button");
@@ -137,8 +137,8 @@ if(addComment != null){
 
     addComment.addEventListener("click", e => { // 댓글 등록 버튼이 클릭이 되었을 때
     
-        // 1) 로그인이 여부 판별(전역 변수 loginMemberNo 이용)
-        if(loginMemberNo == ""){ // 로그인 X
+        // 1) 로그인이 여부 판별(전역 변수 loginUserNo 이용)
+        if(loginUserNo == ""){ // 로그인 X
             alert("로그인 후 이용해주세요.");
             return; // 로그인 X 이면 아래의 코드 실행할 필요 없음
         }
@@ -153,7 +153,7 @@ if(addComment != null){
     
         // 3) AJAX를 이용해서 댓글 내용 DB에 저장(INSERT)
         const data = {"commentContent" : commentContent.value,
-                      "memberNo" : loginMemberNo,
+                      "userNo" : loginUserNo,
                       "noticeNo" : noticeNo
         };
     
@@ -406,7 +406,7 @@ function insertCancel(btn){
 function insertChildComment(parentNo, btn){
                         // 부모 댓글 번호, 답글 등록 버튼
 
-    // 누가?                loginMemberNo(로그인한 회원의 memberNo )(전역변수)
+    // 누가?                loginUserNo(로그인한 회원의 userNo )(전역변수)
     // 어떤 내용?           textarea에 작성된 내용
     // 몇번 게시글?         현재 게시글 boardNo (전역변수)
     // 부모 댓글은 누구?    parentNo (매개변수)
@@ -424,7 +424,7 @@ function insertChildComment(parentNo, btn){
 
     const data = {
         "commentContent" : commentContent,
-        "memberNo" : loginMemberNo,
+        "userNo" : loginUserNo,
         "noticeNo" : noticeNo,
         "parentNo" : parentNo
     };

@@ -11,8 +11,8 @@ import lombok.ToString;
 @ToString
 public class Notice {
 
-	private int memberNo;
-	private String memberNickname;
+	private int userNo;
+	private String userName;
 	
 	private int noticeNo;
 	private int noticeType;

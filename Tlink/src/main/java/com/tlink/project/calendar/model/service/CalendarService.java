@@ -29,10 +29,10 @@ public interface CalendarService {
 
 	/**일정 삭제하기
 	 * @param scheduleNo
-	 * @param memberNo 
+	 * @param userNo 
 	 * @return
 	 */
-	int deleteEvent(int scheduleNo, int memberNo);
+	int deleteEvent(int scheduleNo, int userNo);
 
 	
 	/**휴가 추가하기
@@ -58,10 +58,10 @@ public interface CalendarService {
 
 	/**휴가 삭제하기
 	 * @param scheduleNo
-	 * @param memberNo
+	 * @param userNo
 	 * @return
 	 */
-	int deleteHoliday(int scheduleNo, int memberNo);
+	int deleteHoliday(int scheduleNo, int userNo);
 
 
 

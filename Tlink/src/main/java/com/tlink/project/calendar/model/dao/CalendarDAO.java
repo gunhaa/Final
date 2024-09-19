@@ -43,13 +43,13 @@ public class CalendarDAO {
 
 	/**일정 삭제하기
 	 * @param scheduleNo
-	 * @param memberNo 
+	 * @param userNo 
 	 * @return
 	 */
-	public int deleteEvent(int scheduleNo, int memberNo) {
+	public int deleteEvent(int scheduleNo, int userNo) {
 	    Map<String, Integer> deleteHoliday = new HashMap<>();
 	    deleteHoliday.put("scheduleNo", scheduleNo);
-	    deleteHoliday.put("memberNo", memberNo);
+	    deleteHoliday.put("userNo", userNo);
 
 		return sqlSession.delete("calendarDataMapper.deleteEvent", deleteHoliday);
 	}

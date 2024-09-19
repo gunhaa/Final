@@ -28,7 +28,7 @@
                             </c:choose>
                             <div class="comment-text-area">
                                 <!-- 닉네임 -->
-                                <span>${comment.memberNickname}</span>
+                                <span>${comment.userName}</span>
                                 </br>
                                 <!-- 작성일 -->
                                 <span class="comment-date">${comment.commentCreateDate}</span>
@@ -40,12 +40,12 @@
 
                         <!-- 버튼 영역 -->
                         <div class="comment-btn-area">
-                            <c:if test="${!empty loginMember}">
+                            <c:if test="${!empty loginUser}">
                                 <button onclick="showInsertComment(${comment.commentNo}, this)">답글</button>   
                             </c:if>
     
                             <!-- 로그인 회원과 댓글 작성자가 같은 경우 -->
-                            <c:if test="${loginMember.memberNo == comment.memberNo}">
+                            <c:if test="${loginUser.userNo == comment.userNo}">
                                 <button onclick="showUpdateComment(${comment.commentNo}, this)">수정</button>     
                                 <button onclick="deleteComment(${comment.commentNo})">삭제</button>
                             </c:if>
