@@ -100,6 +100,19 @@ public class WorkRest {
 	
 	
 	
+	//내작업
+	@PostMapping(value=("/workList/mywork/insert"))
+	public int insertMywork(@RequestBody Map<String, Object> data) {
+		return service.insertMywork(data);
+	}
+	
+	
+	//상태별
+	@PostMapping(value=("/workList/stateBy"))
+	public Work insertStateBy(@RequestBody Map<String, Object> data) {
+		System.out.println(data);
+		return service.insertStateBy(data);
+	}
 	
 	
 

@@ -131,7 +131,7 @@
                                     </td>
                                     
                                     <td >
-                                        <span class="material-symbols-outlined mis">disabled_by_default</span>
+                                        <span class="material-symbols-outlined deleteWork">disabled_by_default</span>
                                     </td>
                                 </tr>
 
@@ -148,7 +148,7 @@
                         <tfoot>
                             <tr>
                                 <td class="" colspan="9" >
-                                    <span class="material-symbols-outlined pls" >add_circle</span>
+                                    <span class="material-symbols-outlined insertWork" >add_circle</span>
                                     
                                 </td>
                             </tr>
@@ -232,7 +232,7 @@
     }
 
 
-    .pls, .mis{
+    .insertWork, .deleteWork{
         color: rgba(0, 0, 0, 0.05);
         cursor: pointer;
     }
@@ -243,11 +243,13 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="/resources/js/work/udf.js"></script>
+<script src="/resources/js/work/common.js"></script>
 <script src="/resources/js/work/tableUpdate.js"></script>
 <script>
     const projectNo=${projectNo};
+    const parentElement=`tr`;   //삭제버튼
 
-    function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
+
     let optionSum="";
     function pListUpdate(){
         const data={ "projectNo" : ${projectNo}, };
@@ -265,156 +267,23 @@
     }
 
 
-    function plsRw(workNo) {
-        $(`.row`).append(`<tr>
-                                    <td>
-                                        <span class="workNo" hidden>workNo</span>
-                                        <a href="/workSheet?workNo=\${workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
-                                    </td>
-                                    <td class="workTitle" contenteditable="true">제목</td>
-                                    <td><span><input type="date" value="new Date().toISOString().substring(0, 10)"></span></td>
-                                    <td>
-                                        <select name="" id="">
-                                            <option value="0" selected>시작 전</option>
-                                            <option value="1" >진행 중</option>
-                                            <option value="2" >완료 후</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select name="" id="">
-                                            <option value="0"  selected >낮음</option>
-                                            <option value="1" >중간</option>
-                                            <option value="2" >높음</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select>
-
-                                            <c:forEach var="user" items="${mList}">
-                                                <option value="${user.userNo}" >${user.userName}</option>
-                                            </c:forEach>
-
-                                        </select>
-                                    </td>
-                                    <td>${projectTitle}</td>
-                                    <td>
-
-                                        <select class="parentNo">
-
-                                            <option value="" selected >없음</option>
-
-                                            <c:forEach var="parentWork" items="${pList}">
-                                                <option value="${parentWork.workNo}">${parentWork.workTitle}</option>
-                                            </c:forEach> 
-
-                                            \${optionSum}
-
-                                        </select>
-                                        
-                                    </td>
-                                    
-                                    <td >
-                                        <span class="material-symbols-outlined mis">disabled_by_default</span>
-                                    </td>
-                                </tr>
-            
-            </tr>`);
-    }
 
 
-    $(`.pls`).on("click", function () {
+    $(`.insertWork`).on("click", function () {
 
         console.log( ${projectNo} );
-        const data={
-            "projectNo"      : ${projectNo}, 
-        };
-
-        fetch("/workList/table", {
-                method: "POST",
-                headers: {"Content-Type" : "application/json"},
-                body: JSON.stringify(data)
-            }
-        )
+        const data={ "projectNo"      : ${projectNo}, };
+        fetch("/workList/table", { method: "POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data) })
         .then (rep => rep.text())
-        .then (res => {
-            console.log(res);
-            res!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다.") ;
-
-            if(res!=0){
-                plsRw(res);
-                pListUpdate();
-            }
-        })
+        .then (res => { console.log(res); res!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다."); if(res!=0){ window.location.reload(); }})
         .catch(err => console.log(err))
 
 
-
     })
 
 
 
-
-
-
-    // $(".row").sortable({
-    //     start: function (event, ui) {
-    //         console.log("drag : " + (ui.item.index()));
-    //     },
-    //     stop: function (event, ui) {
-    //         console.log("drop : " + (ui.item.index()));
-    //         console.log( $(ui.item));
-
-    //         serial();
-    //         // +추후 비동기 날리기.!!!
-    //     },
-    // });
-
-
-
-
-
-
-
-    //삭제버튼
-    $(document).on(`click`, ".mis", function (e) {
-        
-
-        if(confirm("삭제하시겠습니까??")){
-            console.log( $(this).parents(`tr`).find(`.workNo`).text() );
-            
-            const data={
-                "workNo"      : $(this).parents(`tr`).find(`.workNo`).text(), 
-            };
-        
-            fetch("/workSheet/detail", {
-                    method: "DELETE",
-                    headers: {"Content-Type" : "application/json"},
-                    body: JSON.stringify(data)
-                }
-            )
-            .then (rep => rep.text())
-            .then (res => {
-                alertResult(res); 
-                if(res==1){
-                    $(e.target).parents(`tr`).remove();
-                }
-            })
-            .catch(err => console.log(err))
-        }
-        return;
-    
-        
-    })
-
-
-
-
-
-
-    $('.tgBtn').on("click", function () {
-        $('.tbBox').slideToggle();
-        $(`.tgBtn`).toggleTextRotate90();
-    })
+    $('.tgBtn').on("click", function () { $('.tbBox').slideToggle(); $(this).toggleTextRotate90();})
    
 
 </script>

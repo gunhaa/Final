@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-${wList}
+
+<c:set var="user" value="${loginUser}"/>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -73,9 +75,9 @@ ${wList}
     }
 
 
-    .pls, .mis{
-    color: rgba(0, 0, 0, 0.05);
-
+    .insertWork, .deleteWork{
+        color: rgba(0, 0, 0, 0.05);
+        cursor: pointer;
     }
 
 </style>
@@ -191,7 +193,7 @@ ${wList}
                                 </select>
                             </td>
                             <td>
-                                <span class="material-symbols-outlined mis"> disabled_by_default</span>
+                                <span class="material-symbols-outlined deleteWork"> disabled_by_default</span>
                             </td>
                         </tr>
                     </c:forEach>
@@ -200,7 +202,7 @@ ${wList}
                 <tfoot>
                     <tr>
                         <td class="" colspan="8" >
-                            <span class="material-symbols-outlined pls" >add_circle</span>
+                            <span class="material-symbols-outlined insertWork" >add_circle</span>
                         </td>
                     </tr>
                 </tfoot>
@@ -221,59 +223,30 @@ ${wList}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="/resources/js/work/udf.js"></script>
+<script src="/resources/js/work/common.js"></script>
 <script src="/resources/js/work/tableUpdate.js"></script>
 
 <script>
     const projectNo=${projectNo};
+    const userNo=${loginUser.userNo};
+    const parentElement=`tr`;   //삭제버튼
+    function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
 
 
+    $(`.insertWork`).on("click", function () {
 
-
-
-
-
-
-
-
-    function plsRw(i) {
-        $(`.row`).append(`
-                                                <tr>
-                        <td contenteditable="true"></td>
-                        <td><span><input type="date"></span></td>
-                        <td>
-                            <select name="" id="">
-                                <option value="0">시작 전</option>
-                                <option value="1">진행 중</option>
-                                <option value="2">완료 후</option>
-                            </select>
-                        </td>
-                        <td>
-                            <select name="" id="">
-                                <option value="">낮음</option>
-                                <option value="">중간</option>
-                                <option value="">높음</option>
-                            </select>
-                        </td>
-                        <td contenteditable="true"></td>
-                        <td contenteditable="true"></td>
-                        <td class="mis">
-                            <span class="material-symbols-outlined"> disabled_by_default</span>
-                        </td>
-                    </tr>
-            
-            </tr>`);
-    }
-
-    $(`.pls`).on("click", function () {
-
-        // plsRw(7);
-        // serial();
+        console.log( ${projectNo} );
+        const data={ 
+            "projectNo"   : projectNo, 
+            "workManager" : userNo, 
+        };
+        fetch("/workList/mywork/insert", { method: "POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data) })
+        .then (rep => rep.text())
+        .then (res => { console.log(res); res!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다."); if(res!=0){ window.location.reload(); }})
+        .catch(err => console.log(err))
 
 
     })
-
-
-
 
 
 
@@ -282,46 +255,29 @@ ${wList}
 
 
     //삭제버튼
-    $(document).on(`click`, ".mis", function (e) {
-        $(e.target).parents(`tr`).remove();
-        
-    })
+    // $(document).on(`click`, ".deleteWork", function (e) {
+    //     if(confirm("삭제하시겠습니까??")){
+    //         const workNo=$(this).parents(`tr`).find(`.workNo`).text();
+    //         const data={"workNo"      : workNo, };
+    //         fetch("/workSheet/detail", {
+    //                 method: "DELETE",
+    //                 headers: {"Content-Type" : "application/json"},
+    //                 body: JSON.stringify(data)
+    //             }
+    //         )
+    //         .then (rep => rep.text())
+    //         .then (res => {
+    //             alertResult(res); 
+    //             if(res==1){ $(e.target).parents(`tr`).remove(); }
+    //         })
+    //         .catch(err => console.log(err))
+    //     }
+    //     return;
+    // })
 
 
 
 
-
-
-    //토글버튼
-    $('.tgBtn').on("click", function () {
-
-        if ($(this).siblings(".tbBox").css("display") != "none") {
-            $(this).text("play_circle");
-            $(this).attr("style", `
-      
-        transition-duration: 1s;
-        transform: rotate(810deg) scale(1.3);
-   
-        border-radius: 10px;
-        margin-right: 50px;
-        `);
-            $(this).parent().attr("style", `
-            
-        `);
-        } else {
-            $(this).text("arrow_right");
-            $(this).attr("style", `
-        transition-duration: 1s;
-        transform: rotate(0deg) scale(1);
-        color: black;
-
-        `)
-        }
-
-
-        $('.tbBox').slideToggle();
-
-    })
 
 
 

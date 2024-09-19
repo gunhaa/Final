@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.tlink.project.work.model.dto.Work;
+
 
 public interface WorkRestService {
 
@@ -20,6 +22,10 @@ public interface WorkRestService {
 	int updateWorkPriority(Map<String, Object> data);
 	int updateWorkManager(Map<String, Object> data);
 	int updateParentNo(Map<String, Object> data);
+
+	Work insertStateBy(Map<String, Object> data);
+
+	int insertMywork(Map<String, Object> data);
 
 
 

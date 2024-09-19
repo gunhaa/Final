@@ -1,4 +1,5 @@
 $.fn.extend({ contentEditable : function(){ return this.on("mousedown", function () { $(this).attr("contenteditable", "true"); }).on("focusout", function () { $(this).removeAttr("contenteditable"); }); } });
+$.fn.extend({ pFind : function(a, b){ return this.parents(a).find(b); } });
 $.fn.extend({ toggleHtml : function(a, b){ return this.html(this.html() != a ? a : b); } });
 $.fn.extend({ toggleStyle : function(a, b){ return this.attr("style", (this.attr("style") != a ? a : b) ); } });
 $.fn.extend({ toggleText : function(a, b){ return this.text(this.text() != a ? a : b); } });

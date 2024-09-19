@@ -139,26 +139,35 @@
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="../udf.js"></script>
 <script>
+
+
     $(document).on("mouseover",'.title', function(){ $('.title').contentEditable() } ) ;
     $(document).on("mouseover",'.content', function(){ $('.content').contentEditable() } ) ;
 
     $('.table td').sortable({
         connectWith: '.table td',
-
         cursor: "move",
-
         delay: 150,
         distance: 5,
-
         dropOnEmpty: true,
-       
+        cancel: '[contenteditable]',
 
-        start: function (event, ui) {
-            console.log("drag : " + (ui.item.index()));
+        start:  function(event, ui){ console.log("drag : " + (ui.item.index())); updateOn()},
+        change: function(event, ui){ $(this).attr("style",`background-color: #eee; font-weight: bold;`); },
+        stop:   function(event, ui){ console.log("drop : " + (ui.item.index()));  $(`.table ul`).removeAttr("style"); 
+
+            const workNo=$(ui.item).find(`.workNo`).text();
+            const workState=$(ui.item).parents(`td`).find(`.workStateNavigator`).text();
+            const data={
+                "workNo"         : workNo, 
+                "workState"      : workState, 
+                "projectNo"      : projectNo, 
+            };
+            fetch("/workList/table/update/workState", { method: "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data)}).then (rep => rep.text())
+            .then(res => { res!=0 ?  updateDone()  : alert("수정실패") ; }).catch(err => console.log(err))
+
         },
-        stop: function (event, ui) {
-            console.log("drop : " + (ui.item.index()));
-        }
+
     });
 
 

@@ -48,15 +48,16 @@
                                     <c:if test="${work.workState==0}">
                                         <li>
                                             <span class="workNo" hidden>${work.workNo}</span>
+                                            <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
                                             <span class="workTitle" contenteditable="true">${work.workTitle}</span>
-                                            <span class="material-symbols-outlined dTd">close</span>
+                                            <span class="material-symbols-outlined deleteWork">close</span>
                                         </li>
                                     </c:if>
                                 </c:forEach>
                             </ul>                                
 
 
-                            <span class="pTd">+새로만들기</span>
+                            <span class="insertWork">+새로만들기</span>
                         </td>
                             
                         <td>
@@ -67,15 +68,16 @@
                                         
                                         <li>
                                             <span class="workNo" hidden>${work.workNo}</span>
+                                            <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
                                             <span class="workTitle" contenteditable="true">${work.workTitle}</span>
-                                            <span class="material-symbols-outlined dTd">close</span>
+                                            <span class="material-symbols-outlined deleteWork">close</span>
                                         </li>
                                     </c:if>
                                 </c:forEach>
                             </ul>                                
 
 
-                            <span class="pTd">+새로만들기</span>
+                            <span class="insertWork">+새로만들기</span>
                         </td>
 
                         <td>
@@ -86,15 +88,16 @@
                                         
                                         <li>
                                             <span class="workNo" hidden>${work.workNo}</span>
+                                            <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
                                             <span class="workTitle" contenteditable="true">${work.workTitle}</span>
-                                            <span class="material-symbols-outlined dTd">close</span>
+                                            <span class="material-symbols-outlined deleteWork">close</span>
                                         </li>
                                                                     
                                     </c:if>
                                 </c:forEach>
                             </ul> 
 
-                            <span class="pTd">+새로만들기</span>
+                            <span class="insertWork">+새로만들기</span>
                         </td>
                     </tr>
 
@@ -166,7 +169,7 @@
 
 
 
-    .dTd{
+    .deleteWork{
         position:absolute;
         top: 3px;
         right:3px;
@@ -182,10 +185,13 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="/resources/js/work/udf.js"></script>
+<script src="/resources/js/work/common.js"></script>
 <script src="/resources/js/work/stateByUpdate.js"></script>
 <script>
     const projectNo=${projectNo};
+    const parentElement=`li`; //삭제버튼
 
+    function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
 
     let afterWorkState=-1;
     $('.table ul').sortable({
@@ -201,7 +207,7 @@
         stop:   function(event, ui){ console.log("drop : " + (ui.item.index()));  $(`.table ul`).removeAttr("style"); 
 
             const workNo=$(ui.item).find(`.workNo`).text();
-            const workState=$(ui.item).parents(`td`).find(`.workStateNavigator`).text()
+            const workState=$(ui.item).parents(`td`).find(`.workStateNavigator`).text();
             const data={
                 "workNo"         : workNo, 
                 "workState"      : workState, 
@@ -217,21 +223,41 @@
 
 
     for(let i=0; i<3; i++){
-        $(`.pTd`).eq(i).on("click", function(e){
-            $(this).prev().append(`
-            <li>
-                <span class="material-symbols-outlined dTd">close</span>
-            </li>
-            `);
+        $(`.insertWork`).eq(i).on("click", function(e){
+            const workState=$(this).parents(`td`).find(`.workStateNavigator`).text();
+            console.log( projectNo );
+            console.log( workState );
+            const data={ 
+                "projectNo"      : projectNo, 
+                "workState"      : workState, 
+                };
+            fetch("/workList/stateBy", { method: "POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data) })
+            .then (rep => rep.json())
+            .then (res => { 
+                const work=res;
+                console.log(res); 
+                work.workNo!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다."); 
+                if(work.workNo!=0){ 
+                    
+                $(this).parents(`td`).find(`ul`).append(`<li>
+                        <span class="workNo" hidden>\${work.workNo}</span>
+                        <a href="/workSheet?workNo=\${work.workNo}&projectNo=\${projectNo}"><span class="material-symbols-outlined">draft</span></a>
+                        <span class="workTitle" contenteditable="true">\${work.workTitle}</span>
+                        <span class="material-symbols-outlined deleteWork">close</span>
+                    </li>`)
+
+
+             }})
+            .catch(err => console.log(err))
+
+
         })
-         //추후 -> 비동기 추가
+       
     }
 
-    $(document).on("click", `.dTd` ,function(){
-        $(this).parents('li').remove();
 
-        //추후 -> 비동기 추가
-    })
+    
+
 
 
     

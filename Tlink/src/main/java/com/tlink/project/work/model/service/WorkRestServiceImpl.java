@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tlink.project.work.model.dao.WorkDAO;
 import com.tlink.project.work.model.dao.WorkRestDAO;
+import com.tlink.project.work.model.dto.Work;
 
 @Service
 public class WorkRestServiceImpl implements WorkRestService{
@@ -55,6 +56,22 @@ public class WorkRestServiceImpl implements WorkRestService{
 	public int updateParentNo(Map<String, Object> data) {
 		return dao.updateParentNo(data);
 	}
+	
+	
+	
+	@Override
+	public int insertMywork(Map<String, Object> data) {
+		return dao.insertMywork(data);
+	}
+	
+
+	
+	@Override
+	public Work insertStateBy(Map<String, Object> data) {
+		return dao.insertStateBy(data);
+	}
+
+
 	
 
 	
