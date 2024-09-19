@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>프로젝트 삭제</title>
+    <title>프로젝트 탈퇴</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
     <script src="${pageContext.request.contextPath}/resources/js/myPage/secession.js" defer></script>
 </head>
@@ -17,20 +17,22 @@
     <main>
 
         <section class="container" style="display: flex;">
-            <!-- 우측 -->
             <jsp:include page="/WEB-INF/views/common/side.jsp" />
+            <!-- 우측 -->
             <div class="content">
-                <div class="title">프로젝트 삭제</div>
+                <div class="title">프로젝트 탈퇴</div>
 
                 <!-- 상단 카드 -->
+                <form action="/myPage/secession" method="post" id="secessionFrm">
+
 
                     <div class="card">
                         <div class="terms">
-                            <span>프로젝트 삭제에 관한 약관</span>
-                            <span>1. 현재 프로젝트가 삭제됩니다.</span>
-                            <span>2. 다른 멤버들의 작업도 삭제됩니다.</span>
-                            <span>3. 일정과 첨부파일도 삭제됩니다.</span>
-                            <span>4. 삭제된 프로젝트는 복구가 불가능합니다.</span>
+                            <span>프로젝트 탈퇴에 관한 약관</span>
+                            <span>1. 프로젝트 내 정보가 소실됩니다.</span>
+                            <span>2. 초대를 받아야 재가입 할 수 있습니다.</span>
+                            <span>3. 내가 작업한 내용은 유지됩니다.</span>
+                            <span>4. 프로젝트 매니저라면 직위를 위임하여야 합니다.</span>
                         </div>
                     </div>
 
@@ -46,30 +48,12 @@
                     </div>
 
                     <div class="btn-area">
-                        <button type="button" id="delete-btn">삭제</button>
+                        <button type="submit">탈퇴</button>
                     </div>
+                </form>
             </div>
         </section>
     </main>
-
-    <script>
-        document.getElementById("delete-btn").addEventListener("click", ()=>{
-            if (!agree.checked) {
-                alert('약관에 동의해주세요.');
-                return;
-            }
-
-            // 확인 대화상자
-            if (!confirm("정말로 삭제하시겠습니까?")) {
-                return;
-            }
-
-            const urlSearch = new URLSearchParams(location.search);
-            const projectNo = urlSearch.get('projectNo');
-
-            location.href="deleteProject?projectNo="+projectNo;
-        })
-    </script>
 
 </body>
 

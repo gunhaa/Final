@@ -6,9 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>관리자 페이지</title>
-        <link rel="stylesheet" href="../CSS/sideMenu.css">
-        <link rel="stylesheet" href="../CSS/myPage.css">
+        <title>멤버 관리</title>
         <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
@@ -16,42 +14,47 @@
     </head>
     
     <body>
+        <c:set var="project" value="${map.project}"/>
+        <c:set var="memberList" value="${map.memberList}"/>
     
         <main>
-    
-            <section class="container">
-                <jsp:include page="/WEB-INF/views/myPage/sideMenu.jsp"/>
+
+            <section class="container" style="display: flex;">
+                <jsp:include page="/WEB-INF/views/common/side.jsp" />
                 <!-- 우측 -->
+
+                
                 <div class="content">
-                        <div class="title">관리자 계정</div>
+                        <div class="title">멤버 관리</div>
     
                         <!-- 상단 카드 -->
                         <div class="card">
                             <div class="card-row">
-                                <div class="member-project-title">관리자 목록</div>
+                                <div class="member-project-title">${project.projectTitle}</div>
                             </div>
                             <div class="member-list">
 
-                                <c:forEach var="admin" items="${adminList}">
+                                <c:forEach var="member" items="${memberList}">
                                     <div class="member">
                                         <div class="member-profile">
-                                            <img src="/resources/images/common/user.png" id="image">
+                                            <c:if test="${empty member.profileImg}">
+                                                <img src="/resources/images/common/user.png" id="image">
+                                            </c:if>
+                                            <c:if test="${!empty member.profileImg}">
+                                                <img src="${member.profileImg}" id="image">
+                                            </c:if>
                                         </div>
-                                        <c:if test="${admin.role == 'S'}">
                                             <div class="member-name">
-                                                시스템 관리자
+                                                ${member.userName}
                                             </div>
-                                        </c:if>
-                                        <c:if test="${admin.role == 'A'}">
-                                            <div class="member-name">
-                                                일반 관리자
-                                            </div>
-                                        </c:if>
                                         <div class="member-email">
-                                            ${admin.userEmail}
+                                            ${member.userEmail}
                                         </div>
-                                        <c:if test="${loginUser.userNo != admin.userNo}">
-                                            <i class="fa-solid fa-user-xmark" onclick="location.href='/deleteAdmin?userNo=${admin.userNo}'"></i>
+                                        <c:if test="${project.manager == loginUser.userNo}">
+                                            <c:if test="${loginUser.userNo != member.userNo}">
+                                                <i class="fa-solid fa-user-xmark" 
+                                                onclick="location.href='/project/deleteMember?userNo=${member.userNo}&projectNo=${project.projectNo}'"></i>
+                                            </c:if>
                                         </c:if>
                                     </div>
                                 </c:forEach>
@@ -61,13 +64,15 @@
                         </div>
                         
                         <div class="btn-area">
-                            <button class="modal-btn">관리자 생성</button>
+                            <button class="modal-btn">멤버 초대</button>
                         </div>
                 </div>
             </section>
         </main>
 
-        <jsp:include page="/WEB-INF/views/myPage/admin-modal.jsp"/>
+        <jsp:include page="/WEB-INF/views/project/member-modal.jsp">
+            <jsp:param name="projectNo" value="${project.projectNo}" />
+        </jsp:include>
     
 
     </body>

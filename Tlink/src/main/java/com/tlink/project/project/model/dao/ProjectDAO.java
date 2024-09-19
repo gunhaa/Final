@@ -6,8 +6,10 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tlink.project.project.model.dto.Project;
+import com.tlink.project.user.model.dto.User;
 
 @Repository
 public class ProjectDAO {
@@ -34,8 +36,28 @@ public class ProjectDAO {
 	}
 
 	public int deleteUserProject(int projectNo) {
-		return sqlSession.delete("projectMapper.deleteUserProject", projectNo);
+		int result =  sqlSession.delete("projectMapper.deleteUserProject", projectNo);
+		
+		return result;
 	}
+
+	public Project selectProject(int projectNo) {
+		return sqlSession.selectOne("projectMapper.selectProject", projectNo);
+	}
+
+	public List<User> selectMemberList(int projectNo) {
+		return sqlSession.selectList("projectMapper.selectMemberList", projectNo);
+	}
+
+	public int deleteMember(Map<String, Object> map) {
+		return sqlSession.delete("projectMapper.deleteMember", map);
+	}
+
+	// 이메일로 userNo 조회
+	public int selectUserNo(String userEmail) {
+		return sqlSession.selectOne("projectMapper.selectUserNo", userEmail);
+	}
+
 
 
 }

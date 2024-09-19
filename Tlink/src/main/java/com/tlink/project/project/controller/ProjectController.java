@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlink.project.project.model.dto.Project;
@@ -59,6 +60,14 @@ public class ProjectController {
 		return service.autocomplete(map);
 	}
 	
+	// 검색
+	@GetMapping("/search")
+	@ResponseBody
+	public List<Project> search(String query, @SessionAttribute("loginUser") User loginUser){
+		
+		return null;
+	}
+	
 	// 프로젝트 삭제 페이지
 	@GetMapping("/delete")
 	public String delete() {
@@ -72,22 +81,66 @@ public class ProjectController {
 		
 		int result = service.deleteProject(projectNo);
 		
-		System.out.println(result);
+		ra.addFlashAttribute("message", "프로젝트가 삭제되었습니다.");
+		
+		return "redirect:/myPage/project";
+	}
+	
+	// 멤버 관리
+	@GetMapping("/member")
+	public String member(int projectNo, Model model) {
+		
+		
+		
+		Project project = service.selectProject(projectNo);
+		
+		List<User> memberList = service.selectMemeberList(projectNo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("project", project);
+		map.put("memberList", memberList);
+		
+		model.addAttribute("map", map);
+		
+		return "/project/member";
+	}
+	
+	// 멤버 삭제
+	@GetMapping("/deleteMember")
+	public String deleteMember(int userNo, int projectNo, RedirectAttributes ra) {
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("userNo", userNo);
+		map.put("projectNo", projectNo);
+		
+		int result = service.deleteMember(map);
+		
+		ra.addFlashAttribute("message", "삭제되었습니다.");
+		
+		return "redirect:/project/member?projectNo="+projectNo;
+	}
+	
+	@GetMapping("/accept")
+	public String accept(int projectNo, String userEmail, RedirectAttributes ra) {
+		
+		int result = service.accept(projectNo, userEmail);
 		
 		String message = null;
-		String path = "redirect:";
 		
-		if(result > 0) {
-			message = "프로젝트가 삭제되었습니다.";
-			path += "/myPage/project";
-		}else {
-			message = "프로젝트 삭제 실패";
-			path += "/project/delete";
-		}
+		if(result > 0) message = "프로젝트에 가입되었습니다. 로그인 후 이용해주세요.";
+		else message = "프로젝트 가입 실패";
 		
 		ra.addFlashAttribute("message", message);
 		
-		return path;
+		return "redirect:/";
+	}
+	
+	// 프로젝트 탈퇴 페이지
+	@GetMapping("/secession")
+	public String secession() {
+		return "/project/project-secession";
 	}
 	
 	

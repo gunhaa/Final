@@ -26,10 +26,11 @@
                         ${loginUser.userName}님의 프로젝트
                         <i class="fa-solid fa-file-circle-plus modal-btn"></i>
                     </div>
+
                     <!-- 검색창 -->
                     <div class="search-area">
                         <div class="search-bar">
-                            <div class="fa-solid fa-magnifying-glass glass"></div>
+                            <div class="fa-solid fa-magnifying-glass glass" id="search-btn"></div>
                             <input type="text" name="query" id="query">
                         </div>
                         <div id="autocomplete"></div>

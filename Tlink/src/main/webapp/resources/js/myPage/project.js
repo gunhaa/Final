@@ -45,7 +45,6 @@ query.addEventListener("input", e => {
             
             const queryValue = query.value.trim();
 
-            console.log(queryValue)
                 if (list.length > 0) {
 
                     autocomplete.innerHTML = "";
@@ -86,3 +85,18 @@ document.addEventListener("click", e => {
         autocomplete.style.display = "none";
     }
 });
+
+document.getElementById("search-btn").addEventListener("click", ()=>{
+
+    if (query.value.trim().length == 0) {
+        alert("검색어를 입력해주세요.");
+        return;
+    }
+
+    fetch("/project/search?query="+query.value)
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+    })
+    .catch(e=>console.log(e))
+})
