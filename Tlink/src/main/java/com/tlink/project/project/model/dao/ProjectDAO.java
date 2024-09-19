@@ -58,6 +58,10 @@ public class ProjectDAO {
 		return sqlSession.selectOne("projectMapper.selectUserNo", userEmail);
 	}
 
+	public int changeManager(Map<String, Object> map) {
+		return sqlSession.update("projectMapper.changeManager", map);
+	}
+
 
 
 }

@@ -21,6 +21,8 @@ public interface ProjectService {
 	int deleteMember(Map<String, Object> map);
 
 	int accept(int projectNo, String userEmail);
+
+	int changeManager(Map<String, Object> map);
 	
 
 }

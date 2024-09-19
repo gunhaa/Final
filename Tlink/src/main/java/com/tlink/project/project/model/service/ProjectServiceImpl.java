@@ -100,5 +100,11 @@ public class ProjectServiceImpl implements ProjectService{
 		return result;
 	}
 
+	// 매니저 위임
+	@Override
+	public int changeManager(Map<String, Object> map) {
+		return dao.changeManager(map);
+	}
+
 
 }

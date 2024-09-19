@@ -112,6 +112,12 @@
 		SELECT USER_NO FROM "USER"
 		WHERE USER_EMAIL = #{userEmail}
 	</select>
+	
+	<update id="changeManager">
+		UPDATE "PROJECT" SET
+		"MANAGER" = #{manager}
+		WHERE PROJECT_NO = #{projectNo}
+	</update>
 
 
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -139,8 +140,53 @@ public class ProjectController {
 	
 	// 프로젝트 탈퇴 페이지
 	@GetMapping("/secession")
-	public String secession() {
+	public String secession(int projectNo, Model model) {
+		
+		Project project = service.selectProject(projectNo);
+		
+		List<User> memberList = service.selectMemeberList(projectNo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		
+		map.put("project", project);
+		map.put("memberList", memberList);
+		
+		model.addAttribute("map", map);
+		
 		return "/project/project-secession";
+	}
+	
+	// 프로젝트 탈퇴
+	@PostMapping("/secession")
+	public String secession(int projectNo, @RequestParam(required = false) Integer userNo, @SessionAttribute("loginUser") User loginUser) {
+		
+		int result = 0;
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("projectNo", projectNo);
+		map.put("manager", userNo);
+		map.put("userNo", loginUser.getUserNo());
+		
+		if(userNo != null) {
+			result = service.changeManager(map);
+		}
+		
+		result = service.deleteMember(map);
+		
+		String message = null;
+		String path = "redirect:";
+		
+		if(result > 0) {
+			message = "탈퇴되었습니다.";
+			path += "/myPage/project";
+		}else {
+			message = "탈퇴 실패";
+			path += "secession?projectNo="+projectNo;
+		}
+		
+		return path;
 	}
 	
 	

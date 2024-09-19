@@ -9,12 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로젝트 탈퇴</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/myPage/myPage.css">
-    <script src="${pageContext.request.contextPath}/resources/js/myPage/secession.js" defer></script>
 </head>
 
 <body>
 
     <main>
+        <c:set var="project" value="${map.project}"/>
+        <c:set var="memberList" value="${map.memberList}"/>
 
         <section class="container" style="display: flex;">
             <jsp:include page="/WEB-INF/views/common/side.jsp" />
@@ -23,7 +24,30 @@
                 <div class="title">프로젝트 탈퇴</div>
 
                 <!-- 상단 카드 -->
-                <form action="/myPage/secession" method="post" id="secessionFrm">
+                <form action="/project/secession" method="post" id="secessionFrm">
+
+                    <input type="hidden" name="projectNo" value="${project.projectNo}">
+
+                    <!-- 프로젝트 매니저에게만 보이도록 -->
+                    <c:if test="${loginUser.userNo == project.manager}">
+                        <div class="card">
+                            <div class="card-row">
+                                <div class="agree">
+                                    프로젝트 매니저를 위임해주세요.
+                                </div>
+                                <div>
+                                    <select name="userNo" id="userNo">
+                                        <c:forEach var="member" items="${memberList}">
+                                            <!-- 매니저 제외하고 보이도록 -->
+                                            <c:if test="${project.manager != member.userNo}">
+                                                <option value="${member.userNo}">${member.userName}</option>
+                                            </c:if>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
 
 
                     <div class="card">
@@ -54,6 +78,23 @@
             </div>
         </section>
     </main>
+
+    <script>
+        document.getElementById("secessionFrm").addEventListener("submit", e => {
+            // 약관 동의 체크
+            if (!agree.checked) {
+                alert('약관에 동의해주세요.');
+                e.preventDefault(); // 제출 방지
+                return;
+            }
+
+            // 확인 대화상자
+            if (!confirm("정말로 탈퇴하시겠습니까?")) {
+                e.preventDefault(); // 제출 방지
+                return;
+            }
+        });
+    </script>
 
 </body>
 
