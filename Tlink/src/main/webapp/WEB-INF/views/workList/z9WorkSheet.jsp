@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:set var="user" value="${loginUser}"/>
+${work}
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,8 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="/resources/css/work/common.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 </head>
 
@@ -24,8 +29,8 @@
                 <div>
                     <table style="border-collapse: collapse;">
                         <caption>
-                            <span hidden class="workNo">1</span>
-                            <h1 class="workTitle" contenteditable="true">작업제목</h1>
+                            <span class="workNo" hidden>${work.workNo}</span>
+                            <h1 class="workTitle" contenteditable="true">${work.workTitle}</h1>
                         </caption>
                     </table>
                 </div>
@@ -41,11 +46,12 @@
                                 <td>
                                     <span class="material-symbols-outlined">person</span>
                                     <span>담당자</span>
-
                                 </td>
                                 <td>
-                                    <select name="" id="" class="putBox workMnNo">
-                                        <option value="10" checked>김길동</option>
+                                    <select name="" id="" class="putBox workMnNo workManager">
+                                            <c:forEach var="user" items="${mList}">
+                                                <option value="${user.userNo}" <c:if test="${work.workManager==user.userNo}">selected</c:if> >${user.userName}</option>
+                                            </c:forEach>
                                     </select>
                                 </td>
                             </tr>
@@ -55,10 +61,10 @@
                                     <span>상태</span>
                                 </td>
                                 <td>
-                                    <select class="putBox workPrSt">
-                                        <option value="0" checked>시작 전</option>
-                                        <option value="1">진행 중</option>
-                                        <option value="2">완료 후</option>
+                                    <select class="putBox workPrSt workState">
+                                        <option value="0" <c:if test="${work.workState==0}">selected</c:if> >시작 전</option>
+                                        <option value="1" <c:if test="${work.workState==1}">selected</c:if> >진행 중</option>
+                                        <option value="2" <c:if test="${work.workState==2}">selected</c:if> >완료 후</option>
                                     </select>
                                 </td>
                             </tr>
@@ -67,7 +73,9 @@
                                     <span class="material-symbols-outlined">calendar_today</span>
                                     <span>마감일</span>
                                 </td>
-                                <td><input class="putBox dueDt" type="date"></td>
+                                <td>
+                                    <input class="putBox dueDt dueDate" type="date" value="${work.dueDate}">
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -75,7 +83,7 @@
                                     <span>우선순위</span>
                                 </td>
                                 <td>
-                                    <select class="putBox workPr">
+                                    <select class="putBox workPr workPriority">
                                         <option value="0" checked>낮음</option>
                                         <option value="1">중간</option>
                                         <option value="2">높음</option>
@@ -90,7 +98,7 @@
                                 </td>
                                 <td>
                                     <select class="putBox projectNo">
-                                        <option value="1">프로젝트1</option>
+                                        <option value="${work.projectNo}">${work.projectName}</option>
                                     </select>
                                 </td>
                             </tr>
@@ -102,8 +110,12 @@
                                 </td>
                                 <td>
                                     <select class="putBox parentNo">
-                                        <option value="0" selected>없음</option>
-                                        <option value="11">작업11</option>
+                                        <option value=""                     <c:if test="${work.parentNo==0}">selected</c:if> >없음</option>
+                                        <c:forEach var="parentWork" items="${pList}">
+                                            <c:if test="${parentWork.workNo!=work.workNo}">
+                                                <option value="${parentWork.workNo}" <c:if test="${work.parentNo==parentWork.workNo}">selected</c:if> >${parentWork.workTitle}</option>
+                                            </c:if>
+                                        </c:forEach>
                                     </select>
                                 </td>
                             </tr>
@@ -157,18 +169,7 @@
                             </tr>
                             <tr>
                                 <td class="putText workContent" colspan="2" contenteditable="true">
-                                    <ul>
-                                        <li>목표</li>
-                                        <ul>
-                                            <li>교육이 가장 필요한 프로덕트 라인 이해</li>
-                                            <li>이미 활용도가 높은 프로덕트 라인 우선순위 낮추기</li>
-                                        </ul>
-                                        <li>목표가 아닌 항목:</li>
-                                        <ul>
-                                            <li>핵심 프로덕트 UI 변경 권장</li>
-                                            <li>프로덕트 로드맵 변경 권장</li>
-                                        </ul>
-                                    </ul>
+                                    ${work.workContent}
                                 </td>
                             </tr>
                         </tfoot>
@@ -230,13 +231,6 @@
 </html>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
-
-    [contenteditable] {
-        outline: none;
-    }
 
     [contenteditable="true"]:empty:before {
         content: attr(placeholder);
@@ -297,13 +291,9 @@
 <script src="/resources/js/work/udf.js"></script>
 
 <script>
-    function alertResult(res){ res!=0 ? alert("성공하였습니다.") : alert("실패하였습니다.") }
+  
 
     $(`.dueDt`).val(new Date().toISOString().substring(0, 10));
-
-
-    // $(`.tgC`).draggable();
-
 
     const obj={arrStyle:[`transition-duration: 100ms; transform: rotateY(360deg);`,`transition-duration: 100ms; transform: rotateY(0deg);`], arr:[`thead`, `tbody`, `tfoot`]}
     for (let i = 0; i < 3; i++){ $($('.tgB')[i]).on(`click`, function () { $(this).toggleText(`folder`,`description`).toggleStyle(obj.arrStyle[0], obj.arrStyle[1]); $(`\${obj.arr[i]}`).parents("div").toggle("100");}) } //토글버튼
@@ -322,15 +312,10 @@
 
 
 
-
 </script>
-
-
-
-
-
 <script>
-
+    //삽입*수정*삭제 
+    function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
 
     function updateWork(){
         const data={
@@ -358,31 +343,39 @@
         .then (res => {alertResult(res); })
         .catch(err => console.log(err))
     }
-</script>
-<script>
+
 
     function deleteWork(){
-        const data={
-            "workNo"      : $(`.workNo`).text(), 
-        };
+        if(confirm("삭제하시겠습니까??")){
+            const data={
+                "workNo"      : $(`.workNo`).text(), 
+            };
+        
+            fetch("/workSheet/detail", {
+                    method: "DELETE",
+                    headers: {"Content-Type" : "application/json"},
+                    body: JSON.stringify(data)
+                }
+            )
+            .then (rep => rep.text())
+            .then (res => {
+                alertResult(res); 
 
-        fetch("/workSheet/detail", {
-                method: "DELETE",
-                headers: {"Content-Type" : "application/json"},
-                body: JSON.stringify(data)
-            }
-        )
-        .then (rep => rep.text())
-        .then (res => {alertResult(res); })
-        .catch(err => console.log(err))
+                const url = new URL(window.location.href);
+                const params = new URLSearchParams(url.search);
+                const workNo = params.get('workNo');
+                const projectNo = params.get('projectNo');
+
+                location="/workList/table?projectNo="+projectNo;
+            })
+            .catch(err => console.log(err))
+        }
+        return;
+        
     }
-</script>
-<script>
 
 
-
-
-    $(`.saveBtn`).on("click", function(e){ updateWork(); })
+    $(`.saveBtn`)  .on("click", function(e){ updateWork(); })
     $(`.deleteBtn`).on("click", function(e){ deleteWork(); })
 
 
@@ -391,5 +384,5 @@
     $(`.commentWork`).on("click", function(){
       alert(1);  
     })
-   
 </script>
+

@@ -1,12 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:set var="path" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 
     <section>
       <ul class="chartList">
-        <li><a href="/workList/workChart">Bar Chart</a></li>
-        <li><a href="/workList/pieChart">Pie Chart</a></li>
-        <li><a href="/workList/lineChart">Line Chart</a></li>
+        <li><a href="/workList/workChart?projectNo=${projectNo}"
+                <c:if test="${path=='/workList/workChart'}"> style="background-color: #3B5998; color:white;" </c:if> 
+        >Bar Chart</a></li>
+        <li><a href="/workList/pieChart?projectNo=${projectNo}"
+                <c:if test="${path=='/workList/pieChart'}"> style="background-color: #3B5998; color:white;" </c:if> 
+        >Pie Chart</a></li>
+        <li><a href="/workList/lineChart?projectNo=${projectNo}"
+                <c:if test="${path=='/workList/lineChart'}"> style="background-color: #3B5998; color:white;" </c:if> 
+        >Line Chart</a></li>
       </ul>
     </section>
 

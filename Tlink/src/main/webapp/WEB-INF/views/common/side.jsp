@@ -1,6 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
+
+
+
+<c:forEach var="project" items="${loginUser.projectList}">
+  <c:if test="${project.projectNo==projectNo}">
+     <c:set var="projectTitle" value="${project.projectTitle}"/>
+  </c:if>
+</c:forEach>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,10 +32,18 @@
         <div class="asideTop">
             <ul>
                 <li>
-                    <div><a href="#">1</a></div>
+                    <div>
+
+                        <c:if test="${loginUser.profileImg==null}">
+                            <a href="#"><img src="/resources/images/loofy1.jpg"/></a>
+                        </c:if>
+                        <c:if test="${loginUser.profileImg!=null}">
+                            <a href="#"><img src="${loginUser.profileImg}"/></a>
+                        </c:if>
+                    </div>
                 </li>
                 <li>
-
+					${projectTitle}
                 </li>
             </ul>
         </div>
@@ -49,8 +69,8 @@
             </div>
             <div id="tab1">
                 <ul>
-                    <li style=""><a href="/workList/gantChart">워크스페이스</a></li>
-                    <li><a href="/todoList">해야할 일</a></li>
+                    <li style=""><a href="/workList/gantChart?projectNo=${projectNo}">워크스페이스</a></li>
+                    <li><a href="/todoList?projectNo=${projectNo}">해야할 일</a></li>
                     <li><a href="">캘린더</a></li>
                     <li><a href="">화상회의</a></li>
                     <li></li>
@@ -97,13 +117,20 @@
         margin: 0;
         padding: 0;
     }
-    
+    .asideTop div{
+        overflow: hidden;
+    }
+
+    .asideTop img{
+        width: auto;
+        height: 70px;
+    }
+
 </style>
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js"
-    integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script>
 
     function cen() { return `display:flex; justify-content: center; align-items: center;`; } //중앙정렬 함수
@@ -127,8 +154,10 @@
 
 
     //하단*좌측
+    //클릭시 변경부분
+    //********************************************************************
     $('.sort').children().eq(0).find("a").on("click", function () {
-
+        
         $('.sort').find("li").removeAttr("style");
         $('.sort').find("li").attr("style", `
                 padding: 10px;
@@ -150,6 +179,11 @@
         );
 
     })
+    //********************************************************************
+
+
+
+
 
 
 
@@ -207,6 +241,7 @@
         $(`.asideTop li`).eq(1).attr(`style`)
         + `
             color:white;
+            min-width: 200px;
             `
         + cen()
     );

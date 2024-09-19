@@ -1,11 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="/resources/css/work/common.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
@@ -35,30 +42,71 @@
                     </tr>
                     <tr>
                         <td>
+                            <span class="workStateNavigator" hidden>0</span>
                             <ul>
-                                <li>프로젝트 제안서 작성<span class="material-symbols-outlined dTd">close</span></li>
-                            </ul>
-                            <span class="pTd">+새로만들기</span>
+                                <c:forEach var="work" items="${wList}">
+                                    <c:if test="${work.workState==0}">
+                                        <li>
+                                            <span class="workNo" hidden>${work.workNo}</span>
+                                            <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
+                                            <span class="workTitle" contenteditable="true">${work.workTitle}</span>
+                                            <span class="material-symbols-outlined deleteWork">close</span>
+                                        </li>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>                                
+
+
+                            <span class="insertWork">+새로만들기</span>
                         </td>
                             
                         <td>
+                            <span class="workStateNavigator" hidden>1</span>
                             <ul>
-                                <li>킥오프 회의 일정 잡기<span class="material-symbols-outlined dTd">close</span></li>
-                            </ul>
-                            <span class="pTd">+새로만들기</span>
+                                <c:forEach var="work" items="${wList}">
+                                    <c:if test="${work.workState==1}">
+                                        
+                                        <li>
+                                            <span class="workNo" hidden>${work.workNo}</span>
+                                            <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
+                                            <span class="workTitle" contenteditable="true">${work.workTitle}</span>
+                                            <span class="material-symbols-outlined deleteWork">close</span>
+                                        </li>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>                                
+
+
+                            <span class="insertWork">+새로만들기</span>
                         </td>
 
                         <td>
+                            <span class="workStateNavigator" hidden>2</span>
                             <ul>
-                                <li>유스케이스<span class="material-symbols-outlined dTd">close</span></li>
-                            </ul>
-                            <span class="pTd">+새로만들기</span>
+                                <c:forEach var="work" items="${wList}">
+                                    <c:if test="${work.workState==2}">
+                                        
+                                        <li>
+                                            <span class="workNo" hidden>${work.workNo}</span>
+                                            <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
+                                            <span class="workTitle" contenteditable="true">${work.workTitle}</span>
+                                            <span class="material-symbols-outlined deleteWork">close</span>
+                                        </li>
+                                                                    
+                                    </c:if>
+                                </c:forEach>
+                            </ul> 
+
+                            <span class="insertWork">+새로만들기</span>
                         </td>
                     </tr>
 
 
                 </tbody>
             </table>
+
+
+            <span class="updateNavigator" hidden></span>
 
 
         </div>
@@ -73,9 +121,6 @@
 
 
 <style>
-    *{
-        box-sizing: border-box;
-    }
 
     .table{
         /* border-collapse: collapse; */
@@ -99,7 +144,7 @@
     }
 
     .table ul{
-        padding-left: 0px;
+        padding: 10px;
         list-style-type: none;
         display: flex;
         align-items: flex-start;
@@ -111,7 +156,6 @@
     }
     .table li{
         padding: 5px;
-        /* border:1px solid black; */
         border-radius: 3px;
         height: 35px;
         width: 300px;
@@ -125,13 +169,14 @@
 
 
 
-    .dTd{
+    .deleteWork{
         position:absolute;
         top: 3px;
         right:3px;
         font-size: 15px;
 
         color:#eee;
+
     }
 
 
@@ -139,48 +184,80 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
-
+<script src="/resources/js/work/udf.js"></script>
+<script src="/resources/js/work/common.js"></script>
+<script src="/resources/js/work/stateByUpdate.js"></script>
 <script>
+    const projectNo=${projectNo};
+    const parentElement=`li`; //삭제버튼
 
-    // $('.table ul').sortable();
+    function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
+
+    let afterWorkState=-1;
     $('.table ul').sortable({
         connectWith: '.table ul',
-
         cursor: "move",
-
         delay: 150,
         distance: 5,
-
         dropOnEmpty: true,
+        cancel: '[contenteditable]',
 
+        start:  function(event, ui){ console.log("drag : " + (ui.item.index())); updateOn()},
+        change: function(event, ui){ $(this).attr("style",`background-color: #eee; font-weight: bold;`); },
+        stop:   function(event, ui){ console.log("drop : " + (ui.item.index()));  $(`.table ul`).removeAttr("style"); 
 
+            const workNo=$(ui.item).find(`.workNo`).text();
+            const workState=$(ui.item).parents(`td`).find(`.workStateNavigator`).text();
+            const data={
+                "workNo"         : workNo, 
+                "workState"      : workState, 
+                "projectNo"      : projectNo, 
+            };
+            fetch("/workList/table/update/workState", { method: "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data)}).then (rep => rep.text())
+            .then(res => { res!=0 ?  updateDone()  : alert("수정실패") ; }).catch(err => console.log(err))
 
-
-
-        start: function (event, ui) {
-            console.log("drag : " + (ui.item.index()));
         },
-        stop: function (event, ui) {
-            console.log("drop : " + (ui.item.index()));
-        }
+
+
     });
 
+
     for(let i=0; i<3; i++){
-        $(`.pTd`).eq(i).on("click", function(e){
-            $(this).prev().append(`
-            <li>
-                <span class="material-symbols-outlined dTd">close</span>
-            </li>
-            `);
+        $(`.insertWork`).eq(i).on("click", function(e){
+            const workState=$(this).parents(`td`).find(`.workStateNavigator`).text();
+            console.log( projectNo );
+            console.log( workState );
+            const data={ 
+                "projectNo"      : projectNo, 
+                "workState"      : workState, 
+                };
+            fetch("/workList/stateBy", { method: "POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data) })
+            .then (rep => rep.json())
+            .then (res => { 
+                const work=res;
+                console.log(res); 
+                work.workNo!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다."); 
+                if(work.workNo!=0){ 
+                    
+                $(this).parents(`td`).find(`ul`).append(`<li>
+                        <span class="workNo" hidden>\${work.workNo}</span>
+                        <a href="/workSheet?workNo=\${work.workNo}&projectNo=\${projectNo}"><span class="material-symbols-outlined">draft</span></a>
+                        <span class="workTitle" contenteditable="true">\${work.workTitle}</span>
+                        <span class="material-symbols-outlined deleteWork">close</span>
+                    </li>`)
+
+
+             }})
+            .catch(err => console.log(err))
+
+
         })
-         //추후 -> 비동기 추가
+       
     }
 
-    $(document).on("click", `.dTd` ,function(){
-        $(this).parents('li').remove();
 
-        //추후 -> 비동기 추가
-    })
+    
+
 
 
     

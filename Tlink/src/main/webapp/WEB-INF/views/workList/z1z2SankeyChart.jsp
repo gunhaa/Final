@@ -1,13 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
+${wList}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>    <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>Document</title>    
+    
+    <link rel="stylesheet" href="/resources/css/work/common.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 </head>
 
@@ -29,49 +35,7 @@
 
 
 
-              <section class="updateChart">
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>
-                                <span class="material-symbols-outlined">description</span>
-                                <span>작업이름</span>
-                            </th>
-                            <th>
-                                <span class="material-symbols-outlined">calendar_today</span>
-                                <span>마감일</span>
-                            </th>
-                            <th>
-                              <span class="material-symbols-outlined">arrow_outward</span>
-                              <span>상위작업</span>
-                            </th>
-                        </tr>
-  
-                        <tr>
-                            <td class="workName"></td>
-                            <td><span><input class="dueDate" type="date" value="2018-12-31"></span></td>
-  
-                            <td class="workManager">
-                                <select name="" id="">
-                                    <option value="">작업1</option>
-                                    <option value="">작업2</option>
-                                    <option value="">작업3</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                          <td colspan="5">&#8203;</td>
-                        </tr>
-                        <tr>
-                          <td colspan="5">
-                            <button>수정</button>
-                            <button>취소</button>
-                          </td>
-                        </tr>
-                    </tbody>
-                </table>
-  
-              </section>
+
 
 
             </section>
@@ -101,35 +65,6 @@
 </html>
 
 <style>
-  *{box-sizing: border-box;}
-  [contenteditable] { outline: none; }
-
-  .updateChart{
-    display: none;
-    width: 320px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-left:10px solid #ccc;
-    text-align: center;
-  }
-  .updateChart th{
-    border-bottom: 3px solid #ccc;
-  }
-
-  .updateChart select, .updateChart input{
-    border:none;
-    background-color: transparent;
-  }
-
-  .updateChart button{
-    border: none;
-    font-weight: bold;
-    background-color: white;
-    padding: 5px;
-  }
-  .updateChart button:hover{
-    filter: invert(10%);
-  }
-
 
 
 </style>
