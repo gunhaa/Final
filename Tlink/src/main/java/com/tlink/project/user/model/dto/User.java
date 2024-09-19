@@ -25,6 +25,5 @@ public class User {
     private String userDeleteFlag;   // 탈퇴여부 
     private String role;             // 역할
     
-    private List<Project> projectList;
 	
 }

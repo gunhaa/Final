@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tlink.project.chatting.model.dao.ChattingDAO;
 import com.tlink.project.chatting.model.dto.Chat;
+import com.tlink.project.chatting.model.dto.MyObjectType;
 import com.tlink.project.chatting.model.dto.videoConference;
 
 @Service
@@ -70,6 +71,12 @@ public class VideoServiceImpl implements VideoService {
 	@Override
 	public int updateBookedChatStatusY(String projectNo, String memberNo) {
 		return dao.updateBookedChatStatusY(projectNo, memberNo);
+	}
+
+
+	@Override
+	public String whatIsMyName(MyObjectType data) {
+		return dao.whatIsMyName(data);
 	}
 
 

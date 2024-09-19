@@ -135,6 +135,45 @@ public class MainController {
 		return service.selectDupEmail(email);
 	}
 	
+	// 관리자 생성
+	@PostMapping("/createAdmin")
+	public String createAdmin(User inputUser, RedirectAttributes ra) {
+		
+		int result = service.createAdmin(inputUser);
+		
+		String message = "";
+		
+		if(result > 0) { // 가입 성공
+			message = "관리자가 생성되었습니다.";
+			
+		}else { // 가입 실패
+			message = "생성 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:/myPage/systemUser";
+	}
+	
+	@GetMapping("/deleteAdmin")
+	public String deleteAdmin(int userNo, RedirectAttributes ra) {
+		
+		int result = service.deleteAdmin(userNo);
+		
+		String message = "";
+		
+		if(result > 0) { // 가입 성공
+			message = "관리자가 삭제 되었습니다.";
+			
+		}else { // 가입 실패
+			message = "삭제 실패";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:/myPage/systemUser";
+	}
+	
 	
 	
 	

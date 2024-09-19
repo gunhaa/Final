@@ -1,19 +1,24 @@
 package com.tlink.project.chatting.websocket;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tlink.project.chatting.common.Schduling;
 import com.tlink.project.chatting.common.Util;
@@ -32,6 +37,7 @@ public class VideoConference extends TextWebSocketHandler {
 	private static final String MSG_TYPE_NEEDMEMBERKEY = "needMemberKey";
 	private static final String MSG_TYPE_ADDSESSION = "addSession";
 	private static final String MSG_TYPE_BOOKED = "booked";
+	private static final String MSG_TYPE_WHITEBOARD = "whiteBoard";
 	private static final String MSG_TYPE_EXIT = "exit";
 
 	private Logger logger = LoggerFactory.getLogger(VideoConference.class);
@@ -42,8 +48,13 @@ public class VideoConference extends TextWebSocketHandler {
 	@Autowired
 	private VideoService service;
 	
-	// 프로젝트번호 저장용 map
+	// 프로젝트번호 저장용 + 멤버 map
 	private Map<String, Map<String, WebSocketSession>> projectMap = new ConcurrentHashMap<String, Map<String,WebSocketSession>>();
+	
+	// 프로젝트 번호 + whiteBoard json 저장용 map
+	@Autowired
+	private Map<String, String> whiteBoardMap;
+//	private Map<String, String> whiteBoardMap = new ConcurrentHashMap<String, String>();
 	
 
 	@Override
@@ -64,6 +75,7 @@ public class VideoConference extends TextWebSocketHandler {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		MyObjectType obj = objectMapper.readValue(message.getPayload(), MyObjectType.class);
+		
 		
 		
 		if (obj.getType().equals(MSG_TYPE_ADDSESSION)) {
@@ -230,6 +242,33 @@ public class VideoConference extends TextWebSocketHandler {
 			}
 			
 		}
+		
+		if(obj.getType().equals(MSG_TYPE_WHITEBOARD)) {
+			logger.info("whiteBoard 실행");
+			logger.info("보내는 내용 : {}" , obj.getDraw());
+//			String draw = whiteBoardMap.get(obj.getProjectNo());
+//			if(draw == null) {
+//				draw = "";
+//			}
+//			draw += obj.getDraw();
+			// 전역 변수 whiteboardmap에 정보를 누적시킨다.
+//	        whiteBoardMap.put(obj.getProjectNo(), draw);
+			
+			appendDrawData(obj.getProjectNo(), obj.getDraw());
+			
+	        // 보내는 map의 정보를 다시 작성한다.
+			Map<String, Object> msg = new HashMap<>();
+			
+			msg.put("type", MSG_TYPE_WHITEBOARD);
+			msg.put(obj.getProjectNo(), obj.getDraw());
+			msg.put("memberNo", obj.getMemberNo());	        
+	        
+			
+			String jsonMsg = objectMapper.writeValueAsString(msg);
+	        logger.info("jsonMsg : {} ", jsonMsg);
+			Util.broadCasting(project,jsonMsg);
+	        
+		}
 
 	}
 
@@ -273,6 +312,9 @@ public class VideoConference extends TextWebSocketHandler {
 	                projectMap.remove(projectNo);
 	                exitProjectNo = ""; 
 	                logger.info("프로젝트 {}에서 세션이 모두 제거되어 프로젝트 삭제됨", projectNo);
+	                
+	                whiteBoardMap.remove(projectNo);
+	                logger.info("프로젝트 {}에서 세션이 모두 제거되어 whiteBoard 삭제됨", projectNo);
 	            }
 	            break; 
 	        }
@@ -303,12 +345,55 @@ public class VideoConference extends TextWebSocketHandler {
 				
 				Util.broadCasting(projectSessions,jsonMsg);
 
-				
 			}
 			
 		});
 		
 
 	}
+	
+	
+    public final void appendDrawData(String projectNo, String newDraw) {
+        try {
+            // 기존 JSON 데이터를 가져와서 리스트로 변환
+            ObjectMapper objectMapper = new ObjectMapper();
+            if(whiteBoardMap ==null) {
+            	logger.info("-----------------------되면 안되는거 실행-------------------------------");
+            	whiteBoardMap.put(projectNo, "");
+            }
+            String existingDrawJson = whiteBoardMap.get(projectNo);
+            List<Map<String, Object>> drawList;
+
+            if (existingDrawJson == null || existingDrawJson.isEmpty()) {
+                drawList = new ArrayList<>();
+            } else {
+                try {
+                    drawList = objectMapper.readValue(existingDrawJson, new TypeReference<List<Map<String, Object>>>() {});
+                } catch (IOException e) {
+                    logger.error("기존 JSON 파싱 오류: {}", existingDrawJson, e);
+                    drawList = new ArrayList<>(); // 파싱 오류 발생 시 빈 리스트로 초기화
+                }
+            }
+
+            // 새로운 JSON 데이터를 리스트로 변환
+            List<Map<String, Object>> newDrawList;
+            try {
+                newDrawList = objectMapper.readValue(newDraw, new TypeReference<List<Map<String, Object>>>() {});
+            } catch (IOException e) {
+                logger.error("새로운 JSON 파싱 오류: {}", newDraw, e);
+                newDrawList = new ArrayList<>(); // 파싱 오류 발생 시 빈 리스트로 초기화
+            }
+
+            // 새로운 데이터를 기존 리스트에 추가
+            drawList.addAll(newDrawList);
+
+            // 업데이트된 리스트를 JSON 문자열로 변환하여 저장
+            String updatedDrawJson = objectMapper.writeValueAsString(drawList);
+            whiteBoardMap.put(projectNo, updatedDrawJson);
+
+        } catch (Exception e) {
+            logger.error("appendDrawData 오류", e);
+        }
+    }
 
 }

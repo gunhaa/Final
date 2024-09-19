@@ -121,7 +121,8 @@ button {
 .search-area {
     display: flex;
     height: 150px;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 .search-area>.search-bar {
@@ -146,6 +147,44 @@ button {
     margin-left: 30px;
 }
 
+/* 자동완성 */
+.match{
+    color: #643BAB;
+    font-weight: bold;
+}
+
+#autocomplete{
+    height: 0px;
+}
+
+#autocomplete > ul{
+    position: relative;
+    z-index: 2000;
+    background-color: white; 
+    border: 1px solid #ccc;
+    border-top: none;
+    width: 450px;
+    padding: 0;
+}
+
+#autocomplete > ul > li{
+    list-style-type: none;
+    padding: 10px;
+    cursor: pointer;
+    
+}
+
+#autocomplete > ul > li:hover{
+    background-color: #643BAB;
+    color: white;
+}    
+
+#autocomplete > ul > li:hover .match{
+    color: white;
+}
+
+
+/* 프로젝트 */
 .projects {
     height: 300px;
     width: 1000px;
@@ -294,7 +333,7 @@ button {
     color: gray;
 }
 
-.fa-user-slash{
+.fa-user-xmark{
     align-content: center;
     font-size: 14px;
     color: #643BAB;
@@ -334,6 +373,8 @@ select{
 .confirm{
     color: forestgreen;
 }
+
+
 
 
 

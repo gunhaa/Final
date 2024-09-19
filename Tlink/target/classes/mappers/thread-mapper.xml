@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chatMapper">
+
+	<resultMap type="Chat" id="chat_rm">
+		<id property="chatNo" column="CHAT_NO"/>
+		<result property="threadNo" column="THREAD_NO"/>
+		<result property="chatMessage" column="CHAT_CONTENT"/>
+		<result property="chatCreateDate" column="C_CREATE_DATE"/>
+		<result property="chatUpdateDAte" column="C_UPDATE_DATE"/>
+		
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="memberNickname" column="MEMBER_NICKNAME"/>
+		<result property="profileImage" column="PROFILE_IMG"/>
+		
+		<collection property="fileList"
+					select="selectFileList"
+					column="CHAT_NO"
+					javaType="java.util.ArrayList"
+					ofType="ChatFile">
+		</collection>
+		
+		<collection property="commentList"
+					select="selectCommentList"
+					column="CHAT_NO"
+					javaType="java.util.ArrayList"
+					ofType="ChatComment">
+		</collection>
+					
+
+		
+	</resultMap>
+	
+	<select id="selectFileList" resultMap="chatFile_rm">
+		SELECT * FROM FILES
+		WHERE TRAGET_NO=#{targetNo}
+		AND FILE_CODE = 2
+	</select>
+</mapper>

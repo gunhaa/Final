@@ -46,7 +46,7 @@
                             <c:if test="${loginUser.role != 'U'}">
                                 <div class="menu">공지사항</div>
                                 <c:if test="${loginUser.role == 'S'}">
-                                    <div class="menu">관리자 계정</div>
+                                    <div class="menu" onclick="location.href='systemUser'">관리자 계정</div>
                                 </c:if>
                                 <div class="menu" onclick="location.href='secession'">회원 탈퇴</div>
                             </c:if>

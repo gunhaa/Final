@@ -18,6 +18,7 @@ let display = true;
 let otherMemberNoSet = new Set();
 let peerConnectionMap = new Map();
 let state = "camera";
+let whiteBoard;
 const changeTitleBtn = document.querySelector("#changeTitle-btn");
 const bookedMessageBtn = document.querySelector(".chat-booked");
 const cameraBtn = document.querySelector("#video-btn");
@@ -31,6 +32,7 @@ const option2 = document.querySelector(".options2");
 const myVideo = document.querySelector("#video-container");
 const chatInput = document.querySelector(".chat-input");
 const chatBtn = document.querySelector(".chat-send");
+const boardBtn = document.querySelector("#board-btn");
 changeTitleBtn.addEventListener("click", e => {
     inputTitleModal("주제 변경", "이 화상회의의 주제는 무엇인가요?");
 });
@@ -207,6 +209,12 @@ const connectWebsocket = () => {
                 const chatBlock = tempDiv.firstElementChild;
                 (_a = document.querySelector(".chat-itembox")) === null || _a === void 0 ? void 0 : _a.insertAdjacentElement("beforeend", chatBlock);
             }
+            if (parsedMessage.type === "whiteBoard") {
+                console.log("board 실행됬고 내용은 : ", parsedMessage[projectNo]);
+                if (whiteBoard) {
+                    whiteBoard.postMessage(parsedMessage[projectNo], "*");
+                }
+            }
             if (parsedMessage.type === "exit") {
                 peerConnectionMap.delete(parsedMessage.exitMemberNo);
                 otherMemberNoSet.delete(parsedMessage.exitMemberNo);
@@ -234,6 +242,8 @@ const getMedia = () => __awaiter(void 0, void 0, void 0, function* () {
             video: { facingMode: "user" }
         };
         myStream = yield navigator.mediaDevices.getUserMedia(initialConstrains);
+        // 오디오 추출 후 text 변환
+        // extractAudio(myStream);
         let video = document.querySelectorAll("video")[0];
         if (video) {
             let existVideo = document.querySelectorAll("video")[0];
@@ -272,13 +282,13 @@ const getMedia = () => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
     catch (e) {
-        console.error('Error occurred in getUserMedia:', e);
+        console.error('Error getUserMedia:', e);
         if (e.name === 'NotFoundError' || e.name === 'DevicesNotFoundError' || e.name === 'NotReadableError') {
-            console.log('No media devices found. Switching to getDisplay.');
+            console.log('No media devices found.');
             getDisplay();
         }
         else {
-            console.log('An unexpected error occurred:', e);
+            console.log('unexpected error:', e);
         }
     }
 });
@@ -416,32 +426,49 @@ const createConnection = (otherMemberNo) => {
     return myPeerConnection;
 };
 const trackHandler = (event, otherMemberNo) => {
-    fetch("/video/");
-    if (document.getElementById(`${otherMemberNo}`) === null) {
-        let videoParent = document.createElement("div");
-        videoParent.classList.add("videoParent");
-        myVideo.appendChild(videoParent);
-        const video = document.createElement('video');
-        video.height = 270;
-        video.width = 270;
-        video.autoplay = true;
-        video.id = otherMemberNo;
-        video.srcObject = event.streams[0];
-        video.addEventListener("click", () => {
-            video.requestFullscreen();
-        });
-        videoParent.appendChild(video);
-        let nameTag = document.createElement("div");
-        nameTag.id = `${otherMemberNo}$1`;
-        nameTag.classList.add("nameTag2");
-        nameTag.innerText = otherMemberNo;
-        videoParent.appendChild(nameTag);
-    }
-    else {
-        const video = document.getElementById(`${otherMemberNo}`);
-        video.srcObject = event.streams[0];
-    }
-    videoSizeHandler();
+    let otherMemberName = "";
+    fetch("/video/whatIsMyName", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "memberNo": otherMemberNo,
+            "projectNo": projectNo
+        })
+    })
+        .then(resp => resp.text())
+        .then(data => {
+        otherMemberName = data;
+        if (document.getElementById(`${otherMemberNo}`) === null) {
+            let videoParent = document.createElement("div");
+            videoParent.classList.add("videoParent");
+            myVideo.appendChild(videoParent);
+            const video = document.createElement('video');
+            video.height = 270;
+            video.width = 270;
+            video.autoplay = true;
+            video.id = otherMemberNo;
+            video.srcObject = event.streams[0];
+            video.addEventListener("click", () => {
+                video.requestFullscreen();
+            });
+            videoParent.appendChild(video);
+            let nameTag = document.createElement("div");
+            nameTag.id = `${otherMemberNo}$1`;
+            nameTag.classList.add("nameTag2");
+            nameTag.innerText = otherMemberName;
+            videoParent.appendChild(nameTag);
+        }
+        else {
+            const video = document.getElementById(`${otherMemberNo}`);
+            video.srcObject = event.streams[0];
+        }
+        videoSizeHandler();
+    })
+        .catch(e => {
+        console.log(e);
+    });
 };
 const iceHandler = (event, targetNo) => {
     console.log("ICE실행");
@@ -572,6 +599,44 @@ const videoSizeHandler = () => {
         });
     }
 };
+const extractAudio = (myStream) => {
+    // WebRTC로 스트림 처리
+    const audioTracks = myStream.getAudioTracks();
+    console.log('WebRTC 오디오 트랙:', audioTracks);
+    // 2. Speech Recognition API 사용
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'ko-KR'; // 한국어 설정
+    recognition.interimResults = true; // 중간 결과 포함
+    recognition.onstart = () => {
+        console.log('음성 인식 시작');
+    };
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript; // 인식된 텍스트
+        console.log('인식된 텍스트:', transcript);
+    };
+    recognition.onerror = (event) => {
+        console.error('음성 인식 에러:', event.error);
+    };
+    recognition.onend = () => {
+        console.log('음성 인식 종료');
+    };
+    // 3. 음성 인식 시작
+    recognition.start();
+};
+const openBoard = () => {
+    whiteBoard = window.open(`${req}/resources/popup/whiteBoard.jsp?memberNo=${memberNo}&projectNo=${projectNo}`, "whiteBoard", "width=600,height=600");
+    window.addEventListener('message', (e) => {
+        if (e.origin === `http://localhost:8080`) {
+            //console.log('Received message from popup:', event.data);
+            socket.send(JSON.stringify({
+                "type": "whiteBoard",
+                "draw": e.data,
+                "projectNo": projectNo,
+                "memberNo": memberNo
+            }));
+        }
+    });
+};
 const startVideoConference = () => __awaiter(void 0, void 0, void 0, function* () {
     // 1. 소켓을 연결한다.
     yield connectWebsocket();
@@ -598,6 +663,7 @@ micBtn.addEventListener("click", handleMicBtn);
 changeBtn.addEventListener("click", handleChangeBtn);
 exitBtn.addEventListener("click", byebye);
 chatBtn.addEventListener("click", sendChat);
+boardBtn.addEventListener("click", openBoard);
 startVideoConference();
 // 수정 projectNo4
 //# sourceMappingURL=popup.js.map

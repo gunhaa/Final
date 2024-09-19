@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlink.project.myPage.model.service.MyPageService;
+import com.tlink.project.project.model.dto.Project;
 import com.tlink.project.user.model.dto.User;
 
 @Controller
@@ -41,7 +44,11 @@ public class MyPageController {
 	
 	// 프로젝트 목록 페이지
 	@GetMapping("/project")
-	public String myPageProject(@SessionAttribute("loginUser") User user) {
+	public String myPageProject(@SessionAttribute("loginUser") User loginUser, Model model) {
+		
+		List<Project> projectList = service.selectProjectList(loginUser.getUserNo());
+		
+		model.addAttribute("projectList", projectList);
 		
 		return "/myPage/myPage-project";
 	}
@@ -63,6 +70,17 @@ public class MyPageController {
 	public String secession() {
 		return "/myPage/myPage-secession";
 	}
+	
+	// 관리자 계정 페이지
+	@GetMapping("/systemUser")
+	public String systemUser(Model model) {
+		
+		List<User> adminList = service.selectAdmin();
+		
+		model.addAttribute("adminList", adminList);
+		
+		return "/myPage/systemUser";
+	}	
 	
 	
 	// 비밀번호 변경

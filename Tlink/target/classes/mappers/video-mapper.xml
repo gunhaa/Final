@@ -52,4 +52,8 @@
 		UPDATE VIDEO_CHATTIMER SET TIMER_STATUS='Y' WHERE PROJECT_NO=#{projectNo} AND USER_NO=#{memberNo}
 	</update>
 	
+	<select id="whatIsMyName" resultType="String">
+		SELECT USER_NAME FROM VIDEO_MEMBER JOIN "USER" USING(USER_NO) WHERE USER_NO=#{memberNo}
+	</select>
+	
 </mapper>

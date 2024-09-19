@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tlink.project.main.model.dao.EmailDAO;
+import com.tlink.project.main.model.dao.MainDAO;
 import com.tlink.project.user.model.dto.User;
 
 @Service
@@ -21,6 +22,9 @@ public class EmailServiceImpl implements EmailService {
 
 	@Autowired
 	private EmailDAO dao;
+	
+	@Autowired
+	private MainDAO mainDAO;
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -172,6 +176,56 @@ public class EmailServiceImpl implements EmailService {
 
 
 		return dao.updateNewPw(map); 
+	}
+
+	@Override
+	public int invite(String userEmail, int projectNo) {
+		
+		int result = mainDAO.selectDupEmail(userEmail);
+		
+		System.out.println("serviceImpl : "+result);
+		
+		if(result > 0) {
+			
+			try {
+				
+				// 인증메일 보내기
+				MimeMessage mail = mailSender.createMimeMessage();
+				
+				// 제목
+				String subject = "[Tlink] 프로젝트 초대";
+				
+				// 문자 인코딩
+				String charset = "UTF-8";
+				
+				// 메일 내용
+				String mailContent = "<h3 style='color:#643BAB;'>안녕하세요!</h3>"
+						+ "<p>당신은 새로운 프로젝트에 초대되었습니다.</p>"
+						+ "<p><a href='http://localhost:8080/project/accept?projectNo="+ projectNo +"&userEmail="+userEmail+"' style='color:#643BAB;'>프로젝트 가입하기</a></p>"
+						+ "<p>감사합니다!</p>";
+				
+				// 송신자(보내는 사람) 지정
+				mail.setFrom(new InternetAddress(fromEmail, fromUsername));
+				mail.addRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
+				
+				// 수신자(받는사람) 지정
+				
+				// 이메일 제목 세팅
+				mail.setSubject(subject, charset);
+				
+				// 내용 세팅
+				mail.setText(mailContent, charset, "html"); // "html" 추가 시 HTML 태그가 해석됨
+				
+				mailSender.send(mail);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return 0;
+			}
+			
+		}
+		
+		
+		return result;
 	}
 
 }

@@ -64,22 +64,35 @@
 	
 	<!-- 프로젝트 리스트 조회 -->
 	 <select id="selectProjectList" resultMap="project_rm">
-SELECT 
-    p.PROJECT_NO,
-    p.PROJECT_TITLE,
-    p.PROJECT_INFO,
-    p.CREATE_DATE,
-    p.MANAGER,
-    COUNT(up.USER_NO) AS USER_COUNT
-FROM "PROJECT" p
-LEFT JOIN USER_PROJECT up ON p.PROJECT_NO = up.PROJECT_NO
-WHERE p.PROJECT_NO IN (
-    SELECT PROJECT_NO
-    FROM USER_PROJECT
-    WHERE USER_NO = #{userNo}
-)
-GROUP BY p.PROJECT_NO, p.PROJECT_TITLE, p.PROJECT_INFO, p.CREATE_DATE, p.MANAGER
+		SELECT 
+		    p.PROJECT_NO,
+		    p.PROJECT_TITLE,
+		    p.PROJECT_INFO,
+		    p.CREATE_DATE,
+		    p.MANAGER,
+		    COUNT(up.USER_NO) AS USER_COUNT
+		FROM "PROJECT" p
+		LEFT JOIN USER_PROJECT up ON p.PROJECT_NO = up.PROJECT_NO
+		LEFT JOIN "USER" u ON up.USER_NO = u.USER_NO AND u.USER_DEL_FL = 'N'
+		WHERE p.PROJECT_NO IN (
+		    SELECT PROJECT_NO
+		    FROM USER_PROJECT
+		    WHERE USER_NO = #{userNo}
+		)
+		GROUP BY p.PROJECT_NO, p.PROJECT_TITLE, p.PROJECT_INFO, p.CREATE_DATE, p.MANAGER
     </select>
+    
+    <!-- 관리자 생성 -->
+    <insert id="createAdmin" parameterType="User">
+    	INSERT INTO "USER"
+		VALUES(SEQ_USER_NO.NEXTVAL,
+		 #{userEmail},
+		 #{userPw},
+		 #{userName},
+		 #{userPhone},
+		 #{userAddr},
+		 NULL, DEFAULT, #{role}, DEFAULT)
+    </insert>
 	
 	
 	

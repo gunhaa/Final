@@ -1,5 +1,6 @@
 package com.tlink.project.main.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.tlink.project.main.model.service.EmailService;
 import com.tlink.project.user.model.dto.User;
+
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("/sendEmail")
@@ -52,5 +55,21 @@ public class EmailController {
     	}
     	
     	return result;
+    }
+    
+    @PostMapping("/invite")
+    public String invite(String userEmail, int projectNo, RedirectAttributes ra) {
+
+    	
+    	int result = service.invite(userEmail, projectNo);
+    	
+    	String message = null;
+    	
+    	if(result > 0) message = "초대 메일이 전송되었습니다.";
+    	else message = "존재하지 않는 회원입니다.";
+    	
+    	ra.addFlashAttribute("message", message);
+    	
+    	return "redirect:/project/member?projectNo="+projectNo;
     }
 }

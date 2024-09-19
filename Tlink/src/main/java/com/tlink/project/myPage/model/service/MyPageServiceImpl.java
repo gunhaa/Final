@@ -1,6 +1,7 @@
 package com.tlink.project.myPage.model.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tlink.project.chatting.common.Util;
 import com.tlink.project.myPage.model.dao.MyPageDAO;
+import com.tlink.project.project.model.dto.Project;
 import com.tlink.project.user.model.dto.User;
 
 @Service
@@ -107,6 +109,18 @@ public class MyPageServiceImpl implements MyPageService{
 	@Override
 	public int updateInfo(User loginUser) {
 		return dao.updateinfo(loginUser);
+	}
+
+	// 관리자 목록 조회
+	@Override
+	public List<User> selectAdmin() {
+		return dao.selectAdmin();
+	}
+
+	// 프로젝트 목록 조회
+	@Override
+	public List<Project> selectProjectList(int userNo) {
+		return dao.selectProjectList(userNo);
 	}
 
 }

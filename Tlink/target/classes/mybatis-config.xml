@@ -23,8 +23,10 @@
 		<typeAlias type="com.tlink.project.chatting.model.dto.videoConference" alias="videoConference" />
 		<typeAlias type="com.tlink.project.chatting.model.dto.Chat" alias="Chat" />
 		<typeAlias type="com.tlink.project.work.model.dto.Work" alias="Work" />
-		
-		
+		<typeAlias type="com.tlink.project.calendar.model.dto.CalendarData" alias="CalendarData" />
+		<typeAlias type="com.tlink.project.notice.model.dto.Notice" alias="Notice" />
+		<typeAlias type="com.tlink.project.notice.model.dto.NoticeComment" alias="NoticeComment" />
+		<typeAlias type="com.tlink.project.notice.model.dto.NoticeFiles" alias="NoticeFiles" />
 <!-- 		<typeAlias type="edu.kh.project.member.model.dto.Member" alias="Member" />
 		<typeAlias type="edu.kh.project.board.model.dto.Board" alias="Board" />
 		<typeAlias type="edu.kh.project.board.model.dto.BoardImage" alias="BoardImage" />
@@ -36,11 +38,15 @@
 	<!--mapper 파일(SQL 작성되는파일) 위치등록부분 -->
 	<mappers>
 	 	 <mapper resource="/mappers/user-mapper.xml" /> 
+	 	 <mapper resource="/mappers/project-mapper.xml" /> 
 	 	 <mapper resource="/mappers/email-mapper.xml" /> 
 	 	 <mapper resource="/mappers/myPage-mapper.xml" /> 
 	 	 <mapper resource="/mappers/video-mapper.xml" />
 	 	 <mapper resource="/mappers/work-mapper.xml" />
 	 	 <mapper resource="/mappers/workRest-mapper.xml" />
+	 	 <mapper resource="/mappers/calendarData-mapper.xml" />
+		 <mapper resource="/mappers/notice-mapper.xml" />
+		 <mapper resource="/mappers/noticeComment-mapper.xml" />
 	
 <!-- 		<mapper resource="/mappers/member-mapper.xml" />
 		<mapper resource="/mappers/myPage-mapper.xml" />
