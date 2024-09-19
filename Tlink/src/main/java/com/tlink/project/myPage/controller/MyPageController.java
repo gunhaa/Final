@@ -50,6 +50,8 @@ public class MyPageController {
 		
 		model.addAttribute("projectList", projectList);
 		
+		
+		
 		return "/myPage/myPage-project";
 	}
 	

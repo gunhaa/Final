@@ -5,7 +5,7 @@
 
 
 
-<c:forEach var="project" items="${loginUser.projectList}">
+<c:forEach var="project" items="${projectList}">
   <c:if test="${project.projectNo==projectNo}">
      <c:set var="projectTitle" value="${project.projectTitle}"/>
   </c:if>
