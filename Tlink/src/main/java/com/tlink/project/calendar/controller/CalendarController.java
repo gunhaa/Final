@@ -52,8 +52,8 @@ public class CalendarController {
     public String event(CalendarData calendar
     		, @SessionAttribute("loginUser") User loginUser 
     		) {
-    	calendar.setMemberNo(loginUser.getUserNo());
-    	calendar.setMemberNickname(loginUser.getUserName());
+    	calendar.setUserNo(loginUser.getUserNo());
+    	calendar.setUserName(loginUser.getUserName());
         calendar.setScheduleType("1");
         
         int result = service.insertEvent(calendar);
@@ -74,8 +74,8 @@ public class CalendarController {
     	String webPath = "/resources/images/calendar/";
 		String filePath = session.getServletContext().getRealPath(webPath);
     	
-    	calendar.setMemberNo(loginUser.getUserNo());
-    	calendar.setMemberNickname(loginUser.getUserName());
+    	calendar.setUserNo(loginUser.getUserNo());
+    	calendar.setUserName(loginUser.getUserName());
         
     	String holidayType = calendar.getScheduleType();
        
@@ -135,8 +135,8 @@ public class CalendarController {
     		) {
     	
     	
-    	calendar.setMemberNo(loginUser.getUserNo());
-    	calendar.setMemberNickname(loginUser.getUserName());
+    	calendar.setUserNo(loginUser.getUserNo());
+    	calendar.setUserName(loginUser.getUserName());
     	
     	int result = service.updateEvent(calendar);
     	if (result > 0) {
@@ -157,8 +157,8 @@ public class CalendarController {
     	String webPath = "/resources/images/calendar/";
 		String filePath = session.getServletContext().getRealPath(webPath);
     	
-    	calendar.setMemberNo(loginUser.getUserNo());
-    	calendar.setMemberNickname(loginUser.getUserName());
+    	calendar.setUserNo(loginUser.getUserNo());
+    	calendar.setUserName(loginUser.getUserName());
     	
     	String holidayType = calendar.getScheduleType();
     	
@@ -190,9 +190,9 @@ public class CalendarController {
     		) {
     	
     	System.out.println("일정 삭제" + scheduleNo);
-    	int memberNo = loginUser.getUserNo();
+    	int userNo = loginUser.getUserNo();
     	
-    	int result = service.deleteEvent(scheduleNo,memberNo);
+    	int result = service.deleteEvent(scheduleNo, userNo);
     	if (result > 0) {
             System.out.println("일정 삭제 성공");
         }
@@ -206,9 +206,9 @@ public class CalendarController {
     		) {
     	
     	System.out.println("휴가 삭제 : "+ scheduleNo);
-    	int memberNo = loginUser.getUserNo();
+    	int userNo = loginUser.getUserNo();
     	
-    	int result = service.deleteHoliday(scheduleNo,memberNo);
+    	int result = service.deleteHoliday(scheduleNo,userNo);
     	if (result > 0) {
             System.out.println("휴가 삭제 성공");
         }

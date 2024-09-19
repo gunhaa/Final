@@ -169,7 +169,7 @@
 
 
         // 로그인한 회원 번호 변수로 선언
-        const loginMemberNo = "${loginMember.memberNo}";
+        const loginUserNo = "${loginUser.userNo}";
     </script>
 
     <script src="/resources/js/notice/noticeUpdate.js"></script>

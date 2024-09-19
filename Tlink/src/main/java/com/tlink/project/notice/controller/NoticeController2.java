@@ -53,7 +53,7 @@ public class NoticeController2 {
 						    , RedirectAttributes ra
 						    ) throws IllegalStateException, IOException {
 		
-		notice.setMemberNo(loginUser.getUserNo());
+		notice.setUserNo(loginUser.getUserNo());
 		
 		if(notice.getNoticeStatus() != 3) {
 			notice.setNoticeStatus(1);

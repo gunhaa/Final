@@ -41,14 +41,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     borderColor: "blue",
                     extendedProps: {
                       scheduleType: '${schedule.scheduleType}',
-                      memberNo : '${schedule.memberNo}'
+                      userNo : '${schedule.userNo}'
                     }
                   }<c:if test="${!loop.last}">,</c:if>
                 </c:when>
                 <c:when test='${schedule.scheduleType == "2 "}'>
                   {
                     id: '${schedule.scheduleNo}', 
-                    title: '${schedule.memberNickname}',
+                    title: '${schedule.userName}',
                     start: '${schedule.startDate}',
                     end: '${schedule.endDate}',
                     description: '${schedule.scheduleContent}',
@@ -58,14 +58,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     extendedProps: {
                       scheduleType: '${schedule.scheduleType}',
                       holidayTitle: '${schedule.scheduleTitle}',
-                      memberNo : '${schedule.memberNo}'
+                      userNo : '${schedule.userNo}'
                     }
                   }<c:if test="${!loop.last}">,</c:if>
                 </c:when>
                 <c:when test='${schedule.scheduleType == "3 "}'>
                   {
                     id: '${schedule.scheduleNo}', 
-                    title: '${schedule.memberNickname}',
+                    title: '${schedule.userName}',
                     start: '${schedule.startDate}',
                     end: '${schedule.endDate}',
                     description: '${schedule.scheduleContent}',
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     extendedProps: {
                       scheduleType: '${schedule.scheduleType}',
                       holidayTitle: '${schedule.scheduleTitle}',
-                      memberNo : '${schedule.memberNo}',
+                      userNo : '${schedule.userNo}',
                       fileList: '${schedule.fileList}'
                     }
                   }<c:if test="${!loop.last}">,</c:if>
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
  
   <script>
-    const memberNo = ${loginMember.memberNo}
+    const userNo = ${loginUser.userNo}
   </script>
   <script src="/resources/js/calendar/calendar.js"></script>
 </body>

@@ -5,9 +5,9 @@
 	<!-- CalendarData DTO에 개한 resultMap -->
 	<resultMap type="CalendarData" id="calendar_rm">
 
-		<id property="memberNo" column="MEMBER_NO" />
+		<id property="userNo" column="USER_NO" />
 
-		<result property="memberNickname" column="MEMBER_NICKNAME" />
+		<result property="userName" column="USER_NAME" />
 		<result property="scheduleNo" column="SCHEDULE_NO" />
 		<result property="scheduleType" column="SCHEDULE_TYPE" />
 		<result property="scheduleTitle" column="SCHEDULE_TITLE" />
@@ -40,9 +40,9 @@
 	<select id="selectAll" resultMap="calendar_rm">
 		SELECT  SCHEDULE_NO, SCHEDULE_TYPE, SCHEDULE_TITLE, START_DATE,
 		        END_DATE, SCHEDULE_CONTENT, 
-		        MEMBER_NO, MEMBER_NICKNAME
+		        USER_NO, USER_NAME
 		FROM SCHEDULE 
-		JOIN MEMBER USING(MEMBER_NO)
+		JOIN USER USING(USER_NO)
 		WHERE PROJECT_NO = 1
 	</select>
 	
@@ -61,7 +61,7 @@
 		    TO_DATE(#{startDate}, 'YYYY-MM-DD"T"HH24:MI'),
 		    TO_DATE(#{endDate}, 'YYYY-MM-DD"T"HH24:MI'),
 		    #{scheduleContent},
-			 #{memberNo},
+			 #{userNo},
 			 1
 	   )
    </insert>
@@ -81,7 +81,7 @@
 	<delete id="deleteEvent" parameterType="map">
 		DELETE FROM SCHEDULE 
 		WHERE SCHEDULE_NO = #{scheduleNo}
-		AND MEMBER_NO = #{memberNo}
+		AND USER_NO = #{userNo}
 	</delete>
 	
 	<!-- 일정 파일 조회 -->

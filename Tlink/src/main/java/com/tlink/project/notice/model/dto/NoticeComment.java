@@ -13,10 +13,10 @@ public class NoticeComment {
     private String commentContent;
     private String commentCreateDate;
     private int noticeNo;
-    private int memberNo;
+    private int userNo;
     private String commentDeleteFlag;
     private int parentNo;
-    private String memberNickname;
+    private String userName;
     private String profileImage;
 
 }

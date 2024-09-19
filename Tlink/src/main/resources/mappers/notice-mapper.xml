@@ -5,14 +5,13 @@
 
 	<resultMap type="Notice" id="notice_rm">
 
-		<id property="memberNo" column="MEMBER_NO" />
+		<id property="userNo" column="USER_NO" />
 
-		<result property="memberNickname" column="MEMBER_NICKNAME" />
+		<result property="userName" column="USER_NAME" />
 		<result property="noticeNo" column="NOTICE_NO" />
 		<result property="noticeType" column="NOTICE_TYPE" />
 		<result property="noticeStatus" column="NOTICE_STATUS" />
-		<result property="noticeCommentView"
-			column="NOTICE_COMMENT_VIEW" />
+		<result property="noticeCommentView" column="NOTICE_COMMENT_VIEW" />
 		<result property="noticeCopy" column="NOTICE_COPY" />
 		<result property="noticeTitle" column="NOTICE_TITLE" />
 		<result property="createDate" column="CREATE_DT" />
@@ -56,10 +55,10 @@
 		<result property="commentContent" column="COMMENT_CONTENT" />
 		<result property="commentCreateDate" column="C_CREATE_DATE" />
 		<result property="noticeNo" column="NOTICE_NO" />
-		<result property="memberNo" column="MEMBER_NO" />
+		<result property="userNo" column="USER_NO" />
 		<result property="commentDeleteFlag" column="COMMENT_DEL_FL" />
 		<result property="parentNo" column="PARENT_NO" />
-		<result property="memberNickname" column="MEMBER_NICKNAME" />
+		<result property="userName" column="USER_NAME" />
 		<result property="profileImage" column="PROFILE_IMG" />
 	</resultMap>
 
@@ -76,13 +75,12 @@
 		NOTICE_TITLE, NOTICE_COMMENT_VIEW, NOTICE_STATUS,
 		TO_CHAR(CREATE_DT, 'YYYY-MM-DD') AS CREATE_DT,
 		TO_CHAR(UPDATE_DT, 'YYYY-MM-DD') AS UPDATE_DT,
-		NOTICE_CONTENT, READ_COUNT, MEMBER_NO, MEMBER_NICKNAME,
+		NOTICE_CONTENT, READ_COUNT, USER_NO, USER_NAME,
 		(SELECT COUNT(*) FROM NOTICE_COMMENT C
 		WHERE C.NOTICE_NO = N.NOTICE_NO
 		AND COMMENT_DEL_FL = 'N') COMMENT_COUNT
 		FROM NOTICE N
-		JOIN MEMBER
-		USING(MEMBER_NO)
+		JOIN "USER" USING(USER_NO)
 		WHERE NOTICE_STATUS = 1
 		ORDER BY 1 DESC
 	</select>
@@ -95,13 +93,12 @@
 		NOTICE_TYPE, NOTICE_TITLE, NOTICE_COMMENT_VIEW, NOTICE_STATUS,
 		TO_CHAR(CREATE_DT, 'YYYY-MM-DD') AS CREATE_DT,
 		TO_CHAR(UPDATE_DT, 'YYYY-MM-DD') AS UPDATE_DT,
-		NOTICE_CONTENT, READ_COUNT, MEMBER_NO, MEMBER_NICKNAME,
+		NOTICE_CONTENT, READ_COUNT, USER_NO, USER_NAME,
 		(SELECT COUNT(*) FROM NOTICE_COMMENT C
 		WHERE C.NOTICE_NO = N.NOTICE_NO
 		AND COMMENT_DEL_FL = 'N') COMMENT_COUNT
 		FROM NOTICE N
-		JOIN MEMBER
-		USING(MEMBER_NO)
+		JOIN "USER" USING(USER_NO)
 		WHERE NOTICE_STATUS = 3
 		ORDER BY 1 DESC
 	</select>
@@ -122,13 +119,13 @@
 		NOTICE_TYPE, NOTICE_TITLE, NOTICE_COMMENT_VIEW, NOTICE_STATUS,
 		TO_CHAR(CREATE_DT, 'YYYY-MM-DD') AS CREATE_DT,
 		TO_CHAR(UPDATE_DT, 'YYYY-MM-DD') AS UPDATE_DT,
-		NOTICE_CONTENT, READ_COUNT, MEMBER_NO, MEMBER_NICKNAME,
+		NOTICE_CONTENT, READ_COUNT, USER_NO, USER_NAME,
 		(SELECT COUNT(*) FROM NOTICE_COMMENT C
 		WHERE C.NOTICE_NO = N.NOTICE_NO
 		AND COMMENT_DEL_FL = 'N') COMMENT_COUNT
 		FROM NOTICE N
-		JOIN MEMBER
-		USING(MEMBER_NO)
+		JOIN "USER"
+		USING(USER_NO)
 		WHERE NOTICE_STATUS = 1
 		AND (NOTICE_TITLE LIKE
 		'%${query}%'
@@ -139,13 +136,13 @@
 	<!-- 게시글 상세 조회 -->
 	<select id="selectNotice" resultMap="notice_rm">
 		SELECT NOTICE_NO,
-		NOTICE_TITLE, NOTICE_TYPE, NOTICE_CONTENT, MEMBER_NO,
+		NOTICE_TITLE, NOTICE_TYPE, NOTICE_CONTENT, USER_NO,
 		NOTICE_COMMENT_VIEW, NOTICE_COPY, NOTICE_STATUS,
 		TO_CHAR(CREATE_DT,'YYYY"년" MM"월" DD"일" HH24:MI:SS')CREATE_DT,
 		TO_CHAR(UPDATE_DT,'YYYY"년" MM"월" DD"일" HH24:MI:SS')UPDATE_DT,
 		READ_COUNT
 		FROM NOTICE
-		JOIN MEMBER USING(MEMBER_NO)
+		JOIN "USER" USING(USER_NO)
 		WHERE (NOTICE_STATUS
 		= 1
 		OR NOTICE_STATUS = 3)
@@ -171,13 +168,13 @@
 
 	<!-- 특정 게시글 댓글 리스트 조회 -->
 	<!-- <select id="selectCommentList" resultMap="comment_rm"> SELECT COMMENT_NO, 
-		COMMENT_CONTENT, COMMENT_DEL_FL, MEMBER_NICKNAME, MEMBER_NO, <![CDATA[ CASE 
+		COMMENT_CONTENT, COMMENT_DEL_FL, USER_NAME, USER_NO, <![CDATA[ CASE 
 		WHEN SYSDATE - C_CREATE_DATE < 1/24/60 THEN FLOOR( (SYSDATE - C_CREATE_DATE) 
 		* 24 * 60 * 60 ) || '초 전' WHEN SYSDATE - C_CREATE_DATE < 1/24 THEN FLOOR( 
 		(SYSDATE - C_CREATE_DATE) * 24 * 60) || '분 전' WHEN SYSDATE - C_CREATE_DATE 
 		< 1 THEN FLOOR( (SYSDATE - C_CREATE_DATE) * 24) || '시간 전' ELSE TO_CHAR(C_CREATE_DATE, 
-		'YYYY-MM-DD') END C_CREATE_DATE ]]> FROM NOTICE_COMMENT JOIN MEMBER USING 
-		(MEMBER_NO) WHERE NOTICE_NO = #{noticeNo} </select> -->
+		'YYYY-MM-DD') END C_CREATE_DATE ]]> FROM NOTICE_COMMENT JOIN USER USING 
+		(USER_NO) WHERE NOTICE_NO = #{noticeNo} </select> -->
 
 	<!-- 특정 게시글 댓글 리스트 조회 -->
 	<select id="selectCommentList" resultMap="comment_rm">
@@ -194,9 +191,9 @@
 					   ELSE TO_CHAR(C_CREATE_DATE, 'YYYY-MM-DD')
 					END C_CREATE_DATE,
 					]]>
-		NOTICE_NO, MEMBER_NO, MEMBER_NICKNAME, PARENT_NO, COMMENT_DEL_FL
+		NOTICE_NO, USER_NO, USER_NAME, PARENT_NO, COMMENT_DEL_FL
 		FROM NOTICE_COMMENT
-		JOIN MEMBER USING(MEMBER_NO)
+		JOIN "USER" USING(USER_NO)
 		WHERE NOTICE_NO = #{noticeNo}
 		ORDER BY COMMENT_NO) C
 
@@ -234,7 +231,7 @@
 		NULL,
 		#{noticeContent},
 		0,
-		#{memberNo}
+		#{userNo}
 		)
 	</insert>
 
