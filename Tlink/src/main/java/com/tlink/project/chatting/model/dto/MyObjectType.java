@@ -27,4 +27,5 @@ public class MyObjectType {
 	private String iceSender;
 	private String chatContent;
 	private String key;
+	private String draw;
 }

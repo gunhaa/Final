@@ -52,6 +52,7 @@
                             <div class="btn btn1" id="mic-btn"><span class="material-symbols-outlined">mic</span></div>
                             <!-- <div class="btn btn1" id="display-btn">화</div> -->
                             <div class="btn btn1" id="change-btn"><span class="material-symbols-outlined">screen_share</span></div>
+                            <div class="btn btn1" id="board-btn"><span class="material-symbols-outlined">content_paste</span></div>
                             <div class="btn btn1" id="changeTitle-btn">주제 변경</div>
                             <div class="optionBox none" id="option-window">
                                 <div class="options1">카메라(사용중)</div>

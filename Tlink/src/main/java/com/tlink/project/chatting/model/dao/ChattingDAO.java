@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tlink.project.chatting.controller.VideoController;
 import com.tlink.project.chatting.model.dto.Chat;
+import com.tlink.project.chatting.model.dto.MyObjectType;
 import com.tlink.project.chatting.model.dto.videoConference;
 
 @Repository
@@ -89,6 +90,10 @@ public class ChattingDAO {
 		inputMap.put("memberNo", memberNo);
 		
 		return sqlSession.update("videoMapper.updateBookedChatStatusY", inputMap);
+	}
+
+	public String whatIsMyName(MyObjectType data) {
+		return sqlSession.selectOne("videoMapper.whatIsMyName",data);
 	}
 	
 }
