@@ -1,4 +1,4 @@
-package com.trink.project.thread.model.exception;
+package com.tlink.project.thread.model.exception;
 
 public class FileUploadException extends RuntimeException {
 

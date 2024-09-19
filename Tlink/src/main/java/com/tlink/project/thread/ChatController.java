@@ -1,4 +1,4 @@
-package com.trink.project.thread;
+package com.tlink.project.thread;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.trink.project.member.dto.Member;
-import com.trink.project.thread.model.dto.Chat;
-import com.trink.project.thread.model.service.ChatService;
+import com.tlink.project.thread.model.dto.Chat;
+import com.tlink.project.thread.model.service.ChatService;
+import com.tlink.project.user.model.dto.User;
 
 @RequestMapping("/chat")
 @Controller
@@ -43,7 +43,7 @@ public class ChatController  {
 			@RequestParam(value="chatType", required=false) String chatType,
 			@RequestParam(value="message", required=false) String message,
 			@RequestParam(value="files", required=false) List<MultipartFile> files,
-			@SessionAttribute("loginMember") Member loginMember,
+			@SessionAttribute("loginMember") User loginMember,
 			HttpSession session) throws IOException {
 
 		String webPath = "/resources/chatFile/"; 
@@ -52,7 +52,7 @@ public class ChatController  {
 		Chat chat = new Chat();
 		chat.setChatType(chatType);
 		chat.setChatMessage(message);
-		chat.setMemberNo(loginMember.getMemberNo());
+		chat.setMemberNo(loginMember.getUserNo());
 		
 		int result = service.insertChat(chat, files, webPath, filePath);
 		if( result > 0 ) {

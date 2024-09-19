@@ -1,4 +1,4 @@
-package com.trink.project.thread.model.service;
+package com.tlink.project.thread.model.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,11 +10,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.trink.project.common.Util;
-import com.trink.project.thread.model.dao.ChatDAO;
-import com.trink.project.thread.model.dto.Chat;
-import com.trink.project.thread.model.dto.ChatFile;
-import com.trink.project.thread.model.exception.FileUploadException;
+import com.tlink.project.thread.model.dao.ChatDAO;
+import com.tlink.project.thread.model.dto.Chat;
+import com.tlink.project.thread.model.dto.ChatFile;
+import com.tlink.project.thread.model.exception.FileUploadException;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -36,7 +35,7 @@ public class ChatServiceImpl implements ChatService {
 				file.setChatNo(chatNo);
 				file.setFilePath(filePath);
 				file.setFileOriginName(files.get(i).getOriginalFilename());
-				file.setFileRename(Util.fileRename(files.get(i).getOriginalFilename()));
+				file.setFileRename(/*Util.fileRename(files.get(i).getOriginalFilename())*/"fiefie");
 				file.setFileCode(2);
 				file.setTargetNumber(chatNo);
 				
