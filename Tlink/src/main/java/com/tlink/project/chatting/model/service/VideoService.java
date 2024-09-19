@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tlink.project.chatting.model.dto.Chat;
+import com.tlink.project.chatting.model.dto.MyObjectType;
 import com.tlink.project.chatting.model.dto.videoConference;
 
 public interface VideoService {
@@ -25,5 +26,7 @@ public interface VideoService {
 	int insertBookedChat(Map<String, Object> msg);
 
 	int updateBookedChatStatusY(String projectNo, String memberNo);
+
+	String whatIsMyName(MyObjectType data);
 		
 }
