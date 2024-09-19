@@ -19,10 +19,10 @@
 <body>
 
     <section class="all-container">
-        <section class="aa">side menu</section>
+        <jsp:include page="/WEB-INF/views/myPage/sideMenu.jsp"/>
         <section class="notice-main">
             <article class="main-top">
-                <a href="/"><img src="/resources/images/logo.jpg"></a>
+                <a href="/notice"><img src="/resources/images/common/TLink_logo.png"></a>
             </article>
             <form action="/notice2/${notice.noticeNo}/update" method="POST" enctype="multipart/form-data">
                 <article class="main-title-area">

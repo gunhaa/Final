@@ -124,6 +124,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </head>
 <body>
+
+  <jsp:include page="/WEB-INF/views/common/side.jsp" />
+
   <div id="calendar-container">
     <div id='calendar'></div>
     <div>
