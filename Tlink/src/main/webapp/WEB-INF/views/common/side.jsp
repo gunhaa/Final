@@ -3,6 +3,11 @@
 
 
 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
+
 
 
 <c:forEach var="project" items="${projectList}">
@@ -87,9 +92,9 @@
             </div>
             <div id="tab3">
                 <ul style="">
-                    <li><a href="">멤버관리</a></li>
-                    <li><a href="">프로젝트 탈퇴</a></li>
-                    <li><a href="">프로젝트 삭제</a> -매니저한테만</li>
+                    <li><a href="/project/member?projectNo=${projectNo}">멤버관리</a></li>
+                    <li><a href="/project/secession?projectNo=${projectNo}">프로젝트 탈퇴</a></li>
+                    <li><a href="/project/delete?projectNo=${projectNo}">프로젝트 삭제</a> -매니저한테만</li>
                     <li></li>
                     <li></li>
                     <li></li>
@@ -102,6 +107,18 @@
 
 
 </body>
+
+    <c:if test="${!empty message}">
+        
+        <script>
+            // EL/JSTL 구문이 먼저 해석되는데
+            // 문자열의 경우 따옴표가 없는 상태이니 붙여줘야한다!!!
+            alert('${message}');
+            
+            const contextPath = "${pageContext.request.contextPath}";
+        </script>
+
+    </c:if>
 
 </html>
 
@@ -259,3 +276,5 @@
 
 
 </script>
+
+
