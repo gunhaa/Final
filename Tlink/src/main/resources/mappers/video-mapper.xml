@@ -50,11 +50,15 @@
 	</insert>
 	
 	<update id="updateBookedChatStatusY">
-		UPDATE VIDEO_CHATTIMER SET TIMER_STATUS='Y' WHERE PROJECT_NO=#{projectNo} AND USER_NO=#{memberNo}
+		UPDATE VIDEO_CHATTIMER SET TIMER_STATUS='Y' WHERE PROJECT_NO=#{projectNo} AND USER_NO=#{memberNo} AND TIMER_NO=#{seq}
 	</update>
 	
 	<select id="whatIsMyName" resultType="String">
 		SELECT USER_NAME FROM VIDEO_MEMBER JOIN "USER" USING(USER_NO) WHERE USER_NO=#{memberNo}
+	</select>
+	
+	<select id="selectNowBookedChatSeq" resultType="int">
+		SELECT SEQ_TIMER_NO.CURRVAL FROM DUAL
 	</select>
 	
 </mapper>

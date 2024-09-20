@@ -69,14 +69,20 @@ public class VideoServiceImpl implements VideoService {
 
 
 	@Override
-	public int updateBookedChatStatusY(String projectNo, String memberNo) {
-		return dao.updateBookedChatStatusY(projectNo, memberNo);
+	public int updateBookedChatStatusY(String projectNo, String memberNo, int seq) {
+		return dao.updateBookedChatStatusY(projectNo, memberNo, seq);
 	}
 
 
 	@Override
 	public String whatIsMyName(MyObjectType data) {
 		return dao.whatIsMyName(data);
+	}
+
+
+	@Override
+	public int selectNowBookedChatSeq() {
+		return dao.selectNowBookedChatSeq();
 	}
 
 

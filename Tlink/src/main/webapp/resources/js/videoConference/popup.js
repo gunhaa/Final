@@ -8,9 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-if (profileImg == null) {
-    profileImg = "/resources/images/common/user.png";
-}
 let memberNo = new URLSearchParams(location.search).get("memberNo");
 let projectNo = new URLSearchParams(location.search).get("projectNo");
 let memberName = new URLSearchParams(location.search).get("memberName");
@@ -23,6 +20,7 @@ let otherMemberNoSet = new Set();
 let peerConnectionMap = new Map();
 let state = "camera";
 let whiteBoard;
+let profileImg;
 const changeTitleBtn = document.querySelector("#changeTitle-btn");
 const bookedMessageBtn = document.querySelector(".chat-booked");
 const cameraBtn = document.querySelector("#video-btn");
@@ -213,7 +211,12 @@ const connectWebsocket = () => {
             if (parsedMessage.type === "chat") {
                 console.log("chat 실행됬음", parsedMessage);
                 // chatsend 부분이랑 이곳을 name으로 바꿔야함
+                console.log("profileImg : ", parsedMessage.profileImg);
+                if (parsedMessage.profileImg === "") {
+                    parsedMessage.profileImg = "/resources/images/common/user.png";
+                }
                 const content = makeChatBlock(parsedMessage.memberName, parsedMessage.chatContent, parsedMessage.now, parsedMessage.profileImg);
+                console.log("변화 체크용4");
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = content;
                 const chatBlock = tempDiv.firstElementChild;
@@ -777,8 +780,9 @@ window.addEventListener('message', (e) => {
             "memberNo": memberNo
         }));
     }
-    // if(e.data.type==="profileImg"){
-    // }
+    if (e.data.type === "popup") {
+        profileImg = e.data.profileImg;
+    }
 });
 startVideoConference();
 // 수정 projectNo4
