@@ -1,5 +1,8 @@
 package com.tlink.project.work.model.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -72,6 +75,41 @@ public class WorkRestDAO {
 	}
 	
 	
+	
+	
+
+
+	public Map<Integer, Object> managerByMList(Map<String, Object> data) {
+		List<Integer> intList = new ArrayList<>();
+		intList=sqlSession.selectList("workRestMapper.selectManager", data);
+		
+//		System.out.println(intList);
+//		System.out.println(intList.size());
+//		
+//		System.out.println("************************");
+		
+		Map<Integer, Object> map=new HashMap<>();
+		
+		for(int managerNo : intList){
+//			System.out.println(managerNo);
+			
+			List<Work> wList=sqlSession.selectList("workRestMapper.selectManagerByWork", managerNo);
+//			System.out.println(wList);
+			
+			map.put(managerNo, wList);
+			
+		}
+//		System.out.println(map);
+		
+		
+		
+		return map;
+	}
+
+	
+	
+	
+	
 
 	public Work insertStateBy(Map<String, Object> data) {
 		 int result=sqlSession.insert("workRestMapper.insertStateBy", data);
@@ -83,6 +121,8 @@ public class WorkRestDAO {
 		 System.out.println(work);
 		 return work;
 	}
+
+
 
 
 

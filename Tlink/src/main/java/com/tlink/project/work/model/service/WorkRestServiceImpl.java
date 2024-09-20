@@ -64,12 +64,22 @@ public class WorkRestServiceImpl implements WorkRestService{
 		return dao.insertMywork(data);
 	}
 	
+	
+	@Override
+	public Map<Integer, Object> managerByMList(Map<String, Object> data) {
+		return dao.managerByMList(data);
+		
+	}
+	
 
 	
 	@Override
 	public Work insertStateBy(Map<String, Object> data) {
 		return dao.insertStateBy(data);
 	}
+
+	
+
 
 
 	

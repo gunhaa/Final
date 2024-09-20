@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+${map}
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -146,6 +151,13 @@
 
                     <section class="listBox">
 
+
+                        <c:forEach var="managerBy" items="${map}">
+
+                        </c:forEach>
+
+
+
                         <details>
                             <summary>
                                 <span class="title">김길동</span>
@@ -213,6 +225,12 @@
                             </div>
             
                         </details>
+
+
+
+
+
+
                         <details>
             
                             <summary>
@@ -240,7 +258,6 @@
                                                 <span class="material-symbols-outlined">cake</span>
                                                 <span>우선순위</span>
                                             </th>
-            
                                             <th>
                                                 <span class="material-symbols-outlined">radio_button_checked</span>
                                                 <span>프로젝트</span>
@@ -248,6 +265,7 @@
             
                                         </tr>
             
+
                                         <tr>
                                             <td contenteditable="true"></td>
                                             <td><span><input type="date"></span></td>
@@ -268,6 +286,7 @@
                                             <td contenteditable="true"></td>
                                 
                                         </tr>
+
                                     </tbody>
             
                                 </table>
@@ -301,7 +320,7 @@
 
 
 <script>
-    const projectNo=${projectNo};
+    const projectNo_=${projectNo};
 
 
     function update(ele){ $(ele).on("mousedown", function(){ $(this).attr("contenteditable", "true"); }).on("focusout", function(){ $(this).removeAttr("contenteditable"); })} //수정함수
@@ -309,30 +328,76 @@
 
 
     
+
     function selectManagerBy(){
         
-        console.log( ${projectNo} );
-        const data={ "projectNo"      : ${projectNo}, };
-        fetch("/workList/managerBy/mList")
+        console.log( projectNo_ );
+        const data={ "projectNo"      : projectNo_, };
+        fetch("/workList/managerBy/mList", {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(data)
+            }
+        )
         .then (rep => rep.json())
         .then (res => { 
-            console.log(res);
+            const obj=res;
+
+            console.log(obj);
 
 
+            for(let key in obj){
+              
+                console.log(
+                    obj[key]
+                );
+
+                for(let i of obj[key]){
+
+                    // console.log(
+                    //     i.workNo
+                    // );
+                  console.log(
+                        i[workNo]
+                    );
+                            
+                }
 
 
-            // console.log(res); 
-            // res!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다."); 
-            // if(res!=0){ window.location.reload(); }
+            }
+
+
+            for(let key of obj){
+              
+                console.log(
+                    obj.key
+                );
+
+                // for(let i of obj[key]){
+
+                //     // console.log(
+                //     //     i.workNo
+                //     // );
+                //   console.log(
+                //         i[workNo]
+                //     );
+                            
+                }
+
+
+            }
+
 
         })
         .catch(err => console.log(err))
 
     }
+
+
+
     selectManagerBy();
 
     
-
 
 
 
