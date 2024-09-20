@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tlink.project.thread.model.dto.ThreadChat;
+import com.tlink.project.thread.model.dto.ThreadInfo;
 import com.tlink.project.thread.model.service.ThreadService;
 import com.tlink.project.user.model.dto.User;
 
@@ -26,11 +27,12 @@ public class ThreadController  {
    private ThreadService service;
    
    @GetMapping("/thread")
-   public String selectThread(@RequestParam(value="projectNo", required=false, defaultValue="1") int projectNo) {
-   
-	  System.out.println("**********************************************");
+   public String selectThread(@RequestParam(value="projectNo", required=false, defaultValue="1") int projectNo,
+		   					  @SessionAttribute("loginUser") User loginUser) {
       
-      return "thread/thread";
+	   List<ThreadInfo> list = service.selectThread(projectNo, loginUser.getUserNo());
+	   
+	   return "thread/thread";
    }
 
    @GetMapping("/selectMember")
@@ -51,7 +53,7 @@ public class ThreadController  {
          @RequestParam(value="chatType", required=false) String chatType,
          @RequestParam(value="message", required=false) String message,
          @RequestParam(value="files", required=false) List<MultipartFile> files,
-         @SessionAttribute("loginMember") User loginMember,
+         @SessionAttribute("loginUser") User loginUser,
          HttpSession session) throws IOException {
 
       String webPath = "/resources/chatFile/"; 
@@ -60,7 +62,7 @@ public class ThreadController  {
       ThreadChat threadChat = new ThreadChat();
       threadChat.setChatType(chatType);
       threadChat.setChatMessage(message);
-      threadChat.setMemberNo(loginMember.getUserNo());
+      threadChat.setMemberNo(loginUser.getUserNo());
       
       int result = service.insertChat(threadChat, files, webPath, filePath);
       if( result > 0 ) {

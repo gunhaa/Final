@@ -22,6 +22,4 @@ public class ThreadChat {
 	private int memberNo;
 	private String memberNickname;
 	private String memberProfile;
-	
-
 }

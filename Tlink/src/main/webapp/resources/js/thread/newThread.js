@@ -18,7 +18,7 @@ selectMember.addEventListener("input", ()=>{
         return;
     }
 
-    fetch("/chat/selectMember?memberName=" + selectMember.value)
+    fetch("/thread/selectMember?memberName=" + selectMember.value)
     .then(resp => resp.json())
     .then(result => {
         const selectResult = document.getElementById("queryResult");

@@ -14,6 +14,7 @@ import com.tlink.project.common.utility.Util;
 import com.tlink.project.thread.model.dao.ThreadDAO;
 import com.tlink.project.thread.model.dto.ThreadChat;
 import com.tlink.project.thread.model.dto.ThreadFile;
+import com.tlink.project.thread.model.dto.ThreadInfo;
 import com.tlink.project.thread.model.exception.FileUploadException;
 
 @Service
@@ -59,6 +60,11 @@ public class ThreadServiceImpl implements ThreadService {
       }
       return chatNo;
    }
+
+	@Override
+	public List<ThreadInfo> selectThread(int projectNo, int userNo) {
+		return dao.selectThread(projectNo, userNo);
+	}
 
    
 
