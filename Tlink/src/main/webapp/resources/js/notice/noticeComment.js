@@ -43,7 +43,7 @@ function selectCommentList(){
     
                 // 프로필 이미지
                 const profileImage = document.createElement("img");
-    
+                console.log(comment.profileImage)
                 if( comment.profileImage != null ){ // 프로필 이미지가 있을 경우
                     profileImage.setAttribute("src", comment.profileImage);
                 }else{ // 없을 경우 == 기본이미지

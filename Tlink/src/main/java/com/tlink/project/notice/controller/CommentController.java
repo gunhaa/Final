@@ -23,7 +23,9 @@ public class CommentController {
 	// ajax를 통해 수정 / 삭제 / 등록시 새 댓글 목록 조회해야하여
 	@GetMapping(value="/comment", produces="application/json; charset=UTF-8")
 	public List<NoticeComment> select(int noticeNo) {
-		return service.selectCommentList(noticeNo); 
+		List<NoticeComment> a = service.selectCommentList(noticeNo);
+		System.out.println(a);
+		return a; 
 	}
 	
 

@@ -176,6 +176,7 @@
 		'YYYY-MM-DD') END C_CREATE_DATE ]]> FROM NOTICE_COMMENT JOIN USER USING 
 		(USER_NO) WHERE NOTICE_NO = #{noticeNo} </select> -->
 
+
 	<!-- 특정 게시글 댓글 리스트 조회 -->
 	<select id="selectCommentList" resultMap="comment_rm">
 		SELECT LEVEL, C.* FROM
@@ -191,7 +192,7 @@
 					   ELSE TO_CHAR(C_CREATE_DATE, 'YYYY-MM-DD')
 					END C_CREATE_DATE,
 					]]>
-		NOTICE_NO, USER_NO, USER_NAME, PARENT_NO, COMMENT_DEL_FL
+		NOTICE_NO, USER_NO, USER_NAME, PROFILE_IMG, PARENT_NO, COMMENT_DEL_FL
 		FROM NOTICE_COMMENT
 		JOIN "USER" USING(USER_NO)
 		WHERE NOTICE_NO = #{noticeNo}
