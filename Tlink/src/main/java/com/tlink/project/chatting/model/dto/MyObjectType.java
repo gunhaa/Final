@@ -18,6 +18,7 @@ public class MyObjectType {
 	private String type;
 	private String memberNo;
 	private String memberName;
+	private String profileImg;
 	private String projectNo;
 	private String prompt;
 	private String bookedMsg;

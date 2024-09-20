@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+if (profileImg == null) {
+    profileImg = "/resources/images/common/user.png";
+}
 let memberNo = new URLSearchParams(location.search).get("memberNo");
 let projectNo = new URLSearchParams(location.search).get("projectNo");
 let memberName = new URLSearchParams(location.search).get("memberName");
@@ -210,7 +213,7 @@ const connectWebsocket = () => {
             if (parsedMessage.type === "chat") {
                 console.log("chat 실행됬음", parsedMessage);
                 // chatsend 부분이랑 이곳을 name으로 바꿔야함
-                const content = makeChatBlock(parsedMessage.memberName, parsedMessage.chatContent, parsedMessage.now);
+                const content = makeChatBlock(parsedMessage.memberName, parsedMessage.chatContent, parsedMessage.now, parsedMessage.profileImg);
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = content;
                 const chatBlock = tempDiv.firstElementChild;
@@ -553,14 +556,7 @@ const sendChat = () => {
             })
                 .then(resp => resp.text())
                 .then(data => {
-                const content = makeChatBlock("bot", data, "나에게만 보임");
-                // const tempDiv = document.createElement('div');
-                // tempDiv.innerHTML = content;
-                // const chatBlock = tempDiv.firstElementChild!;
-                // document.querySelector(".chat-itembox")?.insertAdjacentElement("beforeend", chatBlock);
-                // const chatBox = document.querySelector(".chat-itembox")!;
-                // chatBox.scrollTop = chatBox.scrollHeight;
-                // chatInput.value = "";
+                const content = makeChatBlock("bot", data, "나에게만 보임", "/resources/images/common/user.png");
                 insertChatBlock(content);
             })
                 .catch(e => {
@@ -569,50 +565,45 @@ const sendChat = () => {
             console.log("prompt 실행");
         }
         else if (str.startsWith("?")) {
-            const content = makeChatBlock("bot", "/prompt '질문' : bot에게 질문", "나에게만 보임");
-            // const tempDiv = document.createElement('div');
-            // tempDiv.innerHTML = content;
-            // const chatBlock = tempDiv.firstElementChild!;
-            // document.querySelector(".chat-itembox")?.insertAdjacentElement("beforeend", chatBlock);
-            // const chatBox = document.querySelector(".chat-itembox")!;
-            // chatBox.scrollTop = chatBox.scrollHeight;
-            // chatInput.value = "";
+            const content = makeChatBlock("bot", "/prompt '질문' : bot에게 질문", "나에게만 보임", "/resources/images/common/user.png");
             insertChatBlock(content);
         }
         else {
-            const content = makeChatBlock("bot", "올바른 명령어를 입력해주세요.", "나에게만 보임");
-            // const tempDiv = document.createElement('div');
-            // tempDiv.innerHTML = content;
-            // const chatBlock = tempDiv.firstElementChild!;
-            // document.querySelector(".chat-itembox")?.insertAdjacentElement("beforeend", chatBlock);
-            // const chatBox = document.querySelector(".chat-itembox")!;
-            // chatBox.scrollTop = chatBox.scrollHeight;
-            // chatInput.value = "";
+            const content = makeChatBlock("bot", "올바른 명령어를 입력해주세요.", "나에게만 보임", "/resources/images/common/user.png");
             insertChatBlock(content);
         }
     }
     else {
-        console.log("문자열은 '/'로 시작하지 않습니다.");
+        // console.log("문자열은 '/'로 시작하지 않습니다.");
         socket.send(JSON.stringify({
             "type": "chat",
             "chatContent": chatInput.value,
             "memberName": memberName,
             "memberNo": memberNo,
             "projectNo": projectNo,
+            "profileImg": profileImg
         }));
         console.log("send 실행");
         chatInput.value = "";
     }
 };
-const makeChatBlock = (chatName, chatContent, now) => {
+const makeChatBlock = (chatName, chatContent, now, profileImg) => {
     return `<div class="chat-block">
             <span class="today">@${now}</span>
             <div class="chat-item">
-                <img src="/resources/images/loofy1.jpg" class="chat-prof-img">
+                <img src="${profileImg}" class="chat-prof-img">
                 <div class="chat-id">${chatName}</div>
                 <div class="chat-content">${chatContent}</div>
             </div>
         </div>`;
+    // return `<div class="chat-block">
+    //     <span class="today">@${now}</span>
+    //     <div class="chat-item">
+    //         <img src="/resources/images/loofy1.jpg" class="chat-prof-img">
+    //         <div class="chat-id">${chatName}</div>
+    //         <div class="chat-content">${chatContent}</div>
+    //     </div>
+    // </div>`
 };
 const videoSizeHandler = () => {
     const video = document.querySelectorAll("video");
@@ -679,15 +670,14 @@ const extractAudio = (myStream) => {
 };
 const openBoard = () => {
     whiteBoard = window.open(`${req}/resources/popup/whiteBoard.jsp?memberNo=${memberNo}&projectNo=${projectNo}`, "whiteBoard", "width=600,height=750");
-    window.addEventListener('message', (e) => {
-        //console.log('Received message from popup:', event.data);
-        socket.send(JSON.stringify({
-            "type": "whiteBoard",
-            "draw": e.data,
-            "projectNo": projectNo,
-            "memberNo": memberNo
-        }));
-    });
+    // window.addEventListener('message', (e) => {
+    //     socket.send(JSON.stringify({
+    //         "type": "whiteBoard",
+    //         "draw": e.data,
+    //         "projectNo": projectNo,
+    //         "memberNo": memberNo
+    //     }))
+    // });
 };
 const insertChatBlock = (content) => {
     var _a;
@@ -774,6 +764,22 @@ exitBtn.addEventListener("click", byebye);
 chatBtn.addEventListener("click", sendChat);
 boardBtn.addEventListener("click", openBoard);
 chatInput.addEventListener("keydown", pushEnter);
+window.addEventListener('message', (e) => {
+    // profileImg = "/resources/images/common/user";
+    // whiteBoard 창에서 보내는 메시지만 처리
+    if (e.source === whiteBoard) {
+        console.log('Received message from whiteBoard:', e.data);
+        // 서버로 메시지 전송
+        socket.send(JSON.stringify({
+            "type": "whiteBoard",
+            "draw": e.data,
+            "projectNo": projectNo,
+            "memberNo": memberNo
+        }));
+    }
+    // if(e.data.type==="profileImg"){
+    // }
+});
 startVideoConference();
 // 수정 projectNo4
 //# sourceMappingURL=popup.js.map
