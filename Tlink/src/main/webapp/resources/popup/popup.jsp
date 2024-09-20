@@ -17,24 +17,12 @@
             <body>
                 <main>
 
-                    <!-- <div id="main-container">
-                        <div class="modal-background">
-                            <div id="content-box">
-                                <div id="content-box-wrapper">
-                                    <div id="content-box-item1">주제 추가</div>
-                                    <input id="content-box-item2" placeholder="이 화상회의의 주제는 무엇인가요?"></input>
-                                    <button id="content-box-item3" class="btn">확인</button>
-                                    <button id="content-box-item4" class="btn">취소</button>
-                                </div>
-                            </div>
-                        </div> -->
                     <div id="title-container"><b>오늘 점심은 뭐먹을까</b></div>
                     <div id="middle-container">
                         <div id="video-container">
                         </div>
                         <div id="chat-container">
                             <div class="chat-itembox">
-                                <span class="today">2024-09-09</span>
 
                             </div>
                            <div class="chat-inputbox">

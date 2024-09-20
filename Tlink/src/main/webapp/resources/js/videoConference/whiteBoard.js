@@ -107,7 +107,7 @@ const projectDrawStatus = () => {
                     drawFromData(result);
                 }
                 else {
-                    console.log("result가 null입니다.");
+                    console.log("result가 null");
                 }
             }
             catch (error) {
@@ -115,29 +115,41 @@ const projectDrawStatus = () => {
             }
         }
         else {
-            console.log("데이터가 null 또는 빈 값입니다.");
+            console.log("데이터가 null 또는 빈 값");
         }
     });
 };
 // 팝업 창에서 데이터 수신
 window.addEventListener('message', (e) => {
-    if (e.origin === `http://localhost:8080`) {
-        console.log('받은 데이터:', e.data);
-        drawFromData(JSON.parse(e.data));
+    try {
+        let result = JSON.parse(e.data);
+        drawFromData(result);
+    }
+    catch (e) {
+        console.log("parsing error :", e);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 });
-window.addEventListener("DOMContentLoaded", (e) => __awaiter(void 0, void 0, void 0, function* () {
+window.addEventListener("DOMContentLoaded", (e) => {
     projectDrawStatus();
-}));
-document.querySelector("#blackPen").addEventListener("click", e => {
-    currentColor = "#000000";
 });
-document.querySelector("#bluePen").addEventListener("click", e => {
-    currentColor = "#0000FF";
+// document.querySelector("#penBtn")!.addEventListener("click", e=>{
+//     let inputColor = document.querySelector<HTMLInputElement>(".btn2")!.value ;
+//     currentColor = inputColor;
+// });
+document.querySelector(".btn2").addEventListener("change", e => {
+    let inputColor = document.querySelector(".btn2").value;
+    currentColor = inputColor;
 });
-document.querySelector("#redPen").addEventListener("click", e => {
-    currentColor = "#FF0000";
-});
+// document.querySelector("#blackPen")!.addEventListener("click", e=>{
+//     currentColor = "#000000";
+// });
+// document.querySelector("#bluePen")!.addEventListener("click", e=>{
+//     currentColor = "#0000FF";
+// });
+// document.querySelector("#redPen")!.addEventListener("click", e=>{
+//     currentColor = "#FF0000";
+// });
 document.querySelector("#erase").addEventListener("click", e => {
     console.log("전송되는 projectNo : ", whiteProjectNo);
     fetch("/video/erase", {
@@ -165,14 +177,11 @@ document.querySelector("#erase").addEventListener("click", e => {
 });
 document.querySelector("#save").addEventListener("click", e => {
     const dataURL = canvas.toDataURL("image/png");
-    // 새로운 링크 생성
     const link = document.createElement("a");
     link.href = dataURL;
-    link.download = 'whiteBoard.png'; // 다운로드할 파일 이름
-    // 링크를 문서에 추가하고 클릭하여 다운로드 시작
+    link.download = 'whiteBoard.png';
     document.body.appendChild(link);
     link.click();
-    // 링크를 문서에서 제거
     document.body.removeChild(link);
 });
 //# sourceMappingURL=whiteBoard.js.map

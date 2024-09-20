@@ -49,7 +49,8 @@ public class VideoConference extends TextWebSocketHandler {
 	private VideoService service;
 	
 	// 프로젝트번호 저장용 + 멤버 map
-	private Map<String, Map<String, WebSocketSession>> projectMap = new ConcurrentHashMap<String, Map<String,WebSocketSession>>();
+	@Autowired
+	private Map<String, Map<String, WebSocketSession>> projectMap;
 	
 	// 프로젝트 번호 + whiteBoard json 저장용 map
 	@Autowired
@@ -227,7 +228,13 @@ public class VideoConference extends TextWebSocketHandler {
 			msg.put("type", MSG_TYPE_CHAT);
 			msg.put("chatContent", obj.getChatContent());
 			msg.put("memberNo", obj.getMemberNo());
+			msg.put("memberName", obj.getMemberName());
+	        LocalDateTime currentTime = LocalDateTime.now();
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+	        String formattedTime = currentTime.format(formatter);
+			msg.put("now", formattedTime);
+			
 			String jsonMsg = objectMapper.writeValueAsString(msg);
 
 			Util.broadCasting(project,jsonMsg);
