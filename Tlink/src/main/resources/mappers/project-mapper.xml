@@ -118,6 +118,14 @@
 		"MANAGER" = #{manager}
 		WHERE PROJECT_NO = #{projectNo}
 	</update>
+	
+	<!-- 화상 채팅방 생성(프로젝트 생성 시) -->
+	<insert id="insertVideoRoom">
+		INSERT INTO "VIDEO_ROOM" VALUES(
+		#{projectNo},
+		'화상 채팅'
+		)
+	</insert>
 
 
 </mapper>
