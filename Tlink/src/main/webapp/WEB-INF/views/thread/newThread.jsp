@@ -69,8 +69,7 @@
     </section>
 
     <script>
-        const loginMemberNo = "${loginMember.userNo}";
-        /* const projectNo = "${projectNo}"; */
+        const loginMemberNo = "${loginMember.memberNo}";
     </script>
 
     <script src="/resources/js/chat/newThread.js"></script>

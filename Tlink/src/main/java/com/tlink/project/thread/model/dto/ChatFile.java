@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ThreadFile {
+public class ChatFile {
 
 	private int chatNo;
 	private String filePath;

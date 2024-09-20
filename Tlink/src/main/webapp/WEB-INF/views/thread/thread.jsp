@@ -10,21 +10,20 @@
 
 </head>
 <body>
-   <section class="chatView">
-        <div class="viewHeader">
-            <span><%-- ${thread.threadName} --%></span>
+	<section class="chatView">
+       <div class="viewHeader">
+            <span>${thread.threadName}</span>
             <div>
                 <div class="memberList"></div>
                 <button></button>
             </div>
-       
-        </div> 
+       </div> 
 
-        <div class="saperator"></div>
+       <div class="saperator"></div>
 
-        <div class="viewMain">
-            
-        </div>
+       <div class="viewMain">
+        
+       </div>
 
     </section>
 
