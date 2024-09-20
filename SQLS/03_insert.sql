@@ -93,6 +93,11 @@ INSERT INTO "USER_PROJECT" VALUES(
     1 -- 만든 프로젝트 번호
 );
 
+INSERT INTO "VIDEO_ROOM" VALUES(
+    1,
+    '화상 채팅'
+);
+
 -- 프로젝트 삽입2
 INSERT INTO "PROJECT" VALUES(
     SEQ_PROJECT_NO.NEXTVAL,
@@ -105,6 +110,11 @@ INSERT INTO "PROJECT" VALUES(
 INSERT INTO "USER_PROJECT" VALUES(
     4, -- 생성자
     2 -- 만든 프로젝트 번호
+);
+
+INSERT INTO "VIDEO_ROOM" VALUES(
+    2,
+    '화상 채팅'
 );
 
 -- 프로젝트 삽입3
@@ -121,6 +131,11 @@ INSERT INTO "USER_PROJECT" VALUES(
     3 -- 만든 프로젝트 번호
 );
 
+INSERT INTO "VIDEO_ROOM" VALUES(
+    3,
+    '화상 채팅'
+);
+
 -- 프로젝트 삽입4
 INSERT INTO "PROJECT" VALUES(
     SEQ_PROJECT_NO.NEXTVAL,
@@ -135,6 +150,11 @@ INSERT INTO "USER_PROJECT" VALUES(
     4 -- 만든 프로젝트 번호
 );
 
+INSERT INTO "VIDEO_ROOM" VALUES(
+    4,
+    '화상 채팅'
+);
+
 -- 프로젝트 삽입5
 INSERT INTO "PROJECT" VALUES(
     SEQ_PROJECT_NO.NEXTVAL,
@@ -147,6 +167,11 @@ INSERT INTO "PROJECT" VALUES(
 INSERT INTO "USER_PROJECT" VALUES(
     3, -- 생성자
     5 -- 만든 프로젝트 번호
+);
+
+INSERT INTO "VIDEO_ROOM" VALUES(
+    5,
+    '화상 채팅'
 );
 
 -- 프로젝트 초대1
