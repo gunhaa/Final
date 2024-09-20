@@ -34,6 +34,23 @@
 <script>
     function spread(ele){ $(ele).parents("details").attr("open","open"); }
     function fold(ele){ $(ele).parents("details").removeAttr("open"); }
+
+
+    function rightPopup(ele){ 
+        let top=$(ele).offset().top; 
+        let left=$(ele).offset().left; 
+
+        console.log(top);
+        console.log(left);
+
+        const width=ele.offsetWidth; 
+        const height=ele.offsetHeight; 
+        left+=width; 
+        $(`.dataBox`).show("100").offset({ top: top, left: left  }); 
+
+    }
+
+
     $(`.title`).on("mouseover", function(e){ 
         spread(this); 
         rightPopup(this);

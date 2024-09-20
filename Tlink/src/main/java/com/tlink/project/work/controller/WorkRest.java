@@ -1,5 +1,6 @@
 package com.tlink.project.work.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,11 +101,30 @@ public class WorkRest {
 	
 	
 	
+	
 	//내작업
-	@PostMapping(value=("/workList/mywork/insert"))
+	@GetMapping(value=("/workList/mywork/insert"))
 	public int insertMywork(@RequestBody Map<String, Object> data) {
 		return service.insertMywork(data);
 	}
+	
+	
+	
+	
+	//담장자별
+	@PostMapping(value=("/workList/managerBy/mList"))
+	public Map<String, Object> managerByMList(@RequestBody Map<String, Object> data) {
+		
+		Map<String, Object> map=new HashMap<>();
+		map.put("1", "1");
+		return map;
+	}
+		
+	
+	
+	
+	
+	
 	
 	
 	//상태별

@@ -57,9 +57,6 @@ CREATE TABLE "WORK" (
 	"PROJECT_NO"	NUMBER		                        NOT NULL
 ); 
 
-
-
-
 COMMENT ON COLUMN "WORK"."WORK_NO" IS '작업번호(시퀀스)';
 COMMENT ON COLUMN "WORK"."WORK_TITLE" IS '작업제목';
 COMMENT ON COLUMN "WORK"."WORK_CONTENT" IS '작업내용';
@@ -272,4 +269,3 @@ INSERT INTO USER_PROJECT VALUES (
 
 COMMIT;
 --------------------------------------------------------------------------------
-
