@@ -45,14 +45,14 @@
 }
 
 #delete-image{
-    color: white;
+    color: #b498e7;
     position: absolute;
     cursor: pointer;
-    transition-duration: 0.1s;
+    transition-duration: 0.3s;
 }
 
 #delete-image:hover{
-    transform: scale(1.03);
+    color: white;
 }
 
 /* 메뉴 */
@@ -84,14 +84,15 @@
 }
 
 .bot > .logout{
-    color: white;
+    color: #b498e7;
+    font-weight: bold;
     font-size: 12px;
     cursor: pointer;
-    transition-duration: 0.1s;
+    transition-duration: 0.3s;
 }
 
 .bot > .logout:hover{
-    transform: scale(1.03);
+    color: white;
 }
 
 /* 우측 */

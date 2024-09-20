@@ -135,6 +135,20 @@ INSERT INTO "USER_PROJECT" VALUES(
     4 -- 만든 프로젝트 번호
 );
 
+-- 프로젝트 삽입5
+INSERT INTO "PROJECT" VALUES(
+    SEQ_PROJECT_NO.NEXTVAL,
+    '저일의 프로젝트',
+    '연습용 프로젝트',
+    DEFAULT,
+    3
+);
+
+INSERT INTO "USER_PROJECT" VALUES(
+    3, -- 생성자
+    5 -- 만든 프로젝트 번호
+);
+
 -- 프로젝트 초대1
 INSERT INTO "USER_PROJECT" VALUES(
     4, -- 유저번호
