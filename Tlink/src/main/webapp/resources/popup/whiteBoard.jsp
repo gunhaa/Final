@@ -21,10 +21,12 @@
    						</div>
    						<div id="button-container">
                         <div id="btn-box">
-                            <div class="btn btn1" id="blackPen"><span class="material-symbols-outlined">brush</span></div>
+<!--                             <div class="btn btn1" id="blackPen"><span class="material-symbols-outlined">brush</span></div>
                             <div class="btn btn1" id="bluePen"><span class="material-symbols-outlined">brush</span></div>
-                            <!-- <div class="btn btn1" id="display-btn">화</div> -->
-                            <div class="btn btn1" id="redPen"><span class="material-symbols-outlined">brush</span></div>
+ -->                            <!-- <div class="btn btn1" id="display-btn">화</div> -->
+<!--                             <div class="btn btn1" id="redPen"><span class="material-symbols-outlined">brush</span></div> -->
+                            <input type="color" class="btn2"></input>
+<!--                             <div class="btn btn1" id="penBtn"><span class="material-symbols-outlined">brush</span></div> -->
                             <div class="btn btn1" id="erase"><span class="material-symbols-outlined">description</span></div>
                             <div class="btn btn1" id="save"><span class="material-symbols-outlined">save</span></div>
                         </div>

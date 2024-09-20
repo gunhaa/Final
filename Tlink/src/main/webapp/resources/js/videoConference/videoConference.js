@@ -35,12 +35,12 @@ if (btn) {
                     data.forEach((item) => {
                         var _a;
                         console.log("each 실행중 : ", item);
-                        const content = makeChatBlock1(item.chatUserName, item.chatContent);
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = content;
-                        const chatBlock = tempDiv.firstElementChild;
-                        (_a = popup.document.querySelector(".chat-itembox")) === null || _a === void 0 ? void 0 : _a.insertAdjacentElement("beforeend", chatBlock);
+                        const content = makeChatBlock1(item.chatUserName, item.chatContent, item.chatTimestamp);
+                        (_a = popup.document.querySelector(".chat-itembox")) === null || _a === void 0 ? void 0 : _a.insertAdjacentHTML("beforeend", content);
                     });
+                    const chatBox = popup.document.querySelector(".chat-itembox");
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    // console.log("chatBox 가 받아와짐? : ", chatBox);
                 })
                     .catch(e => {
                     console.log("chat 리스트 받아오는중 오류 발생 : ", e);
@@ -49,12 +49,15 @@ if (btn) {
         });
     });
 }
-const makeChatBlock1 = (chatNo, chatContent) => {
-    return `<div class="chat-item">
+const makeChatBlock1 = (chatNo, chatContent, chatTimestamp) => {
+    return `<div class="chat-block">
+            <span class="today">@${chatTimestamp}</span>
+            <div class="chat-item">
                 <img src="/resources/images/loofy1.jpg" class="chat-prof-img">
                 <div class="chat-id">${chatNo}</div>
                 <div class="chat-content">${chatContent}</div>
-            </div>`;
+            </div>
+        </div>`;
 };
 if (btn2) {
     btn2.addEventListener("click", e => {
