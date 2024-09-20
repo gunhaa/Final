@@ -2,6 +2,7 @@ package com.tlink.project.chatting.common;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,8 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tlink.project.chatting.model.service.VideoService;
 import com.tlink.project.chatting.websocket.VideoConference;
 
@@ -24,6 +27,8 @@ public class Schduling {
 	
     private final TaskScheduler taskScheduler;
 
+	private static final String MSG_TYPE_CHAT = "chat";
+    
 	@Autowired
 	private VideoService service;
     
@@ -32,7 +37,7 @@ public class Schduling {
         this.taskScheduler = taskScheduler;
     }
 
-    public ScheduledFuture<?> scheduleMessage(String msg, LocalDateTime scheduledTime, Map<String, WebSocketSession> projectMemberMap, String projectNo, String memberNo, String chatContent) {
+    public ScheduledFuture<?> scheduleMessage(Map<String, Object> msg, LocalDateTime scheduledTime, Map<String, WebSocketSession> projectMemberMap, String projectNo, String memberNo, String chatContent) {
         
     	
     	long delay = Duration.between(LocalDateTime.now(), scheduledTime).toMillis();
@@ -41,10 +46,33 @@ public class Schduling {
         
         return taskScheduler.schedule(() -> {
             // 메시지 전송 로직
-            Util.broadCasting(projectMemberMap, msg);
+
+        	int seq = service.selectNowBookedChatSeq();
+        	logger.info("seq : {}" , seq);
+        	
+//			Map<String, Object> boradCasting = new HashMap<>();
+
+//			boradCasting.put("type", MSG_TYPE_CHAT);
+//			boradCasting.put("chatContent", msgMap.get("chatContent"));
+//			boradCasting.put("memberNo", msgMap.get("memberNo"));
+//			boradCasting.put("memberName", obj.getMemberName());
+//			boradCasting.put("profileImg", obj.getProfileImg());
+	        LocalDateTime currentTime = LocalDateTime.now();
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	        String formattedTime = currentTime.format(formatter);
+	        msg.put("now", formattedTime);
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			String jsonMsg = null;
+			
+			try {
+				jsonMsg = objectMapper.writeValueAsString(msg);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+	        
+            Util.broadCasting(projectMemberMap, jsonMsg);
             
-            int seq = service.selectNowBookedChatSeq();
-            logger.info("seq : {}" , seq);
 
             int res = service.updateBookedChatStatusY(projectNo, memberNo, seq);
             

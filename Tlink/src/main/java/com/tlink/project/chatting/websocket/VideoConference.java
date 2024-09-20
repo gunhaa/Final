@@ -203,10 +203,12 @@ public class VideoConference extends TextWebSocketHandler {
 			msg.put("type", MSG_TYPE_CHAT);
 			msg.put("chatContent", obj.getBookedMsg());
 			msg.put("memberNo", obj.getMemberNo());
-	        
-			String jsonMsg = objectMapper.writeValueAsString(msg);
+
+			msg.put("memberName", obj.getMemberName());
+			msg.put("profileImg", obj.getProfileImg());
+//			String jsonMsg = objectMapper.writeValueAsString(msg);
 			
-			schduling.scheduleMessage(jsonMsg, localDateTime , project , obj.getProjectNo(), obj.getMemberNo(), obj.getBookedMsg());
+			schduling.scheduleMessage(msg, localDateTime , project , obj.getProjectNo(), obj.getMemberNo(), obj.getBookedMsg());
 
 			msg.put("projectNo", obj.getProjectNo());
             
