@@ -8,24 +8,20 @@
             
             <c:forEach items="${notice.commentList}" var="comment">
                 <%-- 댓글 삭제 여부 확인 --%>
-                <c:if test="${comment.commentDeleteFlag == 'Y'}">
+                <c:if test="${comment.commentDeleteFlag == 2}">
                     <li class="comment-row">삭제된 댓글입니다.</li>
                 </c:if>
 
-                <c:if test="${comment.commentDeleteFlag == 'N'}">
+                <c:if test="${comment.commentDeleteFlag == 1}">
                     <!-- 부모 댓글 / 자식 댓글 여부 확인 -->
                     <li class="comment-row <c:if test='${comment.parentNo != 0}'>child-comment</c:if>">
                         <div class="comment-writer">
-                            
-                            <!-- 프로필 이미지 -->
-                            <c:choose>
-                                <c:when test="${!empty comment.profileImage}">
-                                    <img src="${comment.profileImage}">
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="/resources/images/user.png">
-                                </c:otherwise>
-                            </c:choose>
+                            <c:if test="${empty loginUser.profileImg}">
+                                <img src="/resources/images/common/user.png" id="image">
+                            </c:if>
+                            <c:if test="${!empty loginUser.profileImg}">
+                                <img src="${loginUser.profileImg}" id="image">
+                            </c:if>
                             <div class="comment-text-area">
                                 <!-- 닉네임 -->
                                 <span>${comment.userName}</span>
@@ -40,14 +36,19 @@
 
                         <!-- 버튼 영역 -->
                         <div class="comment-btn-area">
-                            <c:if test="${!empty loginUser}">
-                                <button onclick="showInsertComment(${comment.commentNo}, this)">답글</button>   
-                            </c:if>
     
                             <!-- 로그인 회원과 댓글 작성자가 같은 경우 -->
                             <c:if test="${loginUser.userNo == comment.userNo}">
+                                <button onclick="showInsertComment(${comment.commentNo}, this)">답글</button>   
                                 <button onclick="showUpdateComment(${comment.commentNo}, this)">수정</button>     
                                 <button onclick="deleteComment(${comment.commentNo})">삭제</button>
+                            </c:if>
+                            <c:if test="${loginUser.userNo != comment.userNo}">
+                                <%-- 관리자인 경우 --%>
+                                    <button onclick="showInsertComment(${comment.commentNo}, this)">답글</button>   
+                                <c:if test="${loginUser.role != 'U'}">
+                                    <button onclick="deleteComment(${comment.commentNo})">삭제</button>
+                                </c:if>
                             </c:if>
                         </div>
                     </li>

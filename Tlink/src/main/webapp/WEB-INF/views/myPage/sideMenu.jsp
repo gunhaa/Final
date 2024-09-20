@@ -36,19 +36,19 @@
                         <div class="mid">
                             <!-- 사용자 -->
                             <c:if test="${loginUser.role == 'U'}">
-                                <div class="menu" onclick="location.href='project'">프로젝트</div>
+                                <div class="menu" onclick="location.href='/myPage/project'">프로젝트</div>
                                 <div class="menu" onclick="location.href='/notice'">공지사항</div>
-                                <div class="menu" onclick="location.href='info'">내 정보</div>
-                                <div class="menu" onclick="location.href='changePw'">비밀번호 변경</div>
-                                <div class="menu" onclick="location.href='secession'">회원 탈퇴</div>
+                                <div class="menu" onclick="location.href='/myPage/info'">내 정보</div>
+                                <div class="menu" onclick="location.href='/myPage/changePw'">비밀번호 변경</div>
+                                <div class="menu" onclick="location.href='/myPage/secession'">회원 탈퇴</div>
                             </c:if>
                             <!-- 시스템 관리자 -->
                             <c:if test="${loginUser.role != 'U'}">
                                 <div class="menu" onclick="location.href='/notice'">공지사항</div>
                                 <c:if test="${loginUser.role == 'S'}">
-                                    <div class="menu" onclick="location.href='systemUser'">관리자 계정</div>
+                                    <div class="menu" onclick="location.href='/myPage/systemUser'">관리자 계정</div>
                                 </c:if>
-                                <div class="menu" onclick="location.href='secession'">회원 탈퇴</div>
+                                <div class="menu" onclick="location.href='/myPage/secession'">회원 탈퇴</div>
                             </c:if>
                             
                         </div>
@@ -65,8 +65,6 @@
                     // EL/JSTL 구문이 먼저 해석되는데
                     // 문자열의 경우 따옴표가 없는 상태이니 붙여줘야한다!!!
                     alert('${message}');
-                    
-                    const contextPath = "${pageContext.request.contextPath}";
                     </script>
 
             </c:if>

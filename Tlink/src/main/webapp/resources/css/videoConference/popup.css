@@ -67,6 +67,7 @@ video {
     /* display: flex; */
     /* align-items: center; */
     /* justify-content: center; */
+    z-index:80;
 }
 
 .nameTag1 {
@@ -89,13 +90,6 @@ video {
 
 
 
-
-.today {
-    padding-top: 6px;
-    padding-bottom: 6px;
-    font-size: 22px;
-}
-
 #chat-container {
     border: 1px solid rgb(216, 216, 216);
     width: 300px;
@@ -112,9 +106,16 @@ video {
     font-size: 30px;
     overflow-y: scroll;
     border-radius: 20px 20px 0px 0px;
-    text-align: center;
+    text-align: left;
 }
 
+.today {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left:10px;
+    font-size: 9px;
+    color : grey;
+}
 
 .chat-itembox::-webkit-scrollbar {
     width: 10px;
@@ -166,7 +167,7 @@ video {
     overflow: hidden;
 }
 
-.chat-item:hover {
+.chat-block:hover {
     background-color: rgb(216, 216, 216);
 }
 

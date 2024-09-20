@@ -29,15 +29,17 @@ public class MainServiceImpl implements MainService {
 
 		User loginUser = dao.login(inputUser);
 
-			
-			if (bcrypt.matches(inputUser.getUserPw(), loginUser.getUserPw())) {
-
-				loginUser.setUserPw(null);
-
-			} else {
-
-				loginUser = null;
+			if(loginUser != null) {
+				
+				if (bcrypt.matches(inputUser.getUserPw(), loginUser.getUserPw())) {
+					
+					loginUser.setUserPw(null);
+					
+				} else {
+					
+					loginUser = null;
 			}
+		}
 
 
 		return loginUser;
