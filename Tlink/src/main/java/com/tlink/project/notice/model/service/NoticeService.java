@@ -43,4 +43,23 @@ public interface NoticeService {
 	 */
 	List<Notice> selectNoticeTitleList();
 
+	/**삭제된 공지사항 조회하기
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> selectDeleteAll(int cp);
+
+	/**삭제된 공지사항 상세조회
+	 * @param map
+	 * @return
+	 */
+	Notice selectNoticeDelete(Map<String, Object> map);
+
+	/**삭제된 공지사항 검색으로 조회하기
+	 * @param paramMap
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> selectDeleteNoticeList(Map<String, Object> paramMap, int cp);
+
 }

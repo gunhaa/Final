@@ -76,4 +76,12 @@ public class NoticeDAO2 {
 	public int noticeDelete(Map<String, Object> map) {
 		return sqlSession.update("noticeMapper.noticeDelete", map);
 	}
+
+	/**공지사항 복구하기
+	 * @param map
+	 * @return
+	 */
+	public int noticeRestore(Map<String, Object> map) {
+		return sqlSession.update("noticeMapper.noticeRestore", map);
+	}
 }

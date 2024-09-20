@@ -100,7 +100,7 @@
                         </div>
                         <div class="btn-area">
                             <button><a href="/notice">목록으로</a></button>
-                            <c:if test="${loginUser.userNo == 1}">
+                            <c:if test="${loginUser.role != 'U'}">
                                 <div>
                                     <button><a href="/notice2/${notice.noticeNo}/update">수정하기</a></button>
                                     <button id="deleteBtn" onclick="confirmDelete()">삭제하기</button>

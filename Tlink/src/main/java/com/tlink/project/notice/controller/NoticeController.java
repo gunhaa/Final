@@ -99,7 +99,6 @@ public class NoticeController  {
 				Cookie[] cookies = req.getCookies();
 				
 				if(cookies != null) { // 쿠키가 존재할 경우 -> for문 돌린다(모든 쿠키에서 얻어오기 때문에)
-					
 					// 쿠키 중 "readBoardNo"라는 쿠키를 찾아서 c에 대입
 					for(Cookie cookie : cookies) {
 						if(cookie.getName().equals("readNoticeNo")) { 
@@ -108,28 +107,21 @@ public class NoticeController  {
 						}
 					}
 				}
-				
 				// 3. 기존 쿠키가 없거나(c == null) 쿠키는 존재하나 현재 게시글 번호가
 				//    쿠키에 저장되지 않은 경우 -> 오늘 해당게시글을 본 적 없음
-				
 				int result = 0; // 공통된 result 선언
 				if(c == null) {
 					// 쿠키가 존재 X -> 쿠키 새로 생성해준다
 					c = new Cookie("readNoticeNo", "|" + noticeNo + "|"); 
-													// @PathVariable 통해서 얻어온 boardNo
-
 					// 조회수 증가하는 서비스 호출
 					result = service.updateReadCount(noticeNo);
-//					System.out.println("쿠키없음:"+result);
 					
 				}else{ // 현재 게시글 번호가 쿠키에 있는지 확인
 					
-					// Cookie.getValue() : 쿠키에 저장된 모든 값을 읽어옴
-					// 					  -> String으로 반환
+					// Cookie.getValue() : 쿠키에 저장된 모든 값을 읽어옴 -> String으로 반환
 				
 					// String.indexOf("문자열")
-					// : 찾는 문자열이 몇 번째 인덱스에 존재하는지 반환
-					// 단, 없으면 -1 반환
+					// : 찾는 문자열이 몇 번째 인덱스에 존재하는지 반환 단, 없으면 -1 반환
 					
 					// 쿠키의 현재 게시글 번호가 없다면
 					if(c.getValue().indexOf("|" + noticeNo + "|") == -1) {
@@ -139,20 +131,14 @@ public class NoticeController  {
 						
 						// 조회수 증가하는 서비스 호출
 						result = service.updateReadCount(noticeNo);
-//						System.out.println("쿠키있는데 번호 없음:"+result);
 					}
-					
 				} // 4. 종료
-				
-				// 5. 조회수 증가 성공 시
-				// 쿠키가 적용되는 경로, 쿠키 수명(당일 23시 59분 59초) 지정
+				// 5. 조회수 증가 성공 시 쿠키가 적용되는 경로, 쿠키 수명(당일 23시 59분 59초) 지정
 				
 				if(result > 0) {
-//					System.out.println("성공 여부 확인:"+result);
 					// 조회된 board 조회수와 DB 조회수 동기화
 					notice.setReadCount(notice.getReadCount() + 1);
 					
-//					System.out.println(board);
 					// 적용 경로 설정
 					c.setPath("/"); // "/" 이하 경로 요청 시 쿠키 서버로 전달
 					
@@ -181,10 +167,8 @@ public class NoticeController  {
 					resp.addCookie(c); // 응답 객체를 이용해서 클라이언트에게 전달
 					
 				}
-				
 			}
 
-			
 			path = "notice/noticeDetail";
 			model.addAttribute("notice", notice);
 			model.addAttribute("noticeTitleList", noticeTitleList);
@@ -202,5 +186,66 @@ public class NoticeController  {
 		return path;
 	}
  
+	
+    @GetMapping("/deletedList")
+    public String noticeDeleteList(Model model
+    		, @SessionAttribute("loginUser") User loginUser 
+    		,@RequestParam(value = "cp",required = false, defaultValue = "1") int cp
+    		,@RequestParam Map<String, Object> paramMap
+    		) {
+    	
+    	if(paramMap.get("query") == null) { // 검색어가 없을 때 (검색X)
+ 			
+ 			// 게시글 목록 조회 서비스 호출
+    		Map<String, Object> map = service.selectDeleteAll(cp);
+ 			
+ 			// 조회 결과를 request scope에 세팅 후 forward 
+ 			model.addAttribute("map", map);
+ 			
+ 		} else { //  검색어가 있을 떄 (검색 O)
+ 			
+ 			Map<String, Object> map = service.selectDeleteNoticeList(paramMap, cp);
+ 			model.addAttribute("map", map);
+ 			
+ 		}
+        
+        return "notice/noticeDeleteList"; 
+    }
+	
+    // 공지사항 게시글 상세조회 
+	@GetMapping("/deletedList/{noticeNo}")
+	public String noticeDeleteDetail(@PathVariable("noticeNo") int noticeNo
+							 , Model model 
+							 , RedirectAttributes ra 
+							 , @SessionAttribute(value="loginUser", required=false) User loginUser
+							 , HttpServletRequest req
+							 , HttpServletResponse resp) throws ParseException {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noticeNo", noticeNo);
+
+		
+		// 게시글 상세 조회 서비스 호출
+		Notice noticeDelete = service.selectNoticeDelete(map);
+
+		String path = null;
+		if(noticeDelete != null) { // 조회된 결과가 있을 경우
+			
+			
+			path = "notice/noticeDeleteDetail";
+			model.addAttribute("noticeDelete", noticeDelete);
+
+		}else { // 조회된 결과가 없을 경우
+
+			// 게시판 첫 페이지로 리다이렉트
+			path = "redirect:/notice/deletedList";
+
+			// "해당 게시글이 존재하지 않습니다." 알림창 출력
+			ra.addFlashAttribute("message", "해당 게시글이 존재하지 않습니다.");
+
+		}
+
+		return path;
+	}
     
 }

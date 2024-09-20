@@ -81,7 +81,6 @@ public class NoticeController2 {
 		String path = "redirect:";
 		
 		if(noticeNo > 0) { // 게시글 등록 성공 시
-			message = "게시글이 등록되었습니다.";
 			path += "/notice/" + noticeNo;
 			
 		}else { // 게시글 등록 실패 시
@@ -162,7 +161,7 @@ public class NoticeController2 {
 	
 	// 게시글 삭제
 	@GetMapping("/{noticeNo}/delete")
-	public String boardDelete(@PathVariable("noticeNo") int noticeNo,
+	public String noticeDelete(@PathVariable("noticeNo") int noticeNo,
 							@RequestParam(value = "cp", required = false, defaultValue = "1") int cp
 							) {
 		
@@ -180,6 +179,32 @@ public class NoticeController2 {
 		}
 		
 		
+		return path;
+	}
+	
+	// 게시글 복구하기
+	@GetMapping("/{noticeNo}/restore")
+	public String noticeRestore(@PathVariable("noticeNo") int noticeNo,
+							@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+							RedirectAttributes ra
+							) {
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noticeNo", noticeNo);
+		int result = service.noticeRestore(map);
+		
+		String path = "redirect:";
+		String message = null;
+		if(result > 0) {
+			path += "/notice/deletedList";
+			message = "게시글이 복구되었습니다";
+		}else {
+			path += "/notice/deletedList" + noticeNo + "?cp=" + cp;
+			message = "게시글이 복구에 실패했습니다.";
+		}
+		
+		ra.addFlashAttribute("message", message);
 		return path;
 	}
 	

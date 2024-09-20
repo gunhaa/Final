@@ -3,7 +3,7 @@
 
 <%-- map에 저장된 값들을 각각 변수에 저장 --%>
 <c:set var="pagination" value="${map.pagination}"/>
-<c:set var="noticeList" value="${map.noticeList}"/>
+<c:set var="deleteNoticeList" value="${map.deleteNoticeList}"/>
 
 <c:if test="${!empty param.query}">
     <c:set var="sURL" value="&query=${param.query}"/>
@@ -30,18 +30,14 @@
             </article>
             <article class="main-middle">
                 <div>
-                    <span><a href="/notice">공지사항</a></span>
-                    <c:if test="${loginUser.role != 'U'}">
-                        <button id="deletedNotice"><a href="/notice/deletedList">삭제된 게시글</a></button>
-                        <button id="insertNotice"><a href="/notice2/insert">게시글 생성</a></button>
-                    </c:if>
+                    <span><a href="/notice/deletedList">삭제된 게시글</a></span>
                 </div>
                 <div>
                     <div>
 
                     </div>
                     <fieldset>
-                        <form action="/notice" method="get" id="boardSearch">
+                        <form action="/notice/deletedList" method="get" id="boardSearch">
                             <input type="text" name="query"  id="searchQuery" placeholder="검색어를 입력해주세요.">
                             <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
@@ -63,38 +59,11 @@
                     </thead>
 
                     <tbody>
-                        <%-- <c:if test="${!empty topNoticeList && pagination.currentPage == 1}"> --%>
-                        <c:if test="${!empty topNoticeList && empty param.query}">
-                            <c:forEach var="topNotice" items="${topNoticeList}">
-                                <tr class="topNoticeTr">
-                                    <td></td>
-                                    <td> 
-                                        <a href="/notice/${topNotice.noticeNo}?cp=${pagination.currentPage}&${sURL}">
-                                            [중요]${topNotice.noticeTitle}
-                                        </a>
-                                        <c:if test="${topNotice.noticeCommentView == 2}"> 
-                                        </c:if>
-                                        <c:if test="${topNotice.noticeCommentView == 1}"> 
-                                            [${topNotice.commentCount}]   
-                                        </c:if>
-                                    </td>
-                                    <td>${topNotice.createDate}</td>
-                                    <td>
-                                        <c:forEach var="file" items="${topNotice.fileList}">
-                                            <c:if test="${file.fileOrder == 0}">
-                                                <span><i class="fa-solid fa-file-lines"></i></span>
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>${topNotice.readCount}</td>
-                                </tr>
-                            </c:forEach>
-                        </c:if>
-                        <c:forEach var="notice" items="${noticeList}">
+                        <c:forEach var="notice" items="${deleteNoticeList}">
                             <tr>
                                 <td>${notice.noticeNo}</td>
                                 <td> 
-                                    <a href="/notice/${notice.noticeNo}?cp=${pagination.currentPage}&${sURL}">
+                                    <a href="/notice/deletedList/${notice.noticeNo}?cp=${pagination.currentPage}&${sURL}">
                                     <c:if test="${notice.noticeType == 1}">
                                         [안내]${notice.noticeTitle}
                                     </c:if>
@@ -132,8 +101,8 @@
                 <div class="pagination-area">
 
                     <ul class="pagination">
-                        <li><a href="/notice?cp=1${sURL}">&lt;&lt;</a></li>
-                        <li><a href="/notice?cp=${pagination.prevPage}${sURL}">&lt;</a></li>
+                        <li><a href="/notice/deletedList?cp=1${sURL}">&lt;&lt;</a></li>
+                        <li><a href="/notice/deletedList?cp=${pagination.prevPage}${sURL}">&lt;</a></li>
 
                         <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
                             <c:choose>
@@ -141,13 +110,13 @@
                                     <li><a class="current">${i}</a></li>
                                 </c:when>
                                 <c:otherwise>
-                                    <li><a href="/notice?cp=${i}${sURL}">${i}</a></li>
+                                    <li><a href="/notice/deletedList?cp=${i}${sURL}">${i}</a></li>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
 
-                        <li><a href="/notice?cp=${pagination.nextPage}${sURL}">&gt;</a></li>
-                        <li><a href="/notice?cp=${pagination.maxPage}${sURL}">&gt;&gt;</a></li>
+                        <li><a href="/notice/deletedList?cp=${pagination.nextPage}${sURL}">&gt;</a></li>
+                        <li><a href="/notice/deletedList?cp=${pagination.maxPage}${sURL}">&gt;&gt;</a></li>
                     </ul>
                 </div>
             </article>
