@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 let memberNo = new URLSearchParams(location.search).get("memberNo");
 let projectNo = new URLSearchParams(location.search).get("projectNo");
 let memberName = new URLSearchParams(location.search).get("memberName");
+let main = document.querySelector("main");
 let myStream;
 let camera = true;
 let mic = true;
@@ -19,6 +20,7 @@ let otherMemberNoSet = new Set();
 let peerConnectionMap = new Map();
 let state = "camera";
 let whiteBoard;
+let profileImg;
 const changeTitleBtn = document.querySelector("#changeTitle-btn");
 const bookedMessageBtn = document.querySelector(".chat-booked");
 const cameraBtn = document.querySelector("#video-btn");
@@ -76,12 +78,14 @@ const inputTitleModal = (title, placeHolder) => {
                     if (data > 0) {
                         nowtitle.innerHTML = `<b>${input.value}</b>`;
                         const existingModal = document.querySelector("#main-container");
+                        alert$2(main, "green", "white", "변경을 성공 하였습니다.", "2s", 2000);
                         if (existingModal) {
                             existingModal.remove();
                         }
                     }
                     else {
-                        alert("주제 변경 실패");
+                        // alert("주제 변경 실패");
+                        alert$2(main, "red", "white", "변경을 실패 하였습니다.", "2s", 2000);
                     }
                 })
                     .catch(e => {
@@ -91,6 +95,7 @@ const inputTitleModal = (title, placeHolder) => {
         }
         if (cancelButton) {
             cancelButton.addEventListener("click", () => {
+                alert$2(main, "red", "white", "변경을 취소 하였습니다.", "2s", 2000);
                 const existingModal = document.querySelector("#main-container");
                 if (existingModal) {
                     existingModal.remove();
@@ -130,6 +135,7 @@ const inputBookedModal = (title, placeHolder) => {
                     "projectNo": projectNo,
                     "memberNo": memberNo,
                 }));
+                alert$2(main, "green", "white", "전송을 예약 하였습니다.", "2s", 2000);
                 const existingModal = document.querySelector("#main-container");
                 if (existingModal) {
                     existingModal.remove();
@@ -138,6 +144,7 @@ const inputBookedModal = (title, placeHolder) => {
         }
         if (cancelButton) {
             cancelButton.addEventListener("click", () => {
+                alert$2(main, "red", "white", "전송을 취소 하였습니다.", "2s", 2000);
                 const existingModal = document.querySelector("#main-container");
                 if (existingModal) {
                     existingModal.remove();
@@ -202,12 +209,20 @@ const connectWebsocket = () => {
                 peerConnectionMap.get(parsedMessage.iceSender).addIceCandidate(new RTCIceCandidate({ candidate: parsedMessage.candidate, sdpMLineIndex: parsedMessage.sdpMLineIndex, sdpMid: parsedMessage.sdpMid }));
             }
             if (parsedMessage.type === "chat") {
-                // console.log("chat 실행됬음");
-                const content = makeChatBlock(parsedMessage.memberNo, parsedMessage.chatContent);
+                console.log("chat 실행됬음", parsedMessage);
+                // chatsend 부분이랑 이곳을 name으로 바꿔야함
+                console.log("profileImg : ", parsedMessage.profileImg);
+                if (parsedMessage.profileImg === "") {
+                    parsedMessage.profileImg = "/resources/images/common/user.png";
+                }
+                const content = makeChatBlock(parsedMessage.memberName, parsedMessage.chatContent, parsedMessage.now, parsedMessage.profileImg);
+                console.log("변화 체크용4");
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = content;
                 const chatBlock = tempDiv.firstElementChild;
                 (_a = document.querySelector(".chat-itembox")) === null || _a === void 0 ? void 0 : _a.insertAdjacentElement("beforeend", chatBlock);
+                const chatBox = document.querySelector(".chat-itembox");
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
             if (parsedMessage.type === "whiteBoard") {
                 console.log("board 실행됬고 내용은 : ", parsedMessage[projectNo]);
@@ -527,38 +542,71 @@ const roomlimit = () => {
     }
 };
 const sendChat = () => {
-    socket.send(JSON.stringify({
-        "type": "chat",
-        "chatContent": chatInput.value,
-        "memberNo": memberNo,
-        "projectNo": projectNo,
-    }));
-    // fetch("/video/chatSend", {
-    //     method : "POST",
-    //     headers : {
-    //         "Content-Type" : "application/json",
-    //     },
-    //     body : JSON.stringify({
-    //         "memberNo": memberNo,
-    //         "projectNo": projectNo,
-    //         "chatContent" : chatInput.value,
-    //     })
-    // })
-    // .then(resp => resp.json())
-    // .then(data => {
-    // })
-    // .catch(e => {
-    //     console.log("채팅 전송 실패 : ", e);
-    // })
-    console.log("send 실행");
-    chatInput.value = "";
+    if (chatInput.value.startsWith("/")) {
+        console.log("문자열은 '/'로 시작합니다.");
+        let str = chatInput.value.slice(1);
+        if (str.startsWith("prompt")) {
+            let prompt$1 = str.slice(6);
+            chatInput.value = "";
+            fetch("/video/prompt", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "prompt": prompt$1
+                })
+            })
+                .then(resp => resp.text())
+                .then(data => {
+                const content = makeChatBlock("bot", data, "나에게만 보임", "/resources/images/common/user.png");
+                insertChatBlock(content);
+            })
+                .catch(e => {
+                console.log("프롬프트 전송 실패 : ", e);
+            });
+            console.log("prompt 실행");
+        }
+        else if (str.startsWith("?")) {
+            const content = makeChatBlock("bot", "/prompt '질문' : bot에게 질문", "나에게만 보임", "/resources/images/common/user.png");
+            insertChatBlock(content);
+        }
+        else {
+            const content = makeChatBlock("bot", "올바른 명령어를 입력해주세요.", "나에게만 보임", "/resources/images/common/user.png");
+            insertChatBlock(content);
+        }
+    }
+    else {
+        // console.log("문자열은 '/'로 시작하지 않습니다.");
+        socket.send(JSON.stringify({
+            "type": "chat",
+            "chatContent": chatInput.value,
+            "memberName": memberName,
+            "memberNo": memberNo,
+            "projectNo": projectNo,
+            "profileImg": profileImg
+        }));
+        console.log("send 실행");
+        chatInput.value = "";
+    }
 };
-const makeChatBlock = (chatNo, chatContent) => {
-    return `<div class="chat-item">
-                <img src="/resources/images/loofy1.jpg" class="chat-prof-img">
-                <div class="chat-id">${chatNo}</div>
+const makeChatBlock = (chatName, chatContent, now, profileImg) => {
+    return `<div class="chat-block">
+            <span class="today">@${now}</span>
+            <div class="chat-item">
+                <img src="${profileImg}" class="chat-prof-img">
+                <div class="chat-id">${chatName}</div>
                 <div class="chat-content">${chatContent}</div>
-            </div>`;
+            </div>
+        </div>`;
+    // return `<div class="chat-block">
+    //     <span class="today">@${now}</span>
+    //     <div class="chat-item">
+    //         <img src="/resources/images/loofy1.jpg" class="chat-prof-img">
+    //         <div class="chat-id">${chatName}</div>
+    //         <div class="chat-content">${chatContent}</div>
+    //     </div>
+    // </div>`
 };
 const videoSizeHandler = () => {
     const video = document.querySelectorAll("video");
@@ -624,18 +672,72 @@ const extractAudio = (myStream) => {
     recognition.start();
 };
 const openBoard = () => {
-    whiteBoard = window.open(`${req}/resources/popup/whiteBoard.jsp?memberNo=${memberNo}&projectNo=${projectNo}`, "whiteBoard", "width=600,height=600");
-    window.addEventListener('message', (e) => {
-        if (e.origin === `http://localhost:8080`) {
-            //console.log('Received message from popup:', event.data);
-            socket.send(JSON.stringify({
-                "type": "whiteBoard",
-                "draw": e.data,
-                "projectNo": projectNo,
-                "memberNo": memberNo
-            }));
+    whiteBoard = window.open(`${req}/resources/popup/whiteBoard.jsp?memberNo=${memberNo}&projectNo=${projectNo}`, "whiteBoard", "width=600,height=750");
+    // window.addEventListener('message', (e) => {
+    //     socket.send(JSON.stringify({
+    //         "type": "whiteBoard",
+    //         "draw": e.data,
+    //         "projectNo": projectNo,
+    //         "memberNo": memberNo
+    //     }))
+    // });
+};
+const insertChatBlock = (content) => {
+    var _a;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = content;
+    const chatBlock = tempDiv.firstElementChild;
+    (_a = document.querySelector(".chat-itembox")) === null || _a === void 0 ? void 0 : _a.insertAdjacentElement("beforeend", chatBlock);
+    const chatBox = document.querySelector(".chat-itembox");
+    chatInput.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+};
+const pushEnter = (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        sendChat();
+    }
+};
+const alert$2 = (block, color, fontColor, content, duration, time) => {
+    const style = document.createElement("style");
+    style.innerHTML = `
+            @keyframes fadeInDown {
+                0% {
+                    opacity: 0;
+                    transform: translate3d(0, -100%, 0);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateZ(0);
+                }
+            }
+    
+            @keyframes fadeOut {
+                0% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+        `;
+    document.head.appendChild(style);
+    block.insertAdjacentHTML("beforebegin", `<div id="okModal" style="display: flex; flex-direction: column; position:relative; animation: fadeOut ${duration} forwards;"> 
+      <div style="position: fixed; top: 0; left: 0; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.8); z-index: 99; backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center;">
+        <div style="position:absolute; top : 50px; left: 100px; background:${color}; border-radius:10px; width:800px; height:100px; animation: fadeInDown 0.3s; display: flex; align-items: center; justify-content: center;">
+            <span style="font-size: 25px; color:${fontColor};">${content}</span>
+        </div>
+      </div>
+    </div>`);
+    setTimeout(() => {
+        var _a;
+        if (document.getElementById("okModal")) {
+            (_a = document.getElementById("okModal")) === null || _a === void 0 ? void 0 : _a.remove();
         }
-    });
+    }, time);
+    setTimeout(() => {
+        document.head.removeChild(style);
+    }, time + 500);
 };
 const startVideoConference = () => __awaiter(void 0, void 0, void 0, function* () {
     // 1. 소켓을 연결한다.
@@ -664,6 +766,24 @@ changeBtn.addEventListener("click", handleChangeBtn);
 exitBtn.addEventListener("click", byebye);
 chatBtn.addEventListener("click", sendChat);
 boardBtn.addEventListener("click", openBoard);
+chatInput.addEventListener("keydown", pushEnter);
+window.addEventListener('message', (e) => {
+    // profileImg = "/resources/images/common/user";
+    // whiteBoard 창에서 보내는 메시지만 처리
+    if (e.source === whiteBoard) {
+        console.log('Received message from whiteBoard:', e.data);
+        // 서버로 메시지 전송
+        socket.send(JSON.stringify({
+            "type": "whiteBoard",
+            "draw": e.data,
+            "projectNo": projectNo,
+            "memberNo": memberNo
+        }));
+    }
+    if (e.data.type === "popup") {
+        profileImg = e.data.profileImg;
+    }
+});
 startVideoConference();
 // 수정 projectNo4
 //# sourceMappingURL=popup.js.map

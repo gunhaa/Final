@@ -25,7 +25,7 @@
 	
 	<update id="delete">
 		UPDATE NOTICE_COMMENT SET
-		COMMENT_DEL_FL = 'Y'
+		COMMENT_DEL_FL = 2
 		WHERE COMMENT_NO = #{commentNo}
 	</update>
 

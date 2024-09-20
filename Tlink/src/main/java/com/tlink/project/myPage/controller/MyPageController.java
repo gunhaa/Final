@@ -144,9 +144,9 @@ public class MyPageController {
 		return service.deleteProfile(loginUser.getUserNo());
 	}
 	
-	// 내 정보 페이지
+	// 내 정보 수정
 	@PostMapping("/info")
-	public String userInfo( @SessionAttribute("loginUser") User loginUser, User inputUser, String[] userAddr) {
+	public String userInfo( @SessionAttribute("loginUser") User loginUser, User inputUser, String[] userAddr, RedirectAttributes ra) {
 		
 		loginUser.setUserPhone(inputUser.getUserPhone());
 		
@@ -164,6 +164,13 @@ public class MyPageController {
 		
 		int result = service.updateInfo(loginUser);
 		
-		return "/myPage/myPage-info";
+		String message = null;
+		
+		if(result > 0) message = "회원 정보가 변경되었습니다.";
+		else message = "회원 정보 변경 실패";
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:info";
 	}
 }

@@ -28,7 +28,7 @@
                     <div class="card">
                         <div class="card-row">
                             <div class="row-title">이름</div>
-                            <div class="row-content">${loginUser.userName}</div>
+                            <div class="row-content" class="cursor-df">${loginUser.userName}</div>
                         </div>
                         <div class="card-row">
                             <div class="row-title">이메일</div>

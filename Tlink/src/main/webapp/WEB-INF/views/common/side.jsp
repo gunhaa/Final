@@ -3,11 +3,6 @@
 
 
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-
-
 
 
 <c:forEach var="project" items="${projectList}">
@@ -24,7 +19,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>workspace</title>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
@@ -40,7 +35,7 @@
                     <div>
 
                         <c:if test="${loginUser.profileImg==null}">
-                            <a href="#"><img src="/resources/images/loofy1.jpg"/></a>
+                            <a href="#"><img src="/resources/images/common/user.png"/></a>
                         </c:if>
                         <c:if test="${loginUser.profileImg!=null}">
                             <a href="#"><img src="${loginUser.profileImg}"/></a>
@@ -77,7 +72,7 @@
                     <li style=""><a href="/workList/gantChart?projectNo=${projectNo}">워크스페이스</a></li>
                     <li><a href="/todoList?projectNo=${projectNo}">해야할 일</a></li>
                     <li><a href="">캘린더</a></li>
-                    <li><a href="">화상회의</a></li>
+                    <li><span id="btn_videoConference">화상회의</span></li>
                     <li></li>
                 </ul>
             </div>
@@ -277,4 +272,87 @@
 
 </script>
 
+<script>
+const btn = document.querySelector("#btn_videoConference");
+const profileImg = "${loginUser.profileImg}";
+const memberNo = "${loginUser.userNo}";
+const memberName = "${loginUser.userName}"
+let projectNo = new URLSearchParams(location.search).get("projectNo");
+let popup;
+if (btn) {
 
+    btn.addEventListener("click", e => {
+
+
+        fetch("/video/selectTitle", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "projectNo": projectNo
+            })
+        })
+            .then((resp) => resp.text())
+            .then(data => {
+
+                popup = window.open(`/resources/popup/popup.jsp?memberNo=\${memberNo}&projectNo=\${projectNo}&memberName=\${memberName}`, "VideoConference", "width=920,height=830")
+                popup.onload = () => {
+                    popup.document.querySelector("#title-container").innerHTML = `<b>${data}</b>`;
+
+                    fetch("/video/selectChat", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            "projectNo": projectNo
+                        })
+                    })
+                        .then(resp => resp.json())
+                        .then(data => {
+
+                            
+                            data.forEach((item) => {
+                                console.log("each 실행중 : ", item);
+
+                                const content = makeChatBlock(item.chatUserName, item.chatContent, item.chatTimestamp , item.chatProfileImg);
+                                console.log(content);
+                                popup.postMessage({"type" : "popup", "profileImg" : profileImg}, "*");
+
+                                popup.document.querySelector(".chat-itembox").insertAdjacentHTML("beforeend", content);
+                            });
+
+                            const chatBox =  popup.document.querySelector(".chat-itembox");
+                            chatBox.scrollTop = chatBox.scrollHeight;
+                            // console.log("chatBox 가 받아와짐? : ", chatBox);
+                        })
+                        .catch(e => {
+                            console.log("chat 리스트 받아오는중 오류 발생 : ", e)
+                        })
+                };
+            })
+
+
+
+    })
+
+}
+
+const makeChatBlock = (chatUserName, chatContent, chatTimestamp, chatProfileImg) => {
+
+    if(chatProfileImg==null){
+        chatProfileImg="/resources/images/common/user.png";
+    }
+
+    return `<div class="chat-block">
+            <span class="today">@\${chatTimestamp}</span>
+            <div class="chat-item">
+                <img src="\${chatProfileImg}" class="chat-prof-img">
+                <div class="chat-id">\${chatUserName}</div>
+                <div class="chat-content">\${chatContent}</div>
+            </div>
+        </div>`
+}
+
+</script>

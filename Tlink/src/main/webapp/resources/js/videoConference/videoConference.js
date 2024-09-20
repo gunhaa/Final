@@ -35,12 +35,12 @@ if (btn) {
                     data.forEach((item) => {
                         var _a;
                         console.log("each 실행중 : ", item);
-                        const content = makeChatBlock1(item.chatUserName, item.chatContent);
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = content;
-                        const chatBlock = tempDiv.firstElementChild;
-                        (_a = popup.document.querySelector(".chat-itembox")) === null || _a === void 0 ? void 0 : _a.insertAdjacentElement("beforeend", chatBlock);
+                        const content = makeChatBlock1(item.chatUserName, item.chatContent, item.chatTimestamp, item.chatProfileImg);
+                        (_a = popup.document.querySelector(".chat-itembox")) === null || _a === void 0 ? void 0 : _a.insertAdjacentHTML("beforeend", content);
                     });
+                    const chatBox = popup.document.querySelector(".chat-itembox");
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    // console.log("chatBox 가 받아와짐? : ", chatBox);
                 })
                     .catch(e => {
                     console.log("chat 리스트 받아오는중 오류 발생 : ", e);
@@ -49,12 +49,18 @@ if (btn) {
         });
     });
 }
-const makeChatBlock1 = (chatNo, chatContent) => {
-    return `<div class="chat-item">
-                <img src="/resources/images/loofy1.jpg" class="chat-prof-img">
+const makeChatBlock1 = (chatNo, chatContent, chatTimestamp, chatProfileImg) => {
+    if (chatProfileImg == null) {
+        chatProfileImg = "/resources/images/common/user.png";
+    }
+    return `<div class="chat-block">
+            <span class="today">@${chatTimestamp}</span>
+            <div class="chat-item">
+                <img src="${chatProfileImg}" class="chat-prof-img">
                 <div class="chat-id">${chatNo}</div>
                 <div class="chat-content">${chatContent}</div>
-            </div>`;
+            </div>
+        </div>`;
 };
 if (btn2) {
     btn2.addEventListener("click", e => {
@@ -129,17 +135,4 @@ const alert$1 = (block, color, fontColor, content, duration, time) => {
         document.head.removeChild(style);
     }, time + 500);
 };
-//     block.insertAdjacentHTML("beforebegin",
-//         `<div id="okModal" style="display: flex; flex-direction: column; position:relative; animation: fadeOut ${duration} forwards;">
-//   <div style="position: fixed; top: 0; left: 0; bottom: 0; right: 0; background: rgba(0, 0, 0, 0.8); z-index: 2; backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center;">
-//     <div style="position:absolute; top : 200px; left: 500px; background:${color}; border-radius:10px; width:800px; height:100px; animation: fadeInDown 0.3s; display: flex; align-items: center; justify-content: center;">
-// 		<span style="font-size: 25px; color:${fontColor};">${content}</span>
-//     </div>
-//   </div>
-// </div>`);
-//     setTimeout(() => {
-//         if (document.getElementById("okModal")) {
-//             document.getElementById("okModal")?.remove();
-//         }
-//     }, time);
 //# sourceMappingURL=videoConference.js.map

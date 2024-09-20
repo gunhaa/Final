@@ -1,5 +1,11 @@
+body{
+    display: flex;
+    height: 1000px;
+}
+
+
 #calendar-container {
-    margin-bottom: 20px; 
+    width: calc(100% - 350px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,9 +13,8 @@
 }
 
 #calendar {
-    margin-top: 20px;
-    width: 70%;
-    height: 800px;
+    width: 80%;
+    height: 80%;
 }
 
 #modal {
@@ -38,6 +43,9 @@
     min-height: 200px;
     max-height: 700px;
     border-radius: 20px;
+    top: 50px;
+    right: 500px;
+    position: absolute;
 }
 
 .modal-content > div:nth-child(1){
@@ -113,23 +121,25 @@
 .addBtn{
     margin: 10px 0 10px 20px;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #643BAB;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
+    font-weight: bold;
 }
 
 .addScheduleBtn{
     margin: 10px;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #643BAB;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
+    font-weight: bold;
 }
 
 .btnArea{
@@ -156,12 +166,13 @@
 
 .updateBtn, .deleteBtn{
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #643BAB;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
+    font-weight: bold;
 }
 
 .choicedText{
@@ -185,3 +196,7 @@
     margin-left: 120px;
     margin-bottom: 20px;
 }
+
+.movePoint {
+    cursor: move;
+  }

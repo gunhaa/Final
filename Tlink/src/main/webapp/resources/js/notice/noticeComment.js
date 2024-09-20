@@ -29,7 +29,7 @@ function selectCommentList(){
         // cList에 저장된 요소를 하나씩 접근
 
         for(let comment of cList){
-            if(comment.commentDeleteFlag == 'N'){
+            if(comment.commentDeleteFlag == 1){
                 // 행
                 const commentRow = document.createElement("li");
                 commentRow.classList.add("comment-row");
@@ -43,11 +43,11 @@ function selectCommentList(){
     
                 // 프로필 이미지
                 const profileImage = document.createElement("img");
-    
+                console.log(comment.profileImage)
                 if( comment.profileImage != null ){ // 프로필 이미지가 있을 경우
                     profileImage.setAttribute("src", comment.profileImage);
                 }else{ // 없을 경우 == 기본이미지
-                    profileImage.setAttribute("src", "/resources/images/user.png");
+                    profileImage.setAttribute("src", "/resources/images/common/user.png");
                 }
     
                 // 작성자 닉네임
@@ -71,7 +71,7 @@ function selectCommentList(){
                 commentRow.append(commentWriter, commentContent);
                 
                 // 로그인이 되어있는 경우 답글 버튼 추가
-                if(logiuUserNo != ""){
+                if(loginUserNo != ""){
                     // 버튼 영역
                     const commentBtnArea = document.createElement("div");
                     commentBtnArea.classList.add("comment-btn-area");
@@ -113,7 +113,7 @@ function selectCommentList(){
                 commentList.append(commentRow);
             }
             
-            if(comment.commentDeleteFlag == 'Y'){
+            if(comment.commentDeleteFlag == 2){
                 const commentRow = document.createElement("li");
                 commentRow.classList.add("comment-row");
                 commentRow.classList.add('addcolor')

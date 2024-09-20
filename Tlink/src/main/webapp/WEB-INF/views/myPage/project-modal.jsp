@@ -10,15 +10,15 @@
 </head>
 <body>
 <!--모달 팝업-->
-<form action="/project/create" method="post">
+<form action="/project/create" method="post" id="createFrm">
     <div class="modal">
         <div class="modal_popup">
             <h3 style="margin-bottom: 20px;">프로젝트 생성</h3>
             <div class="modal-row">
-                <span class="input-title">프로젝트명</span><input type="text" name="projectTitle">
+                <span class="input-title">프로젝트명</span><input type="text" name="projectTitle" id="projectTitle">
             </div>
             <div class="modal-row">
-                <span class="input-title">프로젝트 설명</span><input type="text" name="projectInfo">
+                <span class="input-title">프로젝트 설명</span><input type="text" name="projectInfo" id="projectInfo">
             </div>
             <div class="btn-area">
                 <button type="button" class="close-btn">닫기</button>
@@ -27,6 +27,28 @@
         </div>
     </div>
 </form>
+
+<script>
+    document.getElementById("createFrm").addEventListener("submit", e=>{
+        const projectTitle = document.getElementById("projectTitle");
+        const projectInfo = document.getElementById("projectInfo");
+
+        if(projectTitle.value.trim().length == 0){
+            alert("프로젝트명을 입력해주세요.");
+            projectTitle.focus()
+            e.preventDefault();
+            return;
+        }
+
+        if(projectInfo.value.trim().length == 0){
+            alert("프로젝트 설명을 입력해주세요.");
+            projectInfo.focus()
+            e.preventDefault();
+            return;
+        }
+
+    })
+</script>
 
 
 </body>

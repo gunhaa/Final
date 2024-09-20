@@ -43,8 +43,12 @@ public class Schduling {
             // 메시지 전송 로직
             Util.broadCasting(projectMemberMap, msg);
             
-            int res = service.updateBookedChatStatusY(projectNo, memberNo);
+            int seq = service.selectNowBookedChatSeq();
+            logger.info("seq : {}" , seq);
+
+            int res = service.updateBookedChatStatusY(projectNo, memberNo, seq);
             
+
             if(res >0 ) {
             	logger.info("예약 메시지 전송 후 상태 바꾸기 성공");
             	

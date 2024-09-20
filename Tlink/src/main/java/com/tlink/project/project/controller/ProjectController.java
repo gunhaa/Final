@@ -71,7 +71,9 @@ public class ProjectController {
 	
 	// 프로젝트 삭제 페이지
 	@GetMapping("/delete")
-	public String delete() {
+	public String delete(int projectNo, Model model) {
+		
+		model.addAttribute("projectNo", projectNo);
 		
 		return "/project/project-delete";
 	}
@@ -103,6 +105,8 @@ public class ProjectController {
 		map.put("memberList", memberList);
 		
 		model.addAttribute("map", map);
+		
+		model.addAttribute("projectNo", projectNo);
 		
 		return "/project/member";
 	}
@@ -153,6 +157,8 @@ public class ProjectController {
 		map.put("memberList", memberList);
 		
 		model.addAttribute("map", map);
+		
+		model.addAttribute("projectNo", projectNo);
 		
 		return "/project/project-secession";
 	}

@@ -203,4 +203,11 @@ public class NoticeServiceImpl2 implements NoticeService2{
 		return dao.noticeDelete(map);
 	}
 
+	// 공지사항 복구하기
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int noticeRestore(Map<String, Object> map) {
+		return dao.noticeRestore(map);
+	}
+
 }

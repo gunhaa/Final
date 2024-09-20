@@ -56,8 +56,12 @@ public class MainController {
 		String message = "";
 		
 		if(loginUser != null) {
+			if(loginUser.getRole().equals("U")) {
+				path += "/myPage/project";
+			}else {
+				path += "/notice";
+			}
 			model.addAttribute("loginUser", loginUser);
-			path += "/myPage/project";
 			message = loginUser.getUserName() + "님 환영합니다.";
 		}else {
 			path += "/login";

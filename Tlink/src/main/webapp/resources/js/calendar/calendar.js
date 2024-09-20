@@ -46,26 +46,85 @@ function closeModal(){
   [insertEvent, insertHoliday, detailEvent, detailHoliday].forEach(el => el.style.display = 'none');
 }
 
-window.onclick = function(event) {
-  if (event.target === modal) {
-    modal.style.display = "none";
-    closeModal()
-    clearEventForm()
-    clearHolidayForm()
-  } 
-}
-
 // 모달 창 열기
 function openModal(contentEl) {
   modal.style.display = 'block';
   contentEl.style.display = 'block';
 }
 
+let isDragging = false;  // 드래그 중 여부를 추적
+let dragTimeout = null;  // 드래그 후 클릭을 방지하기 위한 타이머
+
+// 드래그 시작 시 플래그 설정
+function onDragStart() {
+  isDragging = true;
+}
+
+// 드래그 종료 시 플래그 해제 및 클릭 방지 타이머 설정
+function onDragEnd() {
+  isDragging = false;
+  
+  // 드래그 후 100ms 동안은 클릭 이벤트 방지
+  dragTimeout = setTimeout(() => {
+    dragTimeout = null;
+  }, 100);
+}
+
+// 모달창을 닫는 클릭 이벤트 핸들러 수정
+window.onclick = function(event) {
+  // 드래그가 끝난 직후 클릭 이벤트가 발생하지 않도록 설정
+  if (dragTimeout || isDragging) return;
+  
+  if (event.target === modal) {  // 모달 바깥 클릭 시 닫기
+    modal.style.display = "none";
+    closeModal();
+    clearEventForm();
+    clearHolidayForm();
+  }
+};
+
+modal.addEventListener('click', function(event) {
+  if (event.target.classList.contains('close')) {
+    closeModal(); // 모든 모달 닫기
+    modal.style.display='none';
+  }
+});
+
+// 모달 이동을 위한 함수
+function moveModal() {
+  document.querySelectorAll('.movePoint').forEach(movePoint => {
+    movePoint.addEventListener('mousedown', function(e) {
+      onDragStart(); // 드래그 시작
+      
+      const modal = movePoint.closest('.modal-content'); // 부모 모달 창
+
+      let offsetX = e.clientX - modal.offsetLeft;
+      let offsetY = e.clientY - modal.offsetTop;
+
+      function onMouseMove(e) {
+        if (isDragging) {
+          modal.style.left = `${e.clientX - offsetX}px`;
+          modal.style.top = `${e.clientY - offsetY}px`;
+        }
+      }
+
+      function onMouseUp() {
+        onDragEnd(); // 드래그 종료
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      }
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    });
+  });
+}
+
 // 단순 일정 등록하기
 addEventBtn.addEventListener("click",function(){
   closeModal()
   insertEvent.innerHTML=`
-          <div>
+          <div class="movePoint">
               <span id="insertEventTitle">일정 등록하기</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
@@ -93,10 +152,19 @@ addEventBtn.addEventListener("click",function(){
               </div>
           </form>`
   openModal(insertEvent);
-
+  moveModal()
+  
   const insertEventBtn = document.getElementById("insertEventBtn");
+
   insertEventBtn.addEventListener("click", function() {
     const form = document.getElementById("eventForm");
+    const startDate = new Date(document.getElementById("startDate").value);
+    const endDate = new Date(document.getElementById("endDate").value);
+
+    if (endDate < startDate) {
+      alert('일정 기간을 다시 확인해주세요.');
+      return; // 제출 중단
+    }
 
     if (form.checkValidity()) {
       alert('일정이 등록되었습니다.');
@@ -112,7 +180,7 @@ addEventBtn.addEventListener("click",function(){
 addHolidayBtn.addEventListener("click",function(){
   closeModal()
   insertHoliday.innerHTML=`
-          <div>
+          <div class="movePoint">
               <span id="insertHolidayTitle">휴가 등록하기</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
@@ -150,10 +218,14 @@ addHolidayBtn.addEventListener("click",function(){
               </div>
           </form>`
   openModal(insertHoliday);
+  moveModal()
 
   const insertHolidayBtn = document.getElementById("insertHolidayBtn");
+
   insertHolidayBtn.addEventListener("click", function() {
     const form = document.getElementById("holidayForm");
+    const startDate = new Date(document.getElementById("holidayStartDate").value);
+    const endDate = new Date(document.getElementById("holidayEndDate").value);
     const scheduleType = document.querySelector('input[name="scheduleType"]:checked').value;
     const fileInput = document.getElementById("holidayFile");
   
@@ -163,6 +235,12 @@ addHolidayBtn.addEventListener("click",function(){
       return; // 파일이 없으면 제출 중단
     }
   
+    // 날짜 확인
+    if (endDate < startDate) {
+      alert('일정 기간을 다시 확인해주세요.');
+      return; // 제출 중단
+    }
+
     if (form.checkValidity()) {
       alert('등록이 완료되었습니다.');
       form.submit(); // form의 기본 동작을 수행합니다.
@@ -227,7 +305,7 @@ function showEventDetails(event) {
     if (event.extendedProps.scheduleType.trim() === "1") {
       // 단순 일정일 경우
       detailEvent.innerHTML = `
-          <div>
+          <div class="movePoint">
               <span>${event.title}</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
@@ -254,7 +332,7 @@ function showEventDetails(event) {
   
       closeModal()
       openModal(detailEvent);
-  
+      moveModal()
     } else if (event.extendedProps.scheduleType.trim() === "2" || event.extendedProps.scheduleType.trim() === "3") {
       // 연가 혹은 병가일 경우
   
@@ -277,7 +355,7 @@ function showEventDetails(event) {
         }
         
         detailHoliday.innerHTML = `
-            <div>
+            <div class="movePoint">
               <span>${event.title}</span>
               <span class="close" id="closeInsert">&times;</span>
             </div>
@@ -319,13 +397,11 @@ function showEventDetails(event) {
     
         closeModal()
         openModal(detailHoliday);
+        moveModal()
       }
     }
   }
   // false 포함 시 종료일 출력 시 시간을 제외합니다.
-  
-
-
   const eventUpdateBtn = document.getElementById("eventUpdate");
   const holidayUpdateBtn = document.getElementById("holidayUpdate");
 
@@ -375,7 +451,7 @@ function updateDetailEvent(event) {
 
   // 등록 모달을 표시
   insertEvent.innerHTML=`
-          <div>
+          <div class="movePoint">
               <span id="insertEventTitle">일정 수정하기</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
@@ -407,7 +483,7 @@ function updateDetailEvent(event) {
           </form>
   `
   openModal(insertEvent)
-
+  moveModal()
   const updateEventBtn = document.getElementById("updateEventBtn");
   const cancelEventBtn = document.getElementById("cancelEventBtn");
 
@@ -444,7 +520,7 @@ function updateHolidayEvent(event){
 
   // 등록 모달을 표시
   insertHoliday.innerHTML=`
-          <div>
+          <div class="movePoint">
               <span id="insertHolidayTitle">휴가 수정하기</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
@@ -484,6 +560,7 @@ function updateHolidayEvent(event){
               </div>
           </form>`
   openModal(insertHoliday)
+  moveModal()
   const updateHolidayBtn = document.getElementById("updateHolidayBtn");
   const cancelHolidayBtn = document.getElementById("cancelHolidayBtn");
   

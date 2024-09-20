@@ -53,7 +53,7 @@ h2{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: box-shadow 0.2s;
+    transition-duration: 0.3s;
     font-weight: bold;
     margin-right: 10px;
 }

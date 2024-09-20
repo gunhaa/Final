@@ -36,4 +36,10 @@ public interface NoticeService2 {
 	 */
 	int noticeDelete(Map<String, Object> map);
 
+	/**공지사항 복구하기
+	 * @param map
+	 * @return
+	 */
+	int noticeRestore(Map<String, Object> map);
+
 }

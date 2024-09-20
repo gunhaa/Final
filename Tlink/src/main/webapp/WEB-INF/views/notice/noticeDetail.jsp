@@ -14,10 +14,10 @@
 <body>
 
     <section class="all-container">
-        <section class="aa">side menu</section>
+        <jsp:include page="/WEB-INF/views/myPage/sideMenu.jsp"/>
         <section class="notice-main">
             <article class="main-top">
-                <a href="/"><img src="/resources/images/logo.jpg"></a>
+                <a href="/notice"><img src="/resources/images/common/TLink_logo.png"></a>
             </article>
             <article class="main-title-area">
                 <div>
@@ -37,7 +37,7 @@
             <article>
                 <article class="main-container">
                     <div class="writer-info">
-                        <img src="/resources/images/user.png" alt="">
+                        <img src="/resources/images/common/admin_profile.png" alt="">
                         <div>
                             <p>관리자</p>
                             <c:choose>
@@ -83,22 +83,24 @@
                             <c:forEach var="TitleList" items="${noticeTitleList}">
                                 <div class="listTitle">
                                     <a href="/notice/${TitleList.noticeNo}">
-                                        <c:if test="${TitleList.noticeType == 1}">
-                                            ✓[안내]${TitleList.noticeTitle}
-                                        </c:if>
-                                        <c:if test="${TitleList.noticeType == 2}">
-                                            ✓[새기능 안내]${TitleList.noticeTitle}
-                                        </c:if>
-                                        <c:if test="${TitleList.noticeType == 3}">
-                                            ✓[정책 변경 안내]${TitleList.noticeTitle}
-                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${TitleList.noticeStatus == 3}">
+                                                [중요]${TitleList.noticeTitle}
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:if test="${TitleList.noticeType == 1}">✓[안내]</c:if>
+                                                <c:if test="${TitleList.noticeType == 2}">✓[새기능 안내]</c:if>
+                                                <c:if test="${TitleList.noticeType == 3}">✓[정책 변경 안내]</c:if>
+                                                ${TitleList.noticeTitle}
+                                            </c:otherwise>
+                                        </c:choose>
                                     </a>
                                 </div>
                             </c:forEach>
                         </div>
                         <div class="btn-area">
                             <button><a href="/notice">목록으로</a></button>
-                            <c:if test="${loginUser.userNo == 1}">
+                            <c:if test="${loginUser.role != 'U'}">
                                 <div>
                                     <button><a href="/notice2/${notice.noticeNo}/update">수정하기</a></button>
                                     <button id="deleteBtn" onclick="confirmDelete()">삭제하기</button>

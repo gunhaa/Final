@@ -14,6 +14,13 @@
     background-color:#643BAB;
 }
 
+.side-menu{
+    position: fixed;
+    width: 350px;
+    background-color: #643BAB;
+}
+
+
 .top{
     display: flex;
     height: 200px;
@@ -38,9 +45,14 @@
 }
 
 #delete-image{
-    color: white;
+    color: #b498e7;
     position: absolute;
     cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+#delete-image:hover{
+    color: white;
 }
 
 /* 메뉴 */
@@ -56,10 +68,11 @@
     font-weight: bold;
     color: white;
     cursor: pointer;
+    transition-duration: 0.1s;
 }
 
 .menu:hover{
-	font-weight: 900;
+	transform: scale(1.03);
 }
 
 /* 로그아웃 */
@@ -71,13 +84,15 @@
 }
 
 .bot > .logout{
-    color: white;
+    color: #b498e7;
+    font-weight: bold;
     font-size: 12px;
     cursor: pointer;
+    transition-duration: 0.3s;
 }
 
 .bot > .logout:hover{
-    font-weight: bold;
+    color: white;
 }
 
 /* 우측 */

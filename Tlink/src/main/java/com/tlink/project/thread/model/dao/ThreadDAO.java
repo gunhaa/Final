@@ -6,24 +6,24 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.tlink.project.thread.model.dto.Chat;
-import com.tlink.project.thread.model.dto.ChatFile;
+import com.tlink.project.thread.model.dto.ThreadChat;
+import com.tlink.project.thread.model.dto.ThreadFile;
 
 @Repository
-public class ChatDAO {
+public class ThreadDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	public int insertChat(Chat chat) {
-		int result = sqlSession.insert("chatMapper.insertChat", chat);
+	public int insertChat(ThreadChat threadChat) {
+		int result = sqlSession.insert("chatMapper.insertChat", threadChat);
 		
-		if( result > 0 ) result = chat.getChatNo();
+		if( result > 0 ) result = threadChat.getChatNo();
 		
 		return result;
 	}
 
-	public int insertChatFile(List<ChatFile> uploadList) {
+	public int insertChatFile(List<ThreadFile> uploadList) {
 		return sqlSession.insert("chatMapper.insertChatFile", uploadList);
 	}
 }

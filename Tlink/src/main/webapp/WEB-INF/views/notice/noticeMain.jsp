@@ -21,19 +21,19 @@
 </head>
 <body>
     <section class="all-container">
-        <section class="aa">side menu
-        </section>
+        <jsp:include page="/WEB-INF/views/myPage/sideMenu.jsp"/>
 
         <section class="notice-main">
 
             <article class="main-top">
-                <a href="/"><img src="/resources/images/logo.jpg"></a>
+                <a href="/notice"><img src="/resources/images/common/TLink_logo.png"></a>
             </article>
             <article class="main-middle">
                 <div>
                     <span><a href="/notice">공지사항</a></span>
-                    <c:if test="${loginUser.userNo == 1}">
-                        <button><a href="/notice2/insert">게시글 생성</a></button>
+                    <c:if test="${loginUser.role != 'U'}">
+                        <button id="deletedNotice"><a href="/notice/deletedList">삭제된 게시글</a></button>
+                        <button id="insertNotice"><a href="/notice2/insert">게시글 생성</a></button>
                     </c:if>
                 </div>
                 <div>
@@ -49,7 +49,7 @@
                 </div>
             </article>
                 
-            <article>
+            <article id="table-area">
                 <table class="list-table">
                     
                     <thead>
