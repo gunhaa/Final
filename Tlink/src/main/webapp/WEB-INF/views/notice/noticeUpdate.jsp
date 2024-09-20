@@ -145,13 +145,19 @@
 
                                 <span>게시글 타입 : </span>
                                 <select name="noticeType" id="searchKey">
-                                    <c:if test="${noticeDelete.noticeType == 1}">
+                                    <c:if test="${notice.noticeType == 1}">
                                         <option value="1" selected>안내</option>
+                                        <option value="2" >새기능 안내</option>
+                                        <option value="3" >정책 변경</option>
                                     </c:if>
-                                    <c:if test="${noticeDelete.noticeType == 2}">
+                                    <c:if test="${notice.noticeType == 2}">
+                                        <option value="1" >안내</option>
                                         <option value="2" selected>새기능 안내</option>
+                                        <option value="3" >정책 변경</option>
                                     </c:if>
-                                    <c:if test="${noticeDelete.noticeType == 3}">
+                                    <c:if test="${notice.noticeType == 3}">
+                                        <option value="1" >안내</option>
+                                        <option value="2" >새기능 안내</option>
                                         <option value="3" selected>정책 변경</option>
                                     </c:if>
                                 </select>
@@ -172,6 +178,7 @@
         const noticeNo = "${notice.noticeNo}";
 
         const fileList = "${notice.fileList}";
+        const notice = "${notice}";
 
 
         // 로그인한 회원 번호 변수로 선언

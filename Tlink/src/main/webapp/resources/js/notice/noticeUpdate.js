@@ -1,4 +1,5 @@
 console.log(fileList)
+console.log(notice)
  
 const noticeUpdateFile = document.getElementById('noticeUpdateFile');
 const noticeCancelFile = document.getElementById('noticeCancelFile');
@@ -15,6 +16,10 @@ function block(){
     noticeCancelFile.style.display = 'block'
 }
 
+function convertBrToNewline(text) {
+    return text.replace(/<br\s*\/?>/gi, "\n");  // 정규 표현식으로 <br> 태그를 \n으로 변환
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const addImageButton = document.getElementById('addImageButton');
     const imagesContainer = document.getElementById('imagesContainer');
@@ -29,6 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const noticeCancelFile = document.getElementById('noticeCancelFile');
     const noticeUpdateFile = document.getElementById('noticeUpdateFile');
+
+    if (contentTextarea) {
+        const originalContent = contentTextarea.value;
+        const convertedContent = convertBrToNewline(originalContent);
+        contentTextarea.value = convertedContent;
+    }
 
     // 'X' 버튼 클릭 시 파일 입력 초기화
     if(noticeCancelFile != null){
