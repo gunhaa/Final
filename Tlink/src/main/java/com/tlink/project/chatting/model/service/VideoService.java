@@ -25,8 +25,10 @@ public interface VideoService {
 
 	int insertBookedChat(Map<String, Object> msg);
 
-	int updateBookedChatStatusY(String projectNo, String memberNo);
+	int updateBookedChatStatusY(String projectNo, String memberNo, int seq);
 
 	String whatIsMyName(MyObjectType data);
+
+	int selectNowBookedChatSeq();
 		
 }

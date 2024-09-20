@@ -209,7 +209,8 @@ public class VideoConference extends TextWebSocketHandler {
 			schduling.scheduleMessage(jsonMsg, localDateTime , project , obj.getProjectNo(), obj.getMemberNo(), obj.getBookedMsg());
 
 			msg.put("projectNo", obj.getProjectNo());
-			// db insert
+            
+            
 			int res = service.insertBookedChat(msg);
 			
 			if(res>0) {

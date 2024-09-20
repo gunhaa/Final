@@ -82,18 +82,24 @@ public class ChattingDAO {
 	}
 
 
-	public int updateBookedChatStatusY(String projectNo, String memberNo) {
+	public int updateBookedChatStatusY(String projectNo, String memberNo, int seq) {
 		
-		Map<String , String> inputMap = new HashMap<String, String>();
+		Map<String , Object> inputMap = new HashMap<String, Object>();
 		
 		inputMap.put("projectNo", projectNo);
 		inputMap.put("memberNo", memberNo);
+		inputMap.put("seq", seq);
 		
 		return sqlSession.update("videoMapper.updateBookedChatStatusY", inputMap);
 	}
 
 	public String whatIsMyName(MyObjectType data) {
 		return sqlSession.selectOne("videoMapper.whatIsMyName",data);
+	}
+
+
+	public int selectNowBookedChatSeq() {
+		return sqlSession.selectOne("videoMapper.selectNowBookedChatSeq");
 	}
 	
 }
