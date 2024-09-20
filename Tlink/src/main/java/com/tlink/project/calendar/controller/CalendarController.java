@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,11 +38,14 @@ public class CalendarController {
     @RequestMapping("")
     public String calendar(Model model
     		, @SessionAttribute("loginUser") User loginUser 
+    		, @RequestParam(value="projectNo") int projectNo
     		) {
     	
     	
-        List<CalendarData> schedules = service.selectAll();
+        List<CalendarData> schedules = service.selectAll(projectNo);
+       
         System.out.println(schedules);
+        
         model.addAttribute("loginUser", loginUser);
         model.addAttribute("schedules", schedules);
         return "calendar/calendar"; // 캘린더 페이지를 렌더링하는 JSP

@@ -11,9 +11,10 @@ import com.tlink.project.notice.model.dto.NoticeFiles;
 public interface CalendarService {
 
 	/**모든 일정 조회하기
+	 * @param projectNo 
 	 * @return
 	 */
-	List<CalendarData> selectAll();
+	List<CalendarData> selectAll(int projectNo);
 	
 	/**일정 추가하기
 	 * @param calendar

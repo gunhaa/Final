@@ -71,7 +71,7 @@
                 <ul>
                     <li style=""><a href="/workList/gantChart?projectNo=${projectNo}">워크스페이스</a></li>
                     <li><a href="/todoList?projectNo=${projectNo}">해야할 일</a></li>
-                    <li><a href="">캘린더</a></li>
+                    <li><a href="/calendar?projectNo=${projectNo}">캘린더</a></li>
                     <li><span id="btn_videoConference">화상회의</span></li>
                     <li></li>
                 </ul>

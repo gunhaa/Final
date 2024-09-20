@@ -21,11 +21,11 @@ public class CalendarServiceImpl implements CalendarService {
 	@Autowired
 	private CalendarDAO dao;
 
+	
 	// 모든 일정 조회하기
 	@Override
-	public List<CalendarData> selectAll() {
-		
-		List<CalendarData> schedules = dao.selectAll();
+	public List<CalendarData> selectAll(int projectNo) {
+		List<CalendarData> schedules = dao.selectAll(projectNo);
 		
 		return schedules;
 	}
@@ -156,6 +156,8 @@ public class CalendarServiceImpl implements CalendarService {
 		
 		return result;
 	}
+
+	
 	
 
 
