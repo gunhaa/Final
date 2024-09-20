@@ -14,6 +14,12 @@
     background-color:#643BAB;
 }
 
+.side-menu{
+    position: fixed;
+    width: 350px;
+}
+
+
 .top{
     display: flex;
     height: 200px;

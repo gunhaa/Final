@@ -17,43 +17,45 @@
                 <section class="container">
                     <div class="sidebar">
                         <!-- 프로필 이미지 -->
-                        <div class="top">
-                            <div class="profile-img">
-                                <input type="file" style="display: none;" id="inputProfile">
-                                <label for="inputProfile">
-                                    <c:if test="${empty loginUser.profileImg}">
-                                        <img src="/resources/images/common/user.png" id="image">
-                                    </c:if>
-                                    <c:if test="${!empty loginUser.profileImg}">
-                                        <img src="${loginUser.profileImg}" id="image">
-                                    </c:if>
-                                    
-                                </label>
-                                <span id="delete-image">x</span>
+                        <div class="side-menu">
+                            <div class="top">
+                                <div class="profile-img">
+                                    <input type="file" style="display: none;" id="inputProfile">
+                                    <label for="inputProfile">
+                                        <c:if test="${empty loginUser.profileImg}">
+                                            <img src="/resources/images/common/user.png" id="image">
+                                        </c:if>
+                                        <c:if test="${!empty loginUser.profileImg}">
+                                            <img src="${loginUser.profileImg}" id="image">
+                                        </c:if>
+                                        
+                                    </label>
+                                    <span id="delete-image">x</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- 메뉴 -->
-                        <div class="mid">
-                            <!-- 사용자 -->
-                            <c:if test="${loginUser.role == 'U'}">
-                                <div class="menu" onclick="location.href='/myPage/project'">프로젝트</div>
-                                <div class="menu" onclick="location.href='/notice'">공지사항</div>
-                                <div class="menu" onclick="location.href='/myPage/info'">내 정보</div>
-                                <div class="menu" onclick="location.href='/myPage/changePw'">비밀번호 변경</div>
-                                <div class="menu" onclick="location.href='/myPage/secession'">회원 탈퇴</div>
-                            </c:if>
-                            <!-- 시스템 관리자 -->
-                            <c:if test="${loginUser.role != 'U'}">
-                                <div class="menu" onclick="location.href='/notice'">공지사항</div>
-                                <c:if test="${loginUser.role == 'S'}">
-                                    <div class="menu" onclick="location.href='/myPage/systemUser'">관리자 계정</div>
+                            <!-- 메뉴 -->
+                            <div class="mid">
+                                <!-- 사용자 -->
+                                <c:if test="${loginUser.role == 'U'}">
+                                    <div class="menu" onclick="location.href='/myPage/project'">프로젝트</div>
+                                    <div class="menu" onclick="location.href='/notice'">공지사항</div>
+                                    <div class="menu" onclick="location.href='/myPage/info'">내 정보</div>
+                                    <div class="menu" onclick="location.href='/myPage/changePw'">비밀번호 변경</div>
+                                    <div class="menu" onclick="location.href='/myPage/secession'">회원 탈퇴</div>
                                 </c:if>
-                                <div class="menu" onclick="location.href='/myPage/secession'">회원 탈퇴</div>
-                            </c:if>
-                            
-                        </div>
-                        <div class="bot">
-                            <div class="logout" onclick="location.href='/logout'">로그아웃</div>
+                                <!-- 시스템 관리자 -->
+                                <c:if test="${loginUser.role != 'U'}">
+                                    <div class="menu" onclick="location.href='/notice'">공지사항</div>
+                                    <c:if test="${loginUser.role == 'S'}">
+                                        <div class="menu" onclick="location.href='/myPage/systemUser'">관리자 계정</div>
+                                    </c:if>
+                                    <div class="menu" onclick="location.href='/myPage/secession'">회원 탈퇴</div>
+                                </c:if>
+                                
+                            </div>
+                            <div class="bot">
+                                <div class="logout" onclick="location.href='/logout'">로그아웃</div>
+                            </div>
                         </div>
                     </div>
                 </section>
