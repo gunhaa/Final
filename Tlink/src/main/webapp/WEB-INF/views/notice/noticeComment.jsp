@@ -16,10 +16,10 @@
                     <!-- 부모 댓글 / 자식 댓글 여부 확인 -->
                     <li class="comment-row <c:if test='${comment.parentNo != 0}'>child-comment</c:if>">
                         <div class="comment-writer">
-                            <c:if test="${empty loginUser.profileImg}">
+                            <c:if test="${empty comment.profileImage}">
                                 <img src="/resources/images/common/user.png" id="image">
                             </c:if>
-                            <c:if test="${!empty loginUser.profileImg}">
+                            <c:if test="${!empty comment.profileImage}">
                                 <img src="${loginUser.profileImg}" id="image">
                             </c:if>
                             <div class="comment-text-area">

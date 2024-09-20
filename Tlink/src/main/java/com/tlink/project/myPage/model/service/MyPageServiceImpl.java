@@ -96,7 +96,7 @@ public class MyPageServiceImpl implements MyPageService{
 			// 이전 이미지로 프로필 세팅
 			loginUser.setProfileImg(prevImg);
 		}
-		
+		System.out.println(result);
 		return result;
 	}
 
