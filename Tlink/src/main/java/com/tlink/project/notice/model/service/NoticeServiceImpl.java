@@ -78,6 +78,46 @@ public class NoticeServiceImpl implements NoticeService {
 	public List<Notice> selectNoticeTitleList() {
 		return dao.selectNoticeTitleList();
 	}
+
+	// 삭제된 공지사항 조회하기
+	@Override
+	public Map<String, Object> selectDeleteAll(int cp) {
+		int listCount = dao.getDeleteListCount();
+		
+		NoticePagination pagination = new NoticePagination(cp, listCount);
+		
+		List<Notice> deleteNoticeList = dao.selectDeleteAll(pagination);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("deleteNoticeList", deleteNoticeList);
+		map.put("pagination", pagination);
+		
+		return map;
+	}
+
+	// 삭제된 공지사항 상세조회
+	@Override
+	public Notice selectNoticeDelete(Map<String, Object> map) {
+		return dao.selectNoticeDelete(map);
+	}
+
+	// 삭제된 공지사항 검색으로 조회하기
+	@Override
+	public Map<String, Object> selectDeleteNoticeList(Map<String, Object> paramMap, int cp) {
+		
+		int listCount = dao.selectDeleteNoticeList(paramMap);
+		
+		NoticePagination pagination = new NoticePagination(cp, listCount);
+		
+		List<Notice> deleteNoticeList = dao.selectDeleteNoticeList(paramMap, pagination);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("pagination", pagination);
+		map.put("deleteNoticeList", deleteNoticeList);
+
+		
+		return map;
+	}
 	
 	
 	

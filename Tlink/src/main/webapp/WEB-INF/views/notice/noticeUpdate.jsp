@@ -31,7 +31,7 @@
                 <article>
                     <article class="main-container">
                         <div class="writer-info">
-                            <img src="/resources/images/user.png" alt="">
+                            <img src="/resources/images/common/admin_profile.png" alt="">
                             <div>
                                 <p>관리자</p>
                             <c:choose>
@@ -145,9 +145,15 @@
 
                                 <span>게시글 타입 : </span>
                                 <select name="noticeType" id="searchKey">
-                                    <option value="1">안내</option>
-                                    <option value="2">새기능 안내</option>
-                                    <option value="3">정책 변경</option>
+                                    <c:if test="${noticeDelete.noticeType == 1}">
+                                        <option value="1" selected>안내</option>
+                                    </c:if>
+                                    <c:if test="${noticeDelete.noticeType == 2}">
+                                        <option value="2" selected>새기능 안내</option>
+                                    </c:if>
+                                    <c:if test="${noticeDelete.noticeType == 3}">
+                                        <option value="3" selected>정책 변경</option>
+                                    </c:if>
                                 </select>
                             </div>
                             <div class="btn-area">

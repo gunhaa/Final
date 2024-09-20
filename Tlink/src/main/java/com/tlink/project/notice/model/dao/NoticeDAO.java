@@ -95,6 +95,58 @@ public class NoticeDAO {
 		return sqlSession.selectList("noticeMapper.selectNoticeTitleList");
 	}
 
+	/**삭제된 공지사항 갯수 조회하기
+	 * @return
+	 */
+	public int getDeleteListCount() {
+		return sqlSession.selectOne("noticeMapper.getDeleteListCount");
+	}
+	
+	/**삭제된 공지사항 조회하기
+	 * @param pagination
+	 * @return
+	 */
+	public List<Notice> selectDeleteAll(NoticePagination pagination) {
+		
+		// 1) offset 계산
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		
+		// 2) RowBounds 객체 생성
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("noticeMapper.selectDeleteAll", null, rowBounds);
+	}
+
+	/**삭제된 공지사항 상세조회
+	 * @param map
+	 * @return
+	 */
+	public Notice selectNoticeDelete(Map<String, Object> map) {
+		return sqlSession.selectOne("noticeMapper.selectNoticeDelete", map);
+	}
+
+	/**삭제된 공지사항 검색으로 게시글 수 조회하기
+	 * @param paramMap
+	 * @return
+	 */
+	public int selectDeleteNoticeList(Map<String, Object> paramMap) {
+		return sqlSession.selectOne("noticeMapper.getDeleteListCountForSearch", paramMap);
+	}
+
+	/**삭제된 공지사항 검색으로 게시글 조회하기
+	 * @param paramMap
+	 * @param pagination
+	 * @return
+	 */
+	public List<Notice> selectDeleteNoticeList(Map<String, Object> paramMap, NoticePagination pagination) {
+		// 1) offset 계산
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		
+		// 2) RowBounds 객체 생성
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("noticeMapper.getDeleteListForSearch", paramMap, rowBounds);
+	}
+
+
 	
 
 	
