@@ -297,31 +297,41 @@
 
 </html>            
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js"
-    integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 
 
 <script>
-
+    const projectNo=${projectNo};
 
 
     function update(ele){ $(ele).on("mousedown", function(){ $(this).attr("contenteditable", "true"); }).on("focusout", function(){ $(this).removeAttr("contenteditable"); })} //수정함수
     update($('.title'));
 
 
-
-    $('.bntBox').draggable();
-
-    $('.dis').on("click", function () {
-        $('summary>span:nth-child(1)').attr("style", `
-        transition-duration:0s;
-        box-shadow: none;
-        `);
-    })
-
-
+    
+    function selectManagerBy(){
+        
+        console.log( ${projectNo} );
+        const data={ "projectNo"      : ${projectNo}, };
+        fetch("/workList/managerBy/mList")
+        .then (rep => rep.json())
+        .then (res => { 
+            console.log(res);
 
 
+
+
+            // console.log(res); 
+            // res!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다."); 
+            // if(res!=0){ window.location.reload(); }
+
+        })
+        .catch(err => console.log(err))
+
+    }
+    selectManagerBy();
+
+    
 
 
 

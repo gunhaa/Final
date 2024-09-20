@@ -198,19 +198,7 @@
     
 
  
-    function rightPopup(ele){ 
-        let top=$(ele).offset().top; 
-        let left=$(ele).offset().left; 
 
-        console.log(top);
-        console.log(left);
-
-        const width=ele.offsetWidth; 
-        const height=ele.offsetHeight; 
-        left+=width; 
-        $(`.dataBox`).show("100").offset({ top: top, left: left  }); 
-
-    }
 
 
 
