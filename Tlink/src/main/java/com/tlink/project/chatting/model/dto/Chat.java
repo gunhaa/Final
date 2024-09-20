@@ -18,4 +18,5 @@ public class Chat {
 	private String chatContent;
 	private String chatTimestamp;
 	private String chatUserName;
+	private String chatProfileImg;
 }

@@ -229,6 +229,7 @@ public class VideoConference extends TextWebSocketHandler {
 			msg.put("chatContent", obj.getChatContent());
 			msg.put("memberNo", obj.getMemberNo());
 			msg.put("memberName", obj.getMemberName());
+			msg.put("profileImg", obj.getProfileImg());
 	        LocalDateTime currentTime = LocalDateTime.now();
 	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
