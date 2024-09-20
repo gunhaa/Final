@@ -298,7 +298,9 @@ if (btn) {
 
                 popup = window.open(`/resources/popup/popup.jsp?memberNo=\${memberNo}&projectNo=\${projectNo}&memberName=\${memberName}`, "VideoConference", "width=920,height=830")
                 popup.onload = () => {
-                    popup.document.querySelector("#title-container").innerHTML = `<b>${data}</b>`;
+                    console.log(data);
+                    console.log(popup.document.querySelector("#title-container"));
+                    popup.document.querySelector("#title-container").innerHTML = `<b>\${data}</b>`;
 
                     fetch("/video/selectChat", {
                         method: "POST",

@@ -82,6 +82,11 @@ const inputTitleModal = (title, placeHolder) => {
                         if (existingModal) {
                             existingModal.remove();
                         }
+                        socket.send(JSON.stringify({
+                            "type": "title",
+                            "title": input.value,
+                            "projectNo": projectNo,
+                        }));
                     }
                     else {
                         // alert("주제 변경 실패");
@@ -134,6 +139,8 @@ const inputBookedModal = (title, placeHolder) => {
                     "bookedTime": bookedInput.value,
                     "projectNo": projectNo,
                     "memberNo": memberNo,
+                    "memberName": memberName,
+                    "profileImg": profileImg
                 }));
                 alert$2(main, "green", "white", "전송을 예약 하였습니다.", "2s", 2000);
                 const existingModal = document.querySelector("#main-container");
@@ -212,7 +219,7 @@ const connectWebsocket = () => {
                 console.log("chat 실행됬음", parsedMessage);
                 // chatsend 부분이랑 이곳을 name으로 바꿔야함
                 console.log("profileImg : ", parsedMessage.profileImg);
-                if (parsedMessage.profileImg === "") {
+                if (parsedMessage.profileImg === "" || parsedMessage.profileImg === null) {
                     parsedMessage.profileImg = "/resources/images/common/user.png";
                 }
                 const content = makeChatBlock(parsedMessage.memberName, parsedMessage.chatContent, parsedMessage.now, parsedMessage.profileImg);
@@ -229,6 +236,10 @@ const connectWebsocket = () => {
                 if (whiteBoard) {
                     whiteBoard.postMessage(parsedMessage[projectNo], "*");
                 }
+            }
+            if (parsedMessage.type === "whiteBoard") {
+                const nowtitle = document.querySelector("#title-container");
+                nowtitle.innerHTML = `<b>${parsedMessage.title}</b>`;
             }
             if (parsedMessage.type === "exit") {
                 peerConnectionMap.delete(parsedMessage.exitMemberNo);

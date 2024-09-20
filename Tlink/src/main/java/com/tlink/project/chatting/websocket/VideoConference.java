@@ -38,6 +38,7 @@ public class VideoConference extends TextWebSocketHandler {
 	private static final String MSG_TYPE_ADDSESSION = "addSession";
 	private static final String MSG_TYPE_BOOKED = "booked";
 	private static final String MSG_TYPE_WHITEBOARD = "whiteBoard";
+	private static final String MSG_TYPE_TITLE = "title";
 	private static final String MSG_TYPE_EXIT = "exit";
 
 	private Logger logger = LoggerFactory.getLogger(VideoConference.class);
@@ -151,7 +152,6 @@ public class VideoConference extends TextWebSocketHandler {
 			WebSocketSession ses = project.get(obj.getTargetNo());
 			ses.sendMessage(new TextMessage(jsonMsg));
 
-
 		}
 
 		if (obj.getType().equals(MSG_TYPE_ANSWER)) {
@@ -203,10 +203,12 @@ public class VideoConference extends TextWebSocketHandler {
 			msg.put("type", MSG_TYPE_CHAT);
 			msg.put("chatContent", obj.getBookedMsg());
 			msg.put("memberNo", obj.getMemberNo());
-	        
-			String jsonMsg = objectMapper.writeValueAsString(msg);
+
+			msg.put("memberName", obj.getMemberName());
+			msg.put("profileImg", obj.getProfileImg());
+//			String jsonMsg = objectMapper.writeValueAsString(msg);
 			
-			schduling.scheduleMessage(jsonMsg, localDateTime , project , obj.getProjectNo(), obj.getMemberNo(), obj.getBookedMsg());
+			schduling.scheduleMessage(msg, localDateTime , project , obj.getProjectNo(), obj.getMemberNo(), obj.getBookedMsg());
 
 			msg.put("projectNo", obj.getProjectNo());
             
@@ -277,6 +279,22 @@ public class VideoConference extends TextWebSocketHandler {
 	        logger.info("jsonMsg : {} ", jsonMsg);
 			Util.broadCasting(project,jsonMsg);
 	        
+		}
+		
+		if (obj.getType().equals(MSG_TYPE_TITLE)) {
+			logger.info("TITLE 실행");
+			
+			Map<String, Object> msg = new HashMap<>();
+
+	        logger.info("title : {} ", obj.getTitle());
+	        
+			msg.put("type", MSG_TYPE_WHITEBOARD);
+			msg.put("title", obj.getTitle());
+       
+			String jsonMsg = objectMapper.writeValueAsString(msg);
+			
+			Util.broadCasting(project,jsonMsg);
+
 		}
 
 	}

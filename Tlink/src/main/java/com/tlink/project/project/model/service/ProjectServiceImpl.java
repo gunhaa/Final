@@ -43,6 +43,8 @@ public class ProjectServiceImpl implements ProjectService{
 			
 			result = dao.insertUser(map);
 			
+			if(result > 0) result = dao.insertVideoRoom(projectNo);
+			
 		}
 		
 		return result;

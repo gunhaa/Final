@@ -62,6 +62,10 @@ public class ProjectDAO {
 		return sqlSession.update("projectMapper.changeManager", map);
 	}
 
+	public int insertVideoRoom(int projectNo) {
+		return sqlSession.insert("projectMapper.insertVideoRoom", projectNo);
+	}
+
 
 
 }
