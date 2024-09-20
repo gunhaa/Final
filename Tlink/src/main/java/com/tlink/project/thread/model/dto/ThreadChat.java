@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Chat {
+public class ThreadChat {
 	private int chatNo;
 	private int threadNo;
 	private String chatMessage;
@@ -16,8 +16,8 @@ public class Chat {
 	private String chatUpdateDate;
 	private int commentCount;
 
-	private List<ChatFile> fileList;
-	private List<ChatComment> commentList;
+	private List<ThreadFile> fileList;
+	private List<ThreadChatComment> commentList;
 	
 	private int memberNo;
 	private String memberNickname;
