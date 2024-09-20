@@ -48,6 +48,11 @@
     color: white;
     position: absolute;
     cursor: pointer;
+    transition-duration: 0.1s;
+}
+
+#delete-image:hover{
+    transform: scale(1.03);
 }
 
 /* 메뉴 */
@@ -63,10 +68,11 @@
     font-weight: bold;
     color: white;
     cursor: pointer;
+    transition-duration: 0.1s;
 }
 
 .menu:hover{
-	font-weight: 900;
+	transform: scale(1.03);
 }
 
 /* 로그아웃 */
@@ -81,10 +87,11 @@
     color: white;
     font-size: 12px;
     cursor: pointer;
+    transition-duration: 0.1s;
 }
 
 .bot > .logout:hover{
-    font-weight: bold;
+    transform: scale(1.03);
 }
 
 /* 우측 */

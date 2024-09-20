@@ -47,10 +47,20 @@ button{
 .login-btn{
     background-color: #643BAB;
     color: white;
+    transition: background 0.5s ease, color 0.2s linear;
+}
+
+.login-btn:hover{
+    background-color: #432674;
 }
 
 .signUp-btn{
     color: grey;
+    transition: background 0.5s ease, color 0.2s linear;
+}
+
+.signUp-btn:hover{
+    background-color: rgb(189, 188, 188);
 }
 
 /* 로그인 화면 */
@@ -100,6 +110,11 @@ button{
     font-weight: bold;
     font-size: 18px;
     margin-bottom: 20px;
+    transition: background 0.5s ease, color 0.2s linear;
+}
+
+.start-btn:hover{
+    background-color: #432674;
 }
 
 span{
