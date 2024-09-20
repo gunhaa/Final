@@ -43,6 +43,9 @@ body{
     min-height: 200px;
     max-height: 700px;
     border-radius: 20px;
+    top: 50px;
+    right: 500px;
+    position: absolute;
 }
 
 .modal-content > div:nth-child(1){
@@ -193,3 +196,7 @@ body{
     margin-left: 120px;
     margin-bottom: 20px;
 }
+
+.movePoint {
+    cursor: move;
+  }
