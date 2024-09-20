@@ -12,13 +12,13 @@
 
         <body>
             <!--모달 팝업-->
-            <form action="/sendEmail/invite" method="post">
+            <form action="/sendEmail/invite" method="post" id="inviteFrm">
                 <input type="hidden" name="projectNo" value="${param.projectNo}">
                 <div class="modal">
                     <div class="modal_popup">
                         <h3 style="margin-bottom: 20px;">멤버 초대</h3>
                         <div class="modal-row">
-                            <span class="input-title">이메일</span><input type="text" name="userEmail">
+                            <span class="input-title">이메일</span><input type="text" name="userEmail" id="userEmail">
                         </div>
                         <div class="btn-area">
                             <button type="button" class="close-btn">닫기</button>
@@ -43,6 +43,18 @@
                     //'on' class 제거
                     modal.classList.remove('on');
                 });
+
+                document.getElementById("inviteFrm").addEventListener("submit",e=>{
+                    const userEmail = document.getElementById("userEmail");
+                    
+                    if(userEmail.value.trim().length == 0){
+                        alert("이메일을 입력해주세요.");
+                        userEmail.focus()
+                        e.preventDefault();
+                        return;
+                    }
+                })
+                
             </script>
 
 
