@@ -41,6 +41,7 @@ public class CalendarController {
     		, @RequestParam(value="projectNo") int projectNo
     		) {
     	
+    	model.addAttribute("projectNo", projectNo);
     	
         List<CalendarData> schedules = service.selectAll(projectNo);
        

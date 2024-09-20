@@ -8,8 +8,10 @@
 <head>
 
   <link rel="stylesheet" href="/resources/css/calendar/calendar.css">
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.15/index.global.min.js'></script>
 
-  <script type='importmap'>
+   <script type='importmap'>
     {
       "imports": {
         "@fullcalendar/core": "https://cdn.skypack.dev/@fullcalendar/core@6.1.15",
@@ -18,109 +20,121 @@
       }
     }
   </script>
+
   <script type='module'>
     import { Calendar } from '@fullcalendar/core'
     import dayGridPlugin from '@fullcalendar/daygrid'
     import interactionPlugin from '@fullcalendar/interaction'
+    import googleCalendarPlugin from '@fullcalendar/google-calendar';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendarEl = document.getElementById('calendar');
 
-document.addEventListener('DOMContentLoaded', function() {
-    const calendarEl = document.getElementById('calendar');
+        const events = [
+            <c:forEach var="schedule" items="${schedules}">
+                <c:choose>
+                    <c:when test='${schedule.scheduleType == "1 "}'>
 
-    const events = [
-        <c:forEach var="schedule" items="${schedules}">
-            <c:choose>
-                <c:when test='${schedule.scheduleType == "1 "}'>
+                      {
+                        id: '${schedule.scheduleNo}', 
+                        title: '${schedule.scheduleTitle}',
+                        start: '${schedule.startDate}',
+                        end: '${schedule.endDate}',
+                        description: '${schedule.scheduleContent}',
+                        backgroundColor: "blue",
+                        borderColor: "blue",
+                        extendedProps: {
+                          scheduleType: '${schedule.scheduleType}',
+                          userNo : '${schedule.userNo}'
+                        }
+                      }<c:if test="${!loop.last}">,</c:if>
+                    </c:when>
+                    <c:when test='${schedule.scheduleType == "2 "}'>
+                      {
+                        id: '${schedule.scheduleNo}', 
+                        title: '${schedule.userName}',
+                        start: '${schedule.startDate}',
+                        end: '${schedule.endDate}',
+                        description: '${schedule.scheduleContent}',
+                        allDay: true,
+                        backgroundColor: "green",
+                        borderColor: "green",
+                        extendedProps: {
+                          scheduleType: '${schedule.scheduleType}',
+                          holidayTitle: '${schedule.scheduleTitle}',
+                          userNo : '${schedule.userNo}'
+                        }
+                      }<c:if test="${!loop.last}">,</c:if>
+                    </c:when>
+                    <c:when test='${schedule.scheduleType == "3 "}'>
+                      {
+                        id: '${schedule.scheduleNo}', 
+                        title: '${schedule.userName}',
+                        start: '${schedule.startDate}',
+                        end: '${schedule.endDate}',
+                        description: '${schedule.scheduleContent}',
+                        allDay: true,
+                        backgroundColor: "red",
+                        borderColor: "red",
+                        extendedProps: {
+                          scheduleType: '${schedule.scheduleType}',
+                          holidayTitle: '${schedule.scheduleTitle}',
+                          userNo : '${schedule.userNo}',
+                          fileList: '${schedule.fileList}'
+                        }
+                      }<c:if test="${!loop.last}">,</c:if>
+                    </c:when>
+                </c:choose>
+            </c:forEach>
+        ];
 
-                  {
-                    id: '${schedule.scheduleNo}', 
-                    title: '${schedule.scheduleTitle}',
-                    start: '${schedule.startDate}',
-                    end: '${schedule.endDate}',
-                    description: '${schedule.scheduleContent}',
-                    backgroundColor: "blue",
-                    borderColor: "blue",
-                    extendedProps: {
-                      scheduleType: '${schedule.scheduleType}',
-                      userNo : '${schedule.userNo}'
-                    }
-                  }<c:if test="${!loop.last}">,</c:if>
-                </c:when>
-                <c:when test='${schedule.scheduleType == "2 "}'>
-                  {
-                    id: '${schedule.scheduleNo}', 
-                    title: '${schedule.userName}',
-                    start: '${schedule.startDate}',
-                    end: '${schedule.endDate}',
-                    description: '${schedule.scheduleContent}',
-                    allDay: true,
-                    backgroundColor: "green",
-                    borderColor: "green",
-                    extendedProps: {
-                      scheduleType: '${schedule.scheduleType}',
-                      holidayTitle: '${schedule.scheduleTitle}',
-                      userNo : '${schedule.userNo}'
-                    }
-                  }<c:if test="${!loop.last}">,</c:if>
-                </c:when>
-                <c:when test='${schedule.scheduleType == "3 "}'>
-                  {
-                    id: '${schedule.scheduleNo}', 
-                    title: '${schedule.userName}',
-                    start: '${schedule.startDate}',
-                    end: '${schedule.endDate}',
-                    description: '${schedule.scheduleContent}',
-                    allDay: true,
-                    backgroundColor: "red",
-                    borderColor: "red",
-                    extendedProps: {
-                      scheduleType: '${schedule.scheduleType}',
-                      holidayTitle: '${schedule.scheduleTitle}',
-                      userNo : '${schedule.userNo}',
-                      fileList: '${schedule.fileList}'
-                    }
-                  }<c:if test="${!loop.last}">,</c:if>
-                </c:when>
-            </c:choose>
-        </c:forEach>
-    ];
-
-    console.log(events)
-    const calendar = new Calendar(calendarEl, {
-        dayMaxEventRows: true,
-        views: {
-            timeGrid: {
-                dayMaxEventRows: 4
+        console.log(events)
+        const calendar = new Calendar(calendarEl, {
+            googleCalendarApiKey: 'AIzaSyDlinZ2qoYza4O6CKpcLXqG_ZO2sbIuB2Q',
+            dayMaxEventRows: true,
+            views: {
+                timeGrid: {
+                    dayMaxEventRows: 4
+                }
+            },
+              // eventDrop 핸들러 추가
+            eventDrop: function(info) {
+              console.log('Event dropped:', info.event);
+              console.log('New start date:', info.event.start);
+              console.log('New end date:', info.event.end);
+              // 추가적인 데이터 출력 가능
+            },
+            plugins: [dayGridPlugin, interactionPlugin, googleCalendarPlugin],
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek'
+            },
+            timeZone: 'UTC',
+            initialView: 'dayGridMonth',
+            eventDisplay: 'block',
+            events: events,
+            eventSources:[
+              {googleCalendarId:'b86e0e69cbbc994d221a29cd0f40c96a821fa1bf1fca52a076abbb34d597e4c2@group.calendar.google.com'},
+              {googleCalendarId:'ko.south_korea#holiday@group.v.calendar.google.com',
+                className:'ko_event',
+                color:'white',
+                textColor:'red'
+              }
+            ],
+            editable: true,
+            displayEventTime: false,
+            eventClick: function(info) {
+                showEventDetails(info.event);
             }
-        },
-          // eventDrop 핸들러 추가
-        eventDrop: function(info) {
-          console.log('Event dropped:', info.event);
-          console.log('New start date:', info.event.start);
-          console.log('New end date:', info.event.end);
-          // 추가적인 데이터 출력 가능
-        },
-        plugins: [dayGridPlugin, interactionPlugin],
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,dayGridWeek'
-        },
-        timeZone: 'UTC',
-        initialView: 'dayGridMonth',
-        eventDisplay: 'block',
-        events: events,
+        });
 
-        editable: true,
-        displayEventTime: false,
-        eventClick: function(info) {
-            showEventDetails(info.event);
-        }
+        calendar.render();
     });
 
-    calendar.render();
-});
 
 </script>
+
 
 </head>
 <body>
@@ -148,5 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const userNo = ${loginUser.userNo}
   </script>
   <script src="/resources/js/calendar/calendar.js"></script>
+
 </body>
 </html>
