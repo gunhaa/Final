@@ -38,6 +38,7 @@ public class VideoConference extends TextWebSocketHandler {
 	private static final String MSG_TYPE_ADDSESSION = "addSession";
 	private static final String MSG_TYPE_BOOKED = "booked";
 	private static final String MSG_TYPE_WHITEBOARD = "whiteBoard";
+	private static final String MSG_TYPE_TITLE = "title";
 	private static final String MSG_TYPE_EXIT = "exit";
 
 	private Logger logger = LoggerFactory.getLogger(VideoConference.class);
@@ -150,7 +151,6 @@ public class VideoConference extends TextWebSocketHandler {
 			logger.info("offer가 보낸 targetNo : {}" , obj.getTargetNo());
 			WebSocketSession ses = project.get(obj.getTargetNo());
 			ses.sendMessage(new TextMessage(jsonMsg));
-
 
 		}
 
@@ -279,6 +279,22 @@ public class VideoConference extends TextWebSocketHandler {
 	        logger.info("jsonMsg : {} ", jsonMsg);
 			Util.broadCasting(project,jsonMsg);
 	        
+		}
+		
+		if (obj.getType().equals(MSG_TYPE_TITLE)) {
+			logger.info("TITLE 실행");
+			
+			Map<String, Object> msg = new HashMap<>();
+
+	        logger.info("title : {} ", obj.getTitle());
+	        
+			msg.put("type", MSG_TYPE_WHITEBOARD);
+			msg.put("title", obj.getTitle());
+       
+			String jsonMsg = objectMapper.writeValueAsString(msg);
+			
+			Util.broadCasting(project,jsonMsg);
+
 		}
 
 	}

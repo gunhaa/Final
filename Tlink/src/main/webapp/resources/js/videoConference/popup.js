@@ -82,6 +82,11 @@ const inputTitleModal = (title, placeHolder) => {
                         if (existingModal) {
                             existingModal.remove();
                         }
+                        socket.send(JSON.stringify({
+                            "type": "title",
+                            "title": input.value,
+                            "projectNo": projectNo,
+                        }));
                     }
                     else {
                         // alert("주제 변경 실패");
@@ -231,6 +236,10 @@ const connectWebsocket = () => {
                 if (whiteBoard) {
                     whiteBoard.postMessage(parsedMessage[projectNo], "*");
                 }
+            }
+            if (parsedMessage.type === "whiteBoard") {
+                const nowtitle = document.querySelector("#title-container");
+                nowtitle.innerHTML = `<b>${parsedMessage.title}</b>`;
             }
             if (parsedMessage.type === "exit") {
                 peerConnectionMap.delete(parsedMessage.exitMemberNo);

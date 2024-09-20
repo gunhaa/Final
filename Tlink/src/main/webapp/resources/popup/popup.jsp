@@ -17,7 +17,7 @@
             <body>
                 <main>
 
-                    <div id="title-container"><b>오늘 점심은 뭐먹을까</b></div>
+                    <div id="title-container"><b></b></div>
                     <div id="middle-container">
                         <div id="video-container">
                         </div>
