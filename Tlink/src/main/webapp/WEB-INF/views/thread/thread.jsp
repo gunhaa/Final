@@ -12,7 +12,7 @@
 <body>
    <section class="chatView">
         <div class="viewHeader">
-            <span><%-- ${thread.threadName} --%></span>
+            <span><%--  --%></span>
             <div>
                 <div class="memberList"></div>
                 <button></button>
