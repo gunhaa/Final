@@ -43,7 +43,7 @@
 		        USER_NO, USER_NAME
 		FROM "SCHEDULE" 
 		JOIN "USER" USING(USER_NO)
-		WHERE PROJECT_NO = 1
+		WHERE PROJECT_NO = #{projectNo}
 	</select>
 	
 	

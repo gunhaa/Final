@@ -18,10 +18,11 @@ public class CalendarDAO {
 	private SqlSessionTemplate sqlSession;
 	
 	/**모든 일정 조회하기
+	 * @param projectNo 
 	 * @return
 	 */
-	public List<CalendarData> selectAll() {
-		List<CalendarData> cal =sqlSession.selectList("calendarDataMapper.selectAll");
+	public List<CalendarData> selectAll(int projectNo) {
+		List<CalendarData> cal =sqlSession.selectList("calendarDataMapper.selectAll", projectNo);
 		return cal;
 	}
 	

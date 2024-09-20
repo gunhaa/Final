@@ -20,7 +20,7 @@
                                 <img src="/resources/images/common/user.png" id="image">
                             </c:if>
                             <c:if test="${!empty comment.profileImage}">
-                                <img src="${loginUser.profileImg}" id="image">
+                                <img src="${comment.profileImage}" id="image">
                             </c:if>
                             <div class="comment-text-area">
                                 <!-- 닉네임 -->

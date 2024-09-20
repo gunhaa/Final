@@ -297,6 +297,49 @@ INSERT INTO SCHEDULE VALUES(
         '병가 1내용입니다.', 3, 1
 );
 
+INSERT INTO SCHEDULE VALUES(SEQ_SCHEDULE_NO.NEXTVAL, 1, '일정1', SYSDATE, SYSDATE + 2,
+	 '일정1의 내용입니다.', 3, 2);
+
+INSERT INTO SCHEDULE VALUES(SEQ_SCHEDULE_NO.NEXTVAL, 2, '휴가1', SYSDATE+3, SYSDATE + 6,
+	 '휴가1의 내용입니다.', 4, 2);
+
+-- 특정 일정 등록
+INSERT INTO SCHEDULE VALUES(
+        SEQ_SCHEDULE_NO.NEXTVAL, 1, '회의1',
+        TO_DATE('2024-09-19 12:50', 'YYYY-MM-DD HH24:MI'),
+        TO_DATE('2024-09-19 12:56', 'YYYY-MM-DD HH24:MI'),
+        '회의 1내용입니다.', 3, 2
+);
+
+INSERT INTO SCHEDULE VALUES(
+        SEQ_SCHEDULE_NO.NEXTVAL, 1, '회의2',
+        TO_DATE('2024-09-24 12:50', 'YYYY-MM-DD HH24:MI'),
+        TO_DATE('2024-09-24 12:56', 'YYYY-MM-DD HH24:MI'),
+        '회의 2내용입니다.', 4, 2
+);
+
+INSERT INTO SCHEDULE VALUES(
+        SEQ_SCHEDULE_NO.NEXTVAL, 2, '연가1',
+        TO_DATE('2024-09-15', 'YYYY-MM-DD"T"HH24:MI'),
+        TO_DATE('2024-09-17', 'YYYY-MM-DD"T"HH24:MI'),
+        '연가 1내용입니다.', 4, 2
+);
+
+INSERT INTO SCHEDULE VALUES(
+        SEQ_SCHEDULE_NO.NEXTVAL, 2, '연가2',
+        TO_DATE('2024-09-01', 'YYYY-MM-DD"T"HH24:MI'),
+        TO_DATE('2024-09-04 12:56', 'YYYY-MM-DD HH24:MI'),
+        '연가 2내용입니다.', 3, 2
+);
+
+INSERT INTO SCHEDULE VALUES(
+        SEQ_SCHEDULE_NO.NEXTVAL, 3, '병가2',
+        TO_DATE('2024-09-06', 'YYYY-MM-DD"T"HH24:MI'),
+        TO_DATE('2024-09-07 12:56', 'YYYY-MM-DD HH24:MI'),
+        '병가 1내용입니다.', 3, 2
+);
+
+
 -- COMMENT 테이블 샘플 데이터 삽입(PL/SQL)
 BEGIN
    FOR I IN 1..1000 LOOP
