@@ -75,7 +75,7 @@ sendBtn.addEventListener("click", ()=>{
     formData.append("message", message.value);
     formData.append("chatType", "chat");
 
-    fetch('/chat/insert', {
+    fetch('/thread/insert', {
         method: 'POST',
         body: formData
     })

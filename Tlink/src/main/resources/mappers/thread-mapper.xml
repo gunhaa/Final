@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="chatMapper">
+<mapper namespace="threadMapper">
 
    <resultMap type="Chat" id="chat_rm">
       <id property="chatNo" column="CHAT_NO"/>
@@ -26,12 +26,33 @@
                javaType="java.util.ArrayList"
                ofType="ChatComment">
       </collection>
-               
-
-      
    </resultMap>
    
-   <select id="selectFileList" resultMap="chatFile_rm">
+   <resultMap type="ThreadInfo" id="threadInfo_rm">
+   		<id property="threadNo" column="THREAD_NO"/>
+   		<result property="projectNo" column="PROJECT_NO"/>
+   		<result property="threadTitle" column="THREAD_TITLE"/>
+   		
+   		<collection property="userList"
+   					select="selectUserList"
+   					column="THREAD_NO"
+   					javaType="java.util.ArrayList"
+   					ofType="User">
+		</collection>
+   </resultMap>
+   
+   <resultMap type="ThreadFile" id="threadFile_rm">
+   		<id property="fileNo" column="FILE_NO"/>
+   		<result property="filePath" column="FILE_PATH"/>
+   		<result property="fileRename" column="FILE_RENAME"/>
+   		<result property="fileOriginal" column="FILE_ORIGINAL"/>
+   		<result property="fileOrder" column="FILE_ORDER"/>
+   		<result property="fileCode" column="FILE_CODE"/>
+   		<result property="targetNo" column="TRAGET_NO"/>
+   
+   </resultMap>
+   
+   <select id="selectFileList" resultMap="threadFile_rm">
       SELECT * FROM FILES
       WHERE TRAGET_NO=#{targetNo}
       AND FILE_CODE = 2
@@ -43,6 +64,13 @@
       JOIN USER_PROJECT(USER_NO)
       WHERE PROJECT_NO = #{projectNo}
       AND USER_NAME LIKE '%${query}%'
+   </select>
+   
+   <select id="selectThread" resultMap="threadInfo_rm">
+      SELECT THREAD_NO, THREAD_TITLE
+      FROM THREAD
+      JOIN PROJECT_THREAD USING(THREAD_NO)
+      WHERE PROJECT_NO = #{projectNo}
    </select>
    
 </mapper>
