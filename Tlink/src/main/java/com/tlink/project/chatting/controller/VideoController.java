@@ -103,7 +103,7 @@ public class VideoController {
 		logger.info("=====================fetch 실행됨==================");
 		whiteBoardMap.remove(data.getProjectNo());
 		whiteBoardMap.put(data.getProjectNo(), "");
-//		logger.info("map의 현재 data.getprojectNo의 value : {}" , whiteBoardMap.get(data.getProjectNo()));
+		logger.info("map의 현재 data.getprojectNo의 value : {}" , whiteBoardMap.get(data.getProjectNo()));
 	
 		Map<String, WebSocketSession> project = projectMap.get(data.getProjectNo());
 		
