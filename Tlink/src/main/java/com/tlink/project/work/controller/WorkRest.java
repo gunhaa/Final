@@ -113,11 +113,17 @@ public class WorkRest {
 	
 	//담장자별
 	@PostMapping(value=("/workList/managerBy/mList"))
-	public Map<String, Object> managerByMList(@RequestBody Map<String, Object> data) {
+	public Map<Integer, Object> managerByMList(@RequestBody Map<String, Object> data) {
+		System.out.println(data);
 		
-		Map<String, Object> map=new HashMap<>();
-		map.put("1", "1");
+		Map<Integer, Object> map=new HashMap<>();
+		map=service.managerByMList(data);
+		
+		System.out.println(map);
 		return map;
+		
+		
+		
 	}
 		
 	

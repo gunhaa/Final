@@ -27,6 +27,8 @@ public interface WorkRestService {
 
 	int insertMywork(Map<String, Object> data);
 
+	Map<Integer, Object> managerByMList(Map<String, Object> data);
+
 
 
 }

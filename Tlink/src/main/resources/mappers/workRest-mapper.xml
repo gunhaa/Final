@@ -123,6 +123,20 @@
 	
 	
 	
+	<select id="selectManager" resultType="Integer">
+		SELECT WORK_MN_NO FROM WORK
+		GROUP BY WORK_MN_NO
+	</select>
+	
+	
+	<select id="selectManagerByWork" resultMap="work_rm">
+		SELECT A.*, USER_NAME
+		FROM WORK A
+		LEFT OUTER JOIN "USER" ON A.WORK_MN_NO="USER".USER_NO
+		WHERE WORK_MN_NO=#{managerNo}
+	</select>
+	
+	
 	<insert id="insertStateBy">
 		INSERT INTO WORK
 		VALUES(
