@@ -38,20 +38,7 @@ public class WorkList {
 		return "redirect:/workList/gantChart"; 
 	}
 	
-	
-//	
-//	@GetMapping("/project")
-//	public String myPageProject(@SessionAttribute("loginUser") User loginUser, Model model) {
-//		
-//		List<Project> projectList = service.selectProjectList(loginUser.getUserNo());
-//		
-//		model.addAttribute("projectList", projectList);
-//		
-//		return "/myPage/myPage-project";
-//	}
-	
-	
-	
+
 	
 
 	@GetMapping("/workList/gantChart")     	    public String gantChart  (@RequestParam(value="projectNo") int projectNo, Model model)      { 

@@ -29,6 +29,8 @@ public interface WorkRestService {
 
 	Map<Integer, Object> managerByMList(Map<String, Object> data);
 
+	Map<Integer, Object> projectByPList(Map<String, Object> data);
+
 
 
 }

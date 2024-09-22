@@ -114,21 +114,20 @@ public class WorkRest {
 	//담장자별
 	@PostMapping(value=("/workList/managerBy/mList"))
 	public Map<Integer, Object> managerByMList(@RequestBody Map<String, Object> data) {
-		System.out.println(data);
-		
 		Map<Integer, Object> map=new HashMap<>();
 		map=service.managerByMList(data);
-		
-		System.out.println(map);
 		return map;
-		
-		
-		
 	}
 		
 	
 	
-	
+	//프로젝트별
+	@PostMapping(value=("/workList/projectBy/pList"))
+	public Map<Integer, Object> projectByPList(@RequestBody Map<String, Object> data) {
+		Map<Integer, Object> map=new HashMap<>();
+		map=service.projectByPList(data);
+		return map;
+	}
 	
 	
 	

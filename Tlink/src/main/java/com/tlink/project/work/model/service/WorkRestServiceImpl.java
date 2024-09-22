@@ -68,15 +68,19 @@ public class WorkRestServiceImpl implements WorkRestService{
 	@Override
 	public Map<Integer, Object> managerByMList(Map<String, Object> data) {
 		return dao.managerByMList(data);
-		
 	}
-	
+	@Override
+	public Map<Integer, Object> projectByPList(Map<String, Object> data) {
+		return dao.projectByPList(data);
+	}
+
 
 	
 	@Override
 	public Work insertStateBy(Map<String, Object> data) {
 		return dao.insertStateBy(data);
 	}
+
 
 	
 

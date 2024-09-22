@@ -51,12 +51,15 @@
     }
 
 
-    $(`.title`).on("mouseover", function(e){ 
-        spread(this); 
-        rightPopup(this);
+    $(document).on("mouseover", `.title`, function(e){ 
+            spread(this); 
+            rightPopup(this);
     });
 
-    $('.removeEffect').on("click", function(){ $(`.title`).off("mouseover"); })
+    $('.removeEffect').on("click", function(){ 
+        $(document).off("mouseover",`.title`); 
+
+    })
     $('.spreadEffect').on("click", function(){ $(`.title`).on("mouseover", function(){ spread(this); rightPopup(this);  } ); })
     $(`.allFold`)     .on("click", function(){ $(`details`).removeAttr("open"); $(`.dataBox`).css("display", "none"); })
     $(`.allSpread`)   .on("click", function(){ $(`details`).attr("open","open") })

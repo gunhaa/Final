@@ -60,16 +60,16 @@
 
 
 
-        .sectionBox{
+        .listBox{
             width: 1200px;
         }
 
-        .sectionBox section{
+        .listBox section{
             width: 750px;
         }
         
 
-        .sectionBox section nav {
+        .listBox section nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -78,17 +78,17 @@
             border: 1px solid #ddd;
         }
 
-        .sectionBox section article {
+        .listBox section article {
             background-color: #eee;
         }
 
-        .sectionBox section button {
+        .listBox section button {
             border: none;
             background-color: transparent;
             font-weight: bold;
         }
 
-        .sectionBox section button .material-symbols-outlined {
+        .listBox section button .material-symbols-outlined {
             font-weight: bold;
         }
     </style>
@@ -128,9 +128,9 @@
           
 
             <div style="display:flex;">
-                <div class="sectionBox">
+                <div class="listBox">
 
-                    <section>
+                    <%-- <section>
                         <nav>
                             <span class="title">프로젝트1</span>
                             <button><span class="material-symbols-outlined">add</span></button>
@@ -258,24 +258,15 @@
                             </table>
             
                         </article>
-                    </section>
+                    </section> --%>
                     
                 </div>
 
 
 
-                <section class="btnBox">
-                    <button class="removeEffect"><span class="material-symbols-outlined">disabled_by_default</span><span>효과제거</span></button>
-                    <button class="spreadEffect"><span class="material-symbols-outlined">add_circle</span><span>펼침효과</span></button>
 
-                    <button class="allFold"><span class="material-symbols-outlined">menu</span><span>모두접기</span></button>
-                    <button class="allSpread"><span class="material-symbols-outlined" style="transform: rotateY(180deg);">sort</span><span>모두펴기</span></button>
-                    <button class="draagable"><span class="material-symbols-outlined">arrow_selector_tool</span><span>Drag이동</span></button>
-                    <button class="draagableDestroy"><span class="material-symbols-outlined">mouse_lock_off</span><span>Drag고정</span></button>
-                    <button class="originMovement"><span class="material-symbols-outlined">adjust</span><span>원점이동</span></button>
-                    <button class="translateX"><span class="material-symbols-outlined">arrow_right_alt</span><span>우측이동</span></button>
-                    <button class="translateY"><span class="material-symbols-outlined">arrow_left_alt</span><span>좌측이동</span></button>
-                </section>
+                <jsp:include page="/WEB-INF/views/workList/z0z0BtnBox.jsp" />
+
 
 
 
@@ -294,10 +285,10 @@
 
 
 
-    <section class="bntBox">
+    <%-- <section class="bntBox">
         <button class="dis"><span class="material-symbols-outlined">disabled_by_default</span></button>
         <button class="ena"><span class="material-symbols-outlined">add_circle</span></button>
-    </section>
+    </section> --%>
 
 
     
@@ -318,60 +309,146 @@
     $('td').contentEditable();
 
 
-    $(`.sectionBox section button span`).on("click", function () {
+    $(document).on("click", `.listBox section button span`, function () {
         $(this).toggleStyle(`transition-duration: 1s; transform: rotate(180deg);`,`transition-duration: 1s;`);
         $(this).toggleText(`remove`,`add`);
         $(this).parents("nav").next().slideToggle();
     })
 
-
-
-
-
-
-
-
-
-
 </script>
 
 
-
-
-
-
-
 <script>
-    function spread(ele){ $(ele).parents("details").attr("open","open"); }
-    function fold(ele){ $(ele).parents("details").removeAttr("open"); }
-    $(`.title`).on("mouseover", function(e){ 
-        spread(this); 
-        rightPopup(this);
-    });
-
-    $('.removeEffect').on("click", function(){ $(`.title`).off("mouseover"); })
-    $('.spreadEffect').on("click", function(){ $(`.title`).on("mouseover", 
-    function(){
-        $(this).parents("nav").next().slideToggle(); 
-    }); })
-    $(`.allFold`)     .on("click", function(){ $(`details`).removeAttr("open"); $(`.dataBox`).css("display", "none"); })
-    $(`.allSpread`)   .on("click", function(){ $(`details`).attr("open","open") })
-    $(`.draagable`)   .on("click", function(){ $('.btnBox').draggable(); })
-    $(`.draagableDestroy`)   .on("click", function(){   $('.btnBox').draggable("destroy"); })
-    $(`.originMovement`)   .on("click", function(){ $('.btnBox').attr("style",`transition-duration: 1s; transform: translateX(0px);`);  })
-
-    let x=0;
-    $(`.translateX`).on("click", function(){ 
-        x+=300;
-        $('.btnBox').attr("style",
-        `transition-duration: 1s; transform: translateX(\${x}px);`); 
-
-    })
-    $(`.translateY`).on("click", function(){ 
-        x-=300;
-        $('.btnBox').attr("style",
-        `transition-duration: 1s; transform: translateX(\${x}px);`); 
-    })
     
+    const userNo_=${loginUser.userNo};
+
+    function selectManagerBy(){
+        
+        console.log( userNo_ );
+        const data={ "userNo"      : userNo_, };
+        fetch("/workList/projectBy/pList", {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(data)
+            }
+        )
+        .then (rep => rep.json())
+        .then (res => { 
+            console.log(res);
+
+
+            const obj=res;
+
+            for(let key in obj){
+                const arr=obj[key];
+
+
+
+                $(`.listBox`).append(
+                    `<section>
+                        <nav>
+                            <span class="projectNo" hidden>\${arr[0].projectNo}</span>
+                            <span>\${arr[0].projectName}</span>
+                            <button><span class="material-symbols-outlined">add</span></button>
+                        </nav>
+                        <article class="tbBox">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            <span class="material-symbols-outlined">description</span>
+                                            <span>작업이름</span>
+                                        </th>
+                                        <th>
+                                            <span class="material-symbols-outlined">calendar_today</span>
+                                            <span>마감일</span>
+                                        </th>
+                                        <th>
+                                            <span class="material-symbols-outlined">trending_up</span>
+                                            <span>상태</span>
+                                        </th>
+                                        <th>
+                                            <span class="material-symbols-outlined">cake</span>
+                                            <span>우선순위</span>
+                                        </th>
+            
+                                        <th>
+                                            <span class="material-symbols-outlined">person</span>
+                                            <span>담당자</span>
+                                        </th>
+                                        <th>
+                                            <span class="material-symbols-outlined">arrow_outward</span>
+                                            <span>상위작업</span>
+                                        </th>
+                                    </tr>
+            
+        
+                                </tbody>
+            
+                            </table>
+            
+                        </article>
+                    </section>`
+                );
+
+
+ 
+
+
+
+                for(let ele of arr){
+                    const work=ele;
+                    console.log(work);
+                    console.log(work.parentName);
+                    console.log(work.parentName=='null');
+                    console.log(work.parentName==null);
+
+                    $(`.tbBox tbody:last`).append(
+                        `<tr>
+                            <td class="workTitle" contenteditable="true">\${work.workTitle}</td>
+                            <td><span><input class="dueDate" type="date" value="\${work.dueDate}"></span></td>
+                            <td>
+                                <select class="workState" name="" id="">
+                                    <option value="0" \${work.workState==2 ? 'selected' : '' } >시작 전</option>
+                                    <option value="1" \${work.workState==2 ? 'selected' : '' } >진행 중</option>
+                                    <option value="2" \${work.workState==2 ? 'selected' : '' } >완료 후</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="workPriority" name="" id="">
+                                    <option value="0" \${work.workPriority==0 ? 'selected' : '' } >낮음</option>
+                                    <option value="1" \${work.workPriority==1 ? 'selected' : '' } >중간</option>
+                                    <option value="2" \${work.workPriority==2 ? 'selected' : '' } >높음</option>
+                                </select>
+                            </td>
+                            <td>
+                                <span class="workManager" hidden>\${work.workManager}</span>
+                                <span>\${work.workManagerName}</span>
+                            </td>
+                            <td>
+                                <span class="parentNo" hidden>\${work.parentNo}</span>
+                                <span>\${ work.parentName==null ? '없음' : work.parentName }</span>
+                            </td>
+                        </tr>`
+
+                    );
+
+
+                    
+
+
+                            
+                }
+
+
+            }
+
+
+
+        })
+        .catch(err => console.log(err))
+
+    }
+    selectManagerBy();
 
 </script>
