@@ -20,8 +20,8 @@ ${map}
         .listBox{ width: 1200px; }
 
         details { padding: 3px; transition-duration: 1s; }
-        details>summary>span:nth-child(1) { transition-duration: 1s; transform: translateX(0px); padding: 5px; }
-        details[open]>summary>span:nth-child(1) { border-bottom: 1px solid black; transform: translateX(5px); padding-right: 900px; }
+        .listBox .title{ transition-duration: 1s; transform: translateX(0px); padding: 5px; }
+        .listBox details[open] .title { border-bottom: 1px solid black; transform: translateX(5px); padding-right: 900px; }
 
 
         .count {
@@ -45,6 +45,7 @@ ${map}
             transition-duration: 1s;
             animation: move 2s ease-in infinite;
         }
+
 
         @keyframes move {
             0% {}
@@ -149,23 +150,57 @@ ${map}
         
                 <div style="display:flex;">
 
-                    <section class="listBox">
+                    <section class="listBox"></section>
+            
+                    <jsp:include page="/WEB-INF/views/workList/z0z0BtnBox.jsp" />
+
+                </div>
+
+        </div>
+    </main>
 
 
-                        <c:forEach var="managerBy" items="${map}">
-
-                        </c:forEach>
+    
 
 
 
-                        <details>
+
+
+</body>
+
+</html>            
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
+
+
+<script>
+    const projectNo_=${projectNo};
+
+
+    function selectManagerBy(){
+        
+        console.log( projectNo_ );
+        const data={ "projectNo"      : projectNo_, };
+        fetch("/workList/managerBy/mList", {
+                method: "POST",
+                headers: {"Content-Type" : "application/json"},
+                body: JSON.stringify(data)
+            }
+        )
+        .then (rep => rep.json())
+        .then (res => { 
+            const obj=res;
+
+            for(let key in obj){
+                const arr=obj[key];
+
+                    $(`.listBox`).append(
+                        `<details>
                             <summary>
-                                <span class="title">김길동</span>
-                                <span class="count">1</span>
+                                <span class="count workManager">\${key}</span>
+                                <span class="title">\${arr[0].workManagerName}</span>
                             </summary>
                             <div class="tbBox">
-            
-            
                                 <table>
                                     <tbody>
                                         <tr>
@@ -197,210 +232,86 @@ ${map}
             
                                         </tr>
             
-                                        <tr>
-                                            <td contenteditable="true"></td>
-                                            <td><span><input type="date"></span></td>
-                                            <td>
-                                                <select name="" id="">
-                                                    <option value="0">시작 전</option>
-                                                    <option value="1">진행 중</option>
-                                                    <option value="2">완료 후</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="" id="">
-                                                    <option value="">낮음</option>
-                                                    <option value="">중간</option>
-                                                    <option value="">높음</option>
-                                                </select>
-                                            </td>
-                                            <td contenteditable="true"></td>
-                                            <td></td>
-            
-                                        </tr>
+
+
+
                                     </tbody>
             
                                 </table>
             
                             </div>
             
-                        </details>
+                        </details>`
 
-
-
-
-
-
-                        <details>
-            
-                            <summary>
-                                <span class="title">이길동</span>
-                                <span class="count">5</span>
-                            </summary>
-            
-                            <div class="tbBox">
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <th>
-                                                <span class="material-symbols-outlined">description</span>
-                                                <span>작업이름</span>
-                                            </th>
-                                            <th>
-                                                <span class="material-symbols-outlined">calendar_today</span>
-                                                <span>마감일</span>
-                                            </th>
-                                            <th>
-                                                <span class="material-symbols-outlined">trending_up</span>
-                                                <span>상태</span>
-                                            </th>
-                                            <th>
-                                                <span class="material-symbols-outlined">cake</span>
-                                                <span>우선순위</span>
-                                            </th>
-                                            <th>
-                                                <span class="material-symbols-outlined">radio_button_checked</span>
-                                                <span>프로젝트</span>
-                                            </th>
-            
-                                        </tr>
-            
-
-                                        <tr>
-                                            <td contenteditable="true"></td>
-                                            <td><span><input type="date"></span></td>
-                                            <td>
-                                                <select name="" id="">
-                                                    <option value="0">시작 전</option>
-                                                    <option value="1">진행 중</option>
-                                                    <option value="2">완료 후</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <select name="" id="">
-                                                    <option value="">낮음</option>
-                                                    <option value="">중간</option>
-                                                    <option value="">높음</option>
-                                                </select>
-                                            </td>
-                                            <td contenteditable="true"></td>
-                                
-                                        </tr>
-
-                                    </tbody>
-            
-                                </table>
-                            </div>
-            
-            
-            
-                        </details>
-            
-                    </section>
-            
-                    <jsp:include page="/WEB-INF/views/workList/z0z0BtnBox.jsp" />
-
-                </div>
-
-        </div>
-    </main>
-
-
-    
-
-
-
-
-
-</body>
-
-</html>            
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
-
-
-<script>
-    const projectNo_=${projectNo};
-
-
-    function update(ele){ $(ele).on("mousedown", function(){ $(this).attr("contenteditable", "true"); }).on("focusout", function(){ $(this).removeAttr("contenteditable"); })} //수정함수
-    update($('.title'));
-
-
-    
-
-    function selectManagerBy(){
-        
-        console.log( projectNo_ );
-        const data={ "projectNo"      : projectNo_, };
-        fetch("/workList/managerBy/mList", {
-                method: "POST",
-                headers: {"Content-Type" : "application/json"},
-                body: JSON.stringify(data)
-            }
-        )
-        .then (rep => rep.json())
-        .then (res => { 
-            const obj=res;
-
-            console.log(obj);
-
-
-            for(let key in obj){
-              
-                console.log(
-                    obj[key]
-                );
-
-                for(let i of obj[key]){
-
-                    // console.log(
-                    //     i.workNo
-                    // );
-                  console.log(
-                        i[workNo]
                     );
+
+                for(let ele of arr){
+                    const work=ele;
+                    console.log(work);
+                    console.log(work.parentName);
+                    console.log(work.parentName=='null');
+                    console.log(work.parentName==null);
+
+                    $(`.tbBox tbody:last`).append(
+                        `<tr>
+                            <td class="workTitle" contenteditable="true">\${work.workTitle}</td>
+                            <td><span><input class="dueDate" type="date" value="\${work.dueDate}"></span></td>
+                            <td>
+                                <select class="workState" name="" id="">
+                                    <option value="0" \${work.workState==2 ? 'selected' : '' } >시작 전</option>
+                                    <option value="1" \${work.workState==2 ? 'selected' : '' } >진행 중</option>
+                                    <option value="2" \${work.workState==2 ? 'selected' : '' } >완료 후</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="workPriority" name="" id="">
+                                    <option value="0" \${work.workPriority==0 ? 'selected' : '' } >낮음</option>
+                                    <option value="1" \${work.workPriority==1 ? 'selected' : '' } >중간</option>
+                                    <option value="2" \${work.workPriority==2 ? 'selected' : '' } >높음</option>
+                                </select>
+                            </td>
+                            <td>
+                                <span class="projectNo" hidden>\${work.projectNo}</span>
+                                <span>\${work.projectName}</span>
+                            </td>
+                            <td>
+                                <span class="parentNo" hidden>\${work.parentNo}</span>
+                                <span>\${ work.parentName==null ? '없음' : work.parentName }</span>
+                            </td>
+                        </tr>`
+
+                    );
+
+
+                    
+
+
                             
                 }
 
 
             }
 
-
-            for(let key of obj){
-              
-                console.log(
-                    obj.key
-                );
-
-                // for(let i of obj[key]){
-
-                //     // console.log(
-                //     //     i.workNo
-                //     // );
-                //   console.log(
-                //         i[workNo]
-                //     );
-                            
-                }
-
-
-            }
 
 
         })
         .catch(err => console.log(err))
 
     }
-
-
-
     selectManagerBy();
 
+
     
+    
+    $(`.title`).on("mouseover", function(e){ 
+        spread(this); 
+        rightPopup(this);
+    });
 
-
-
+    $('.removeEffect').on("click", function(){ 
+        alert(1);
+        $(document).off("mouseover",`.title`); 
+    })
 
 
 </script>

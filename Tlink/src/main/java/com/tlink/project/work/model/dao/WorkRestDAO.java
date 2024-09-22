@@ -83,30 +83,32 @@ public class WorkRestDAO {
 		List<Integer> intList = new ArrayList<>();
 		intList=sqlSession.selectList("workRestMapper.selectManager", data);
 		
-//		System.out.println(intList);
-//		System.out.println(intList.size());
-//		
-//		System.out.println("************************");
-		
 		Map<Integer, Object> map=new HashMap<>();
-		
 		for(int managerNo : intList){
-//			System.out.println(managerNo);
-			
 			List<Work> wList=sqlSession.selectList("workRestMapper.selectManagerByWork", managerNo);
-//			System.out.println(wList);
-			
 			map.put(managerNo, wList);
-			
 		}
-//		System.out.println(map);
-		
-		
 		
 		return map;
 	}
 
-	
+
+
+
+	public Map<Integer, Object> projectByPList(Map<String, Object> data) {
+		List<Integer> intList = new ArrayList<>();
+		intList=sqlSession.selectList("workRestMapper.selectProject", data);
+		
+		Map<Integer, Object> map=new HashMap<>();
+		for(int projectNo : intList){
+			List<Work> wList=sqlSession.selectList("workRestMapper.selectProjectByWork", projectNo);
+			map.put(projectNo, wList);
+		}
+		
+		return map;
+	}
+
+
 	
 	
 	
