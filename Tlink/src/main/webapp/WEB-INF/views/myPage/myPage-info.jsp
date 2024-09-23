@@ -34,6 +34,10 @@
                             <div class="row-title">이메일</div>
                             <div class="row-content">${loginUser.userEmail}</div>
                         </div>
+                        <div class="card-row">
+                            <div class="row-title">가입일</div>
+                            <div class="row-content">${loginUser.enrollDate}</div>
+                        </div>
                     </div>
                     <!-- 하단 카드 -->
                     <div class="card">

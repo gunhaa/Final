@@ -35,12 +35,6 @@ public class ProjectDAO {
 		return sqlSession.delete("projectMapper.deleteProject", projectNo);
 	}
 
-	public int deleteUserProject(int projectNo) {
-		int result =  sqlSession.delete("projectMapper.deleteUserProject", projectNo);
-		
-		return result;
-	}
-
 	public Project selectProject(int projectNo) {
 		return sqlSession.selectOne("projectMapper.selectProject", projectNo);
 	}

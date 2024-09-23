@@ -82,12 +82,6 @@
 		WHERE PROJECT_NO = #{projectNo}
 	</delete>
 
-	<delete id="deleteUserProject">
-		DELETE FROM USER_PROJECT
-		WHERE PROJECT_NO =
-		#{projectNo}
-	</delete>
-
 	<select id="selectProject" resultMap="project_rm">
 		SELECT PROJECT_NO,
 		PROJECT_TITLE, "MANAGER" FROM "PROJECT"

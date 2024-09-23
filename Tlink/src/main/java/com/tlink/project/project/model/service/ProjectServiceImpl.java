@@ -59,11 +59,8 @@ public class ProjectServiceImpl implements ProjectService{
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int deleteProject(int projectNo) {
-		int result = dao.deleteProject(projectNo);
 		
-		if(result > 0) result = dao.deleteUserProject(projectNo); 
-		
-		return result;
+		return dao.deleteProject(projectNo);
 	}
 
 	// 프로젝트 조회
