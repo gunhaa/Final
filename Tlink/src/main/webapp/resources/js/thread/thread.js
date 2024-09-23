@@ -73,7 +73,7 @@ function drowFile(fileName){
 sendBtn.addEventListener("click", ()=>{
 
     formData.append("message", message.value);
-    formData.append("chatType", "chat");
+    formData.append("chatType", "normal");
 
     fetch('/thread/insert', {
         method: 'POST',
@@ -81,6 +81,31 @@ sendBtn.addEventListener("click", ()=>{
     })
     .then( resp => resp.json())
     .then( result => {
-        console.log("gg");
+        // 화면 만드는 코드
+        
+
+        const profile = document.createE
+        /*
+        socket.send({
+            type: "chat",
+            content: message.value
+        })
+        
+        */
     });
+})
+
+let threadNo = new URLSearchParams(location.search).get("threadNo");
+
+const joinChat = document.getElementById("joinChat");
+joinChat.addEventListener("click", ()=>{
+    fetch("/thread/message", {
+        method:"POST",
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: {
+            
+        }
+    })
 })

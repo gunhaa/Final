@@ -30,10 +30,10 @@
                 </div>
                 <div class="saperator"></div>
     
-                <form action="/chat/createThread" method="post" onsubmit="return invalid()">
+                <form action="/thread/createThread" method="post" onsubmit="return invalid()">
                     <div class="modalBody">
                         <p>스레드 이름</p>
-                        <input type="text" id="threadName" >
+                        <input type="text" name="threadTitle" id="threadTitle" >
                         <p>채널에서는 특정 주제에 대한 대화가 이루어집니다. 찾고 이해하기 쉬운 이름을 사용하세요.</p>
                         <p>멤버 검색</p>
                         <input type="search" name="query" id="query" placeholder="아이디 또는 이름을 입력해주세요." autocomplete="off" value="${param.query}">
@@ -42,41 +42,37 @@
         
                         <div id="listArea" class="memberArea">
                             <div class="memberItem">
-                                <div>
-                                    <c:if test="${ empty loginMember.profile }">
-                                        <img src="/resources/image/chat/cutiedog.png" class="memberProfile">
-                                    </c:if>
-        
-                                    <c:if test="${ !empty loginMember.profile }">
-                                        <img src="${contextPath}${loginMember.profile}" class="memberProfile">
-                                    </c:if>
-                                    <span>${loginMember.memberNickName}</span>
+                                <div class="memberProfile">
+                                    <img src="/resources/images/common/user.png">
+                                    <span>${loginUser.userName}</span>
                                     <span class="email">hanggh@gmail.com</span>
                                 </div>
                                 <div>
-                                    <c:if test="${loginMember.memberId != member.memberId}"> 
+                                    <c:if test="${loginUser.userNo != user.userNo}"> 
                                         <button id="removeMember"></button>
                                     </c:if>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     
                     <div class="modalBtnArea">
                         <input type="submit" id="createThreadBtn" value="스레드 생성하기"></input>
                     </div>
-                    
+                    <!-- input -->
+                    <input type="hidden" nama="userList" value="${loginUser.userNo}" >
+                    <input type="hidden" name="projectNo" value="${param.projectNo}">
                 </form>
-                
             </div>
         </section>
     
         <script>
-            const loginMemberNo = "${loginMember.userNo}";
-            /* const projectNo = "${projectNo}"; */
+            const loginMemberNo = "${loginUser.userNo}";
+            const projectNo = "${param.projectNo}"; 
         </script>
     
-        <script src="/resources/js/thread/newThread.js"></script>
+        <script src="/resources/js/thread/newThread-modal.js"></script>
     </main>
 </body>
 </html>
