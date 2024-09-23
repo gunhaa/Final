@@ -45,13 +45,13 @@
                                 <div class="memberProfile">
                                     <img src="/resources/images/common/user.png">
                                     <span>${loginUser.userName}</span>
-                                    <span class="email">hanggh@gmail.com</span>
+                                    <span class="email">${loginUser.email}/span>
                                 </div>
-                                <div>
+                                <!-- <div>
                                     <c:if test="${loginUser.userNo != user.userNo}"> 
                                         <button id="removeMember"></button>
                                     </c:if>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

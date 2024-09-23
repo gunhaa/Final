@@ -89,7 +89,7 @@ public class ThreadController  {
 			session.setAttribute("threadInfo", threadInfos);
 		}
 
-		return "redirect:/thread/thread?projectNo=" + projectNo;
+		return "redirect:/thread/thread?threadNo=" + threadInfo.getThreadNo();
 	}
 
 	@PostMapping("/insert")

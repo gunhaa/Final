@@ -47,46 +47,6 @@
                                     </div>
                                 </li>        
                         </c:forEach>
-                        <!-- <li class="chatSystem">
-                            <div class="chatSystem2">
-                                <span>
-                                    # 황건하님이 파이널 프로젝트에 참여했습니다.
-                                </span>
-                                <span class="createDate">
-                                    오후 2:39
-                                </span>
-                            </div>
-                        </li>
-    
-                        <li class="chatNormal">
-                            <div class="profile">
-                                <img src="/resources/images/common/user.png">
-                            </div>
-                            <div>
-                                <div class="infoLine">
-                                    <span>
-                                        황건하이름이박건하였다면?
-                                    </span>
-                                    <span class="createDate">
-                                        오후 2:39
-                                    </span>
-                                </div>
-                                <div>
-                                    채팅 컨텐츠 파일이 있으면 파일을 만들어야하는데 어떻게 알지 시불???
-                                </div>
-                            </div>
-                        </li>
-
-                        <li class="chatSystem">
-                            <div class="chatSystem2">
-                                <span>
-                                    # 황건하님이 파이널 프로젝트에 참여했습니다.
-                                </span>
-                                <span class="createDate">
-                                    오후 2:39
-                                </span>
-                            </div>
-                        </li> -->
 
                     </ul>
                 </div>
