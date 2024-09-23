@@ -49,7 +49,7 @@
                                         <li>
                                             <span class="workNo" hidden>${work.workNo}</span>
                                             <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
-                                            <span class="workTitle" contenteditable="true">${work.workTitle}</span>
+                                            <span class="workTitle">${work.workTitle}</span>
                                             <span class="material-symbols-outlined deleteWork">close</span>
                                         </li>
                                     </c:if>
@@ -69,7 +69,7 @@
                                         <li>
                                             <span class="workNo" hidden>${work.workNo}</span>
                                             <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
-                                            <span class="workTitle" contenteditable="true">${work.workTitle}</span>
+                                            <span class="workTitle">${work.workTitle}</span>
                                             <span class="material-symbols-outlined deleteWork">close</span>
                                         </li>
                                     </c:if>
@@ -89,7 +89,7 @@
                                         <li>
                                             <span class="workNo" hidden>${work.workNo}</span>
                                             <a href="/workSheet?workNo=${work.workNo}&projectNo=${projectNo}"><span class="material-symbols-outlined">draft</span></a>
-                                            <span class="workTitle" contenteditable="true">${work.workTitle}</span>
+                                            <span class="workTitle">${work.workTitle}</span>
                                             <span class="material-symbols-outlined deleteWork">close</span>
                                         </li>
                                                                     
@@ -186,12 +186,19 @@
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="/resources/js/work/udf.js"></script>
 <script src="/resources/js/work/common.js"></script>
-<script src="/resources/js/work/stateByUpdate.js"></script>
+<script src="/resources/js/work/update.js"></script>
+<%-- <script src="/resources/js/work/stateByUpdate.js"></script>
+ --%>
 <script>
-    const projectNo=${projectNo};
-    const parentElement=`li`; //삭제버튼
+    const projectNo_=${projectNo};
+    const parentElement=`li`; //삭제상위
+    const updateParent=`li`;  //수정상위
 
     function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
+
+
+    $(`.workTitle`).contentEditable();
+
 
     let afterWorkState=-1;
     $('.table ul').sortable({
@@ -211,7 +218,7 @@
             const data={
                 "workNo"         : workNo, 
                 "workState"      : workState, 
-                "projectNo"      : projectNo, 
+                "projectNo"      : projectNo_, 
             };
             fetch("/workList/table/update/workState", { method: "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data)}).then (rep => rep.text())
             .then(res => { res!=0 ?  updateDone()  : alert("수정실패") ; }).catch(err => console.log(err))
@@ -228,7 +235,7 @@
             console.log( projectNo );
             console.log( workState );
             const data={ 
-                "projectNo"      : projectNo, 
+                "projectNo"      : projectNo_, 
                 "workState"      : workState, 
                 };
             fetch("/workList/stateBy", { method: "POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data) })

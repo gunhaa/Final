@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.tlink.project.myPage.model.service.MyPageService;
 import com.tlink.project.project.model.dto.Project;
+import com.tlink.project.thread.model.dto.ThreadInfo;
+import com.tlink.project.thread.model.service.ThreadService;
 import com.tlink.project.user.model.dto.User;
 import com.tlink.project.work.model.dto.Work;
 import com.tlink.project.work.model.service.WorkService;
@@ -23,7 +25,7 @@ public class WorkList {
 	
 	@Autowired private WorkService service;
 	@Autowired private MyPageService myPageservice;
-	
+	@Autowired private ThreadService threadService;
 
 	@GetMapping("/workList") public String workList( @RequestParam(value="projectNo") int projectNo, Model model
 			, @SessionAttribute("loginUser") User loginUser
@@ -34,6 +36,15 @@ public class WorkList {
 		
 		List<Project> projectList =myPageservice.selectProjectList(loginUser.getUserNo());
 		session.setAttribute("projectList", projectList);
+		
+		List<ThreadInfo> threadInfo = threadService.selectThread(projectNo, loginUser.getUserNo());
+		session.setAttribute("threadInfo", threadInfo);
+		
+		
+		
+		
+		
+		
 		
 		return "redirect:/workList/gantChart"; 
 	}

@@ -244,11 +244,11 @@
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="/resources/js/work/udf.js"></script>
 <script src="/resources/js/work/common.js"></script>
-<script src="/resources/js/work/tableUpdate.js"></script>
+<script src="/resources/js/work/update.js"></script>
 <script>
-    const projectNo=${projectNo};
-    const parentElement=`tr`;   //삭제버튼
-
+    const projectNo_=${projectNo};
+    const parentElement=`tr`;   //삭제상위
+    const updateParent=`tr`;    //수정상위
 
     let optionSum="";
     function pListUpdate(){

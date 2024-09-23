@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tlink.project.work.model.dto.Todo;
 import com.tlink.project.work.model.dto.Work;
 
 @Repository
@@ -122,6 +123,13 @@ public class WorkRestDAO {
 		 if(workNo !=0) { work=sqlSession.selectOne("workRestMapper.selectWork",workNo); }
 		 System.out.println(work);
 		 return work;
+	}
+
+
+
+
+	public List<Todo> todoTList(Map<String, Object> data) {
+		return sqlSession.selectList("todoRestMapper.todoTList", data);
 	}
 
 

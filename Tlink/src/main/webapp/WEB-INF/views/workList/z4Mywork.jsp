@@ -224,12 +224,14 @@
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="/resources/js/work/udf.js"></script>
 <script src="/resources/js/work/common.js"></script>
-<script src="/resources/js/work/tableUpdate.js"></script>
+<script src="/resources/js/work/update.js"></script>
 
 <script>
-    const projectNo=${projectNo};
+    const projectNo_=${projectNo};
     const userNo=${loginUser.userNo};
-    const parentElement=`tr`;   //삭제버튼
+    const parentElement=`tr`;   //삭제상위
+    const updateParent=`tr`;    //수정상위
+
     function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
 
 

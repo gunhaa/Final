@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tlink.project.user.model.dto.User;
+import com.tlink.project.work.model.dto.Todo;
 import com.tlink.project.work.model.dto.Work;
 import com.tlink.project.work.model.service.WorkRestService;
 import com.tlink.project.work.model.service.WorkService;
@@ -140,6 +141,20 @@ public class WorkRest {
 	}
 	
 	
+	
+	
+	
+	
+	
+	//TODO
+	@PostMapping(value=("/todo/tList"))
+	public List<Todo> todoTList(@RequestBody Map<String, Object> data) {
+		System.out.println(data);
+		return service.todoTList(data);
+	}
+	
+	
+//	/todoList/update/todoState
 
 }
 
