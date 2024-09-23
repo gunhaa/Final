@@ -247,6 +247,7 @@
 <script src="/resources/js/work/update.js"></script>
 <script>
     const projectNo_=${projectNo};
+    const userNo_   =${loginUser.userNo};
     const parentElement=`tr`;   //삭제상위
     const updateParent=`tr`;    //수정상위
 
@@ -271,8 +272,10 @@
 
     $(`.insertWork`).on("click", function () {
 
-        console.log( ${projectNo} );
-        const data={ "projectNo"      : ${projectNo}, };
+        const data={ 
+            "projectNo"   : projectNo_, 
+            "userNo"      : userNo_, 
+        };
         fetch("/workList/table", { method: "POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data) })
         .then (rep => rep.text())
         .then (res => { console.log(res); res!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다."); if(res!=0){ window.location.reload(); }})

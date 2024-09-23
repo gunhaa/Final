@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.tlink.project.work.model.dto.CommentWork;
 import com.tlink.project.work.model.dto.Todo;
 import com.tlink.project.work.model.dto.Work;
 
@@ -42,6 +43,12 @@ public interface WorkRestService {
 	int deleteTodo(Map<String, Object> data);
 
 	int updateTodoTitle(Map<String, Object> data);
+
+	int commentInsert(Map<String, Object> data);
+
+	int commentDelete(Map<String, Object> data);
+
+	List<CommentWork> commentSelect(Map<String, Object> data);
 
 
 

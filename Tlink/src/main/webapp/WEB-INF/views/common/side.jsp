@@ -58,7 +58,12 @@
                     <ul style="list-style-type: none; padding: 0 0 0 0px; text-align: center; margin: 0;">
                         <li><a href="#tab1"><span class="material-symbols-outlined"
                                     style="font-size: 30px;">home</span></a></li>
-                        <li><a href="#tab2"><span class="material-symbols-outlined"
+                        <li><a href="#tab2"
+                           <%-- <c:if test="${!empty threadInfo}">  href="#tab2"</c:if>
+                           <c:if test="${empty threadInfo }" >  href="/thread/thread"</c:if> --%>
+                        >
+
+                        <span class="material-symbols-outlined"
                                     style="font-size: 30px;">sms</span></a></li>
                         <li><a href="#tab3"><span class="material-symbols-outlined"
                                     style="font-size: 30px;">info</span></a></li>
@@ -211,6 +216,8 @@
             `
         + cen()
     );
+    
+
     $('.sort').find("li").eq(0).attr("style",
         $('.sort').find("li").eq(0).attr(`style`) +
         `
@@ -223,6 +230,26 @@
             `
         + cen()
     );
+
+
+    // const pathname = window.location.pathname;
+    // if(pathname=="/thread/newThread"){
+    //     $('.sort').find("li").eq(1).attr("style",
+    //         $('.sort').find("li").eq(1).attr(`style`) +
+    //         `
+    //             background-color: rgba(255, 255, 255, 0.1);
+    //             border-radius: 10% 0 0 10%;
+    //             padding: 10px;
+    //             filter: drop-shadow(0 0 3px white);
+    //             width: 70px;
+    //             height: 70px;
+    //             `
+    //         + cen()
+    //     );
+    // }
+
+
+
 
 
 

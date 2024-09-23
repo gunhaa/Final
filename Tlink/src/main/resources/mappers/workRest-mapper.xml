@@ -23,6 +23,18 @@
    </resultMap>
 	
 	
+    <resultMap type="CommentWork" id="comment_rm">
+      <id     property="commentNo" column="COMMENT_NO"/>
+      <result property="commentCon" column="COMMENT_CON"/>
+      <result property="commentDate" column="COMMENT_DT"/>
+      <result property="parentNo" column="PARENT_NO"/>
+      <result property="workNo" column="WORK_NO"/>
+      <result property="userNo" column="USER_NO"/>
+      
+      <result property="userName" column="USER_NAME"/>
+      <result property="parentName" column="PARENT_TITLE"/>
+   </resultMap>
+	
 	
 
    
@@ -56,7 +68,7 @@
 		SEQ_WORK_NO.NEXTVAL, DEFAULT, DEFAULT, 
 		DEFAULT, DEFAULT, DEFAULT,
 		DEFAULT, DEFAULT, DEFAULT,
-		DEFAULT, DEFAULT, #{projectNo}
+		#{userNo}, DEFAULT, #{projectNo}
 		)
 	</insert>
 	<select id="selectWorkNo" resultType="_int">
@@ -190,6 +202,35 @@
 		WHERE WORK_NO=#{workNo}
 	</select>
 	
+	
+	
+	
+	
+	
+	<!-- 댓글 -->
+	<insert id="commentInsert">
+		INSERT INTO WORK_COMMENT VALUES(
+		    SEQ_WORK_COMMENT_NO.NEXTVAL, #{commentCon}, 
+		    DEFAULT, DEFAULT, DEFAULT,
+		    #{workNo}, #{userNo}
+		)
+	</insert>
+	
+	<update id="commentDelete">
+		UPDATE WORK_COMMENT SET
+		COMMENT_ST=0
+		WHERE COMMENT_NO=#{commentNo}
+	</update>
+	
+	
+	<select id="commentSelect" resultMap="comment_rm">
+		SELECT W.COMMENT_NO, W.COMMENT_CON, W.COMMENT_DT,
+		W.PARENT_NO, W.WORK_NO, W.USER_NO,
+		USER_NAME
+		FROM WORK_COMMENT W
+		LEFT OUTER JOIN "USER" ON W.USER_NO="USER".USER_NO
+		WHERE WORK_NO=#{workNo}
+	</select>
 	
 	
 	
