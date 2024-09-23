@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.tlink.project.thread.model.dto.ThreadChat;
 import com.tlink.project.thread.model.dto.ThreadFile;
 import com.tlink.project.thread.model.dto.ThreadInfo;
+import com.tlink.project.user.model.dto.User;
 
 @Repository
 public class ThreadDAO {
@@ -30,13 +31,27 @@ public class ThreadDAO {
 		return sqlSession.insert("threadMapper.insertChatFile", uploadList);
 	}
 
-	public List<ThreadInfo> selectThread(int projectNo, int userNo) {
-		
-		Map<String, Object> map = new HashMap<>();
-		
-		map.put("projectNo", projectNo);
-		map.put("userNo", userNo);
-		
+	public List<ThreadInfo> selectThread(Map<String, Object> map) {		
 		return sqlSession.selectList("threadMapper.selectThread", map);
+	}
+
+	public int insertThread(ThreadInfo threadInfo) {
+		return sqlSession.insert("threadMapper.insertThread", threadInfo);
+	}
+
+	public int insertProjectThread(Map<String, Object> projectMap) {
+		return sqlSession.insert("threadMapper.insertProjectThread", projectMap);
+	}
+
+	public int insertThreadMember(Map<String, Object> map) {
+		return sqlSession.insert("threadMapper.insertThreadMember", map);		
+	}
+
+	public List<Map<String, Object>> selectUser(Map<String, Object> map) {
+		return sqlSession.selectList("threadMapper.selectUser", map);
+	}
+
+	public List<ThreadChat> selectThreadChat(int threadNo) {
+		return sqlSession.selectList("threadMapper.selectThreadChat", threadNo);
 	}
 }
