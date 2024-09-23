@@ -3,6 +3,7 @@ let memberList = document.getElementById("listArea");
 
 const createBtn = document.getElementById("createThread");
 createBtn.addEventListener("click", ()=>{
+    console.log("hihihi");
     modal.classList.toggle("hidden");
 })
 

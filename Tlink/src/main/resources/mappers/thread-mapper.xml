@@ -91,6 +91,12 @@
 		INSERT INTO "THREAD_MEMBER" VALUES(#{threadNo}, #{userNo})
 	</insert>
 	
-
+	<insert id="insertChat">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="chatNo">
+			SELECT SEQ_THREAD_CHAT_NO.NEXTVAL FROM DUAL 
+		</selectKey>
+		
+		INSERT INTO "THREAD_MESSAGE" VALUES(#{chatNo}, )
+	</insert>
 
 </mapper>
