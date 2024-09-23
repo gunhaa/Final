@@ -82,7 +82,7 @@
             <div id="tab2">
                 <ul style="">
                     <c:forEach var="thread" items="${threadInfo}">
-                        <li><a href="/thread/message/?threadNo=${thread.threadNo}">${thread.threadTitle}</a></li>
+                        <li><a href="/thread/thread?threadNo=${thread.threadNo}">${thread.threadTitle}</a></li>
                     </c:forEach>
                 </ul>
                 <button id="createThread">++모달++</button>

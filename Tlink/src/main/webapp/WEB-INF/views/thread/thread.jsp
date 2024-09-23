@@ -26,9 +26,9 @@
                 <div class="saperator"></div>
         
                 <div class="viewMain">
+                    ${chatList}
                     <ul>
                         <c:forEach var="chat" items="${chatList}">
-                            <c:if test="${chat.chatType == normal}">
                                 <li class="chatNormal">
                                     <div class="profile">
                                         <c:if test="${ empty chat.memberProfile }">
@@ -40,22 +40,14 @@
                                     </div>
                                     <div>
                                         <div class="infoLine">
-                                            <span>
-                            
-                                            </span>
-                                            <span class="createDate">
-                                                오후 2:39
-                                            </span>
+                                            <span>${chat.memberNickname}</span>
+                                            <span class="createDate">${chat.chatCreateDate}</span>
                                         </div>
-                                        <div>
-                                            채팅 컨텐츠 파일이 있으면 파일을 만들어야하는데 어떻게 알지 시불???
-                                        </div>
+                                        <div>${chat.chatMessage}</div>
                                     </div>
-                                </li>
-        
-                            </c:if>
+                                </li>        
                         </c:forEach>
-                        <li class="chatSystem">
+                        <!-- <li class="chatSystem">
                             <div class="chatSystem2">
                                 <span>
                                     # 황건하님이 파이널 프로젝트에 참여했습니다.
@@ -94,7 +86,7 @@
                                     오후 2:39
                                 </span>
                             </div>
-                        </li>
+                        </li> -->
 
                     </ul>
                 </div>
