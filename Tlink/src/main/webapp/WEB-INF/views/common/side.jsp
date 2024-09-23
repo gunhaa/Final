@@ -23,12 +23,15 @@
     <title>workspace</title>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    
+    <link rel="stylesheet" href="/resources/css/thread/threadUtil-style.css">
+
 
 </head>
 
 <body>
-
-   
+    <jsp:include page="/WEB-INF/views/thread/createModal.jsp"/>
+    
     <aside class="aside">
         <div class="asideTop">
             <ul>
@@ -141,6 +144,7 @@
 
 </style>
 
+<script src="/resources/js/thread/newThread-modal.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
