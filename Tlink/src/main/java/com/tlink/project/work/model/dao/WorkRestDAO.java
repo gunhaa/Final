@@ -135,6 +135,40 @@ public class WorkRestDAO {
 
 
 
+	public int updateTodoState(Map<String, Object> data) {
+		return sqlSession.update("todoRestMapper.updateTodoState", data);
+	}
+
+
+
+
+	public Todo insertTodo(Map<String, Object> data) {
+		 int result=sqlSession.insert("todoRestMapper.insertTodo", data);
+		 int todoNo=0;
+		 Todo todo=null;
+		 if(result !=0) { todoNo=sqlSession.selectOne("todoRestMapper.selectTodoNo"); }
+		 System.out.println(todoNo);
+		 if(todoNo !=0) { todo=sqlSession.selectOne("todoRestMapper.selectTodo",todoNo); }
+		 System.out.println(todo);
+		 return todo;
+	}
+
+
+
+
+	public int deleteTodo(Map<String, Object> data) {
+		return  sqlSession.delete("todoRestMapper.deleteTodo", data);
+	}
+
+
+
+
+	public int updateTodoTitle(Map<String, Object> data) {
+		return sqlSession.update("todoRestMapper.updateTodoTitle", data);
+	}
+
+
+
 
 	
 }

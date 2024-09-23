@@ -57,7 +57,7 @@
                             </ul>                                
 
 
-                            <span class="insertWork">+새로만들기</span>
+                            <span class="insert">+새로만들기</span>
                         </td>
                             
                         <td>
@@ -77,7 +77,7 @@
                             </ul>                                
 
 
-                            <span class="insertWork">+새로만들기</span>
+                            <span class="insert">+새로만들기</span>
                         </td>
 
                         <td>
@@ -97,7 +97,7 @@
                                 </c:forEach>
                             </ul> 
 
-                            <span class="insertWork">+새로만들기</span>
+                            <span class="insert">+새로만들기</span>
                         </td>
                     </tr>
 
@@ -193,16 +193,15 @@
     const projectNo_=${projectNo};
     const parentElement=`li`; //삭제상위
     const updateParent=`li`;  //수정상위
+    $(`.workTitle`).contentEditable();
 
     function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
 
 
-    $(`.workTitle`).contentEditable();
 
-
-    let afterWorkState=-1;
-    $('.table ul').sortable({
-        connectWith: '.table ul',
+    const sortElement=`.table ul`;
+    $(sortElement).sortable({
+        connectWith: sortElement,
         cursor: "move",
         delay: 150,
         distance: 5,
@@ -211,7 +210,7 @@
 
         start:  function(event, ui){ console.log("drag : " + (ui.item.index())); updateOn()},
         change: function(event, ui){ $(this).attr("style",`background-color: #eee; font-weight: bold;`); },
-        stop:   function(event, ui){ console.log("drop : " + (ui.item.index()));  $(`.table ul`).removeAttr("style"); 
+        stop:   function(event, ui){ console.log("drop : " + (ui.item.index()));  $(sortElement).removeAttr("style"); 
 
             const workNo=$(ui.item).find(`.workNo`).text();
             const workState=$(ui.item).parents(`td`).find(`.workStateNavigator`).text();
@@ -228,9 +227,9 @@
 
     });
 
-
+    
     for(let i=0; i<3; i++){
-        $(`.insertWork`).eq(i).on("click", function(e){
+        $(`.insert`).eq(i).on("click", function(e){
             const workState=$(this).parents(`td`).find(`.workStateNavigator`).text();
             console.log( projectNo );
             console.log( workState );
@@ -242,7 +241,6 @@
             .then (rep => rep.json())
             .then (res => { 
                 const work=res;
-                console.log(res); 
                 work.workNo!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다."); 
                 if(work.workNo!=0){ 
                     

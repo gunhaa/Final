@@ -88,6 +88,26 @@ public class WorkRestServiceImpl implements WorkRestService{
 		return dao.todoTList(data);
 	}
 
+	@Override
+	public int updateTodoState(Map<String, Object> data) {
+		return dao.updateTodoState(data);
+	}
+
+	@Override
+	public Todo insertTodo(Map<String, Object> data) {
+		return dao.insertTodo(data);
+	}
+
+	@Override
+	public int deleteTodo(Map<String, Object> data) {
+		return dao.deleteTodo(data);
+	}
+
+	@Override
+	public int updateTodoTitle(Map<String, Object> data) {
+		return  dao.updateTodoTitle(data);
+	}
+
 
 	
 

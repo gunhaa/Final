@@ -38,19 +38,19 @@
                         <td>
                             <span class="todoStateNavigator" hidden>0</span>
                             <section></section>
-                            <span class="plusBtn">+새로만들기</span>
+                            <span class="insert">+새로만들기</span>
                         </td>
                             
                         <td>
                             <span class="todoStateNavigator" hidden>1</span>
                             <section></section>
-                            <span class="plusBtn">+새로만들기</span>
+                            <span class="insert">+새로만들기</span>
                         </td>
 
                         <td>
                             <span class="todoStateNavigator" hidden>2</span>
                             <section></section>
-                            <span class="plusBtn">+새로만들기</span>
+                            <span class="insert">+새로만들기</span>
                         </td>
 
 
@@ -59,6 +59,11 @@
 
                 </tbody>
             </table>
+
+
+            <span class="updateNavigator" hidden></span>
+
+
 
         </div>
     </main>
@@ -89,8 +94,12 @@
 
 
 
-    .deleteBtn{
+    .deleteTodo{
         font-size: 15px;
+    }
+
+    .table section{
+        min-height: 1px;
     }
 
 
@@ -104,6 +113,8 @@
 
     const projectNo_=${projectNo};
     const userNo_   =${loginUser.userNo};
+
+
 
 
     function selectTodo(){
@@ -130,9 +141,9 @@
                     `<details>
                         <summary>
                             <span class="todoNo" hidden   >\${todo.todoNo}</span>
-                            <span class="title"           >\${todo.todoTitle}</span>
+                            <span class="todoTitle"           >\${todo.todoTitle}</span>
                             <span class="todoState" hidden>\${todo.todoState}</span>
-                            <span class="material-symbols-outlined deleteBtn">event_busy</span>
+                            <span class="material-symbols-outlined deleteTodo">event_busy</span>
                         </summary>
                         <span class="content">\${todo.todoContent}</span> 
                     </details>`
@@ -158,17 +169,26 @@
 //     $(document).on("mouseover",'.content', function(){ $('.content').contentEditable() } ) ;
 
 
-    $('.table td').sortable({
-        connectWith: '.table td',
+
+    const sortElement=`.table section`;
+    $(sortElement).sortable({
+        connectWith: sortElement,
         cursor: "move",
         delay: 150,
         distance: 5,
         dropOnEmpty: true,
         cancel: '[contenteditable]',
 
-        start:  function(event, ui){ console.log("drag : " + (ui.item.index())); updateOn()},
-        change: function(event, ui){ $(this).attr("style",`background-color: #eee; font-weight: bold;`); },
-        stop:   function(event, ui){ console.log("drop : " + (ui.item.index()));  $(`.table ul`).removeAttr("style"); 
+        start:  function(event, ui){ 
+            console.log("drag : " + (ui.item.index())); 
+            updateOn()
+        },
+        change: function(event, ui){ 
+            $(this).attr("style",`background-color: #eee; font-weight: bold;`); 
+        },
+        stop:   function(event, ui){ 
+            console.log("drop : " + (ui.item.index()));  
+            $(sortElement).removeAttr("style"); 
 
             const todoNo=$(ui.item).find(`.todoNo`).text();
             const todoState=$(ui.item).parents(`td`).find(`.todoStateNavigator`).text();
@@ -178,33 +198,55 @@
                 "projectNo"      : projectNo, 
             };
 
+            console.log(data);
 
-            fetch("/todoList/update/todoState", { method: "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data)}).then (rep => rep.text())
+            fetch("/todoList/update/todoState", { method: "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data)}).then(rep => rep.text())
             .then(res => { res!=0 ?  updateDone()  : alert("수정실패") ; }).catch(err => console.log(err))
-
-
 
         }, 
 
     });
 
 
+    for(let i=0; i<3; i++){
+        $(`.insert`).eq(i).on("click", function(e){
 
-//     for(let i=0; i<3; i++){
-//         $(`.plusBtn`).eq(i).on("click", function(e){
-//             $(this).before(
-// `<details>
-//     <summary>
-//         <span class="title">제목</span> 
-//         <span class="material-symbols-outlined deleteBtn">event_busy</span>
-//     </summary>
-//     <span class="content">내용</span>
-// </details>`);
-//         })
-//          //추후 -> 비동기 추가
-//     }
+            const todoState=$(this).parents(`td`).find(`.todoStateNavigator`).text();
+            console.log( projectNo );
+            console.log( todoState );
+            const data={ 
+                "userNo"         : userNo_, 
+                "projectNo"      : projectNo_, 
+                "todoState"      : todoState, 
+            };
+            fetch("/todo", { method: "POST", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data) })
+            .then (rep => rep.json())
+            .then (res => { 
+                console.log(res); 
+                const todo=res;
+                todo.todoNo!=0 ?  alert("성공하였습니다.") : alert("실패하였습니다."); 
+                if(todo.todoNo!=0){ 
+                    
+                    $(this).parents(`td`).find(`section`).append(
+                        `<details>
+                            <summary>
+                                <span class="todoNo" hidden   >\${todo.todoNo}</span>
+                                <span class="todoTitle" contenteditable="true">\${todo.todoTitle}</span>
+                                <span class="todoState" hidden>\${todo.todoState}</span>
+                                <span class="material-symbols-outlined deleteTodo">event_busy</span>
+                            </summary>
+                            <span class="content">\${todo.todoContent}</span> 
+                        </details>`
+                    );
 
-//     $(document).on("click", `.deleteBtn` ,function(){
+            }})
+            .catch(err => console.log(err))
+
+        })
+    }
+
+
+//     $(document).on("click", `.deleteTodo` ,function(){
 //         if(confirm("삭제하시겠습니까??")
 //         ){
 //             $(this).parents('details').remove();
@@ -215,6 +257,55 @@
 
 
     
+
+
+
+</script>
+
+<script>
+    function alertResult(res){ res==1 ?  alert("성공하였습니다.") : alert("실패하였습니다.") }
+
+    const parentElement=`details`; //삭제상위
+    $(document).on("click", `.deleteTodo` ,function(){
+        if(confirm("삭제하시겠습니까??")){
+            const todoNo=$(this).pFind(parentElement, `.todoNo`).text();
+            const data={"todoNo"      : todoNo, };
+            fetch("/todo/detail", { method: "DELETE", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data) })
+            .then (rep => rep.text())
+            .then (res => { alertResult(res);  if(res==1){ $(this).parents(parentElement).remove(); } })
+            .catch(err => console.log(err))
+        }    
+    })
+
+
+
+
+
+
+</script>
+
+<script>
+
+const updateParent =`details`;  //수정상위
+$(document).on("mousedown",`.todoTitle`, function(){
+    $(this).contentEditable();  
+})
+
+function updateOn(){ $(`.updateNavigator`).attr("style","color: red;").text("●수정중").toggle("slide", 400,  function(){ $(this).removeAttr("hidden") }); }
+function updateDone(){$(`.updateNavigator`).attr("style","color: blue;").text("●수정완료"); setTimeout(function() { $(`.updateNavigator`).toggle(400, function(){ $(this).prop("hidden", true); $(this).removeAttr("style")});  }, 500);}
+
+
+$(document).on("focusin",  `.todoTitle`,  function(){updateOn()});
+$(document).on("focusout", `.todoTitle`, function(){
+    const todoNo=$(this).parents(updateParent).find(`.todoNo`).text();
+    const data={
+        "todoNo"         : todoNo, 
+        "todoTitle"      : $(this).text(), 
+        "projectNo"      : projectNo, 
+    };
+    fetch("/todo/update/todoTitle", { method: "PUT", headers: {"Content-Type" : "application/json"}, body: JSON.stringify(data)}).then (rep => rep.text())
+    .then(res => { res!=0 ?  updateDone() : alert("수정실패") ; }).catch(err => console.log(err))
+})
 
 
 

@@ -152,10 +152,32 @@ public class WorkRest {
 		System.out.println(data);
 		return service.todoTList(data);
 	}
+	@PutMapping(value=("/todoList/update/todoState"))
+	public int updateTodoState(@RequestBody Map<String, Object> data) {
+		System.out.println(data);
+		return service.updateTodoState(data);
+	}
+	@PostMapping(value=("/todo"))
+	public Todo insertTodo(@RequestBody Map<String, Object> data) {
+		System.out.println(data);
+		return service.insertTodo(data);
+	}
 	
 	
-//	/todoList/update/todoState
-
+	
+	
+	@DeleteMapping(value=("/todo/detail"))
+	public int deleteTodo(@RequestBody Map<String, Object> data) {
+		System.out.println(data);
+		return service.deleteTodo(data);
+	}
+	@PutMapping(value=("/todo/update/todoTitle"))
+	public int updateTodoTitle(@RequestBody Map<String, Object> data) {
+		System.out.println(data);
+		return service.updateTodoTitle(data);
+	}
+	
+	
 }
 
 
