@@ -96,7 +96,7 @@
 			SELECT SEQ_THREAD_CHAT_NO.NEXTVAL FROM DUAL 
 		</selectKey>
 		
-		INSERT INTO "THREAD_MESSAGE" VALUES(#{chatNo}, )
+		INSERT INTO "THREAD_MESSAGE" VALUES(#{chatNo}, #{chatMessage}, SYSDATE, #{chatType}, #{threadNo} , #{memberNo})
 	</insert>
 
 </mapper>

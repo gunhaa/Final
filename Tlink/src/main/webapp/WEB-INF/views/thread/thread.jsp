@@ -27,7 +27,7 @@
                 <div class="saperator"></div>
         
                 <div class="viewMain">
-                    <ul>
+                    <ul id="chatBox">
                         <c:forEach var="chat" items="${chatList}">
                                 <li class="chatNormal">
                                     <div class="profile">
