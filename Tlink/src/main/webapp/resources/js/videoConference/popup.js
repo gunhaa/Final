@@ -311,6 +311,9 @@ const getMedia = () => __awaiter(void 0, void 0, void 0, function* () {
         console.error("getUserMedia 에러:", e);
         if (e.name === 'NotFoundError' || e.name === 'DevicesNotFoundError' || e.name === 'NotReadableError') {
             console.log("카메라가 없어서 카메라 끄고 실행중");
+            option1.innerText = "카메라";
+            option2.innerText = "화면공유(사용중)";
+            state = "display";
             getDisplay();
         }
         else {
