@@ -25,7 +25,7 @@
     import { Calendar } from '@fullcalendar/core'
     import dayGridPlugin from '@fullcalendar/daygrid'
     import interactionPlugin from '@fullcalendar/interaction'
-    import googleCalendarPlugin from '@fullcalendar/google-calendar';
+    
     
     document.addEventListener('DOMContentLoaded', function() {
         const calendarEl = document.getElementById('calendar');
@@ -104,7 +104,7 @@
               console.log('New end date:', info.event.end);
               // 추가적인 데이터 출력 가능
             },
-            plugins: [dayGridPlugin, interactionPlugin, googleCalendarPlugin],
+            plugins: [dayGridPlugin, interactionPlugin],
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
@@ -149,7 +149,7 @@
     </div>
   </div>
 
-  <div id="modal">
+  <div id="scheduleModal">
       <div id="insertEvent" class="modal-content"></div>
       <div id="insertHoliday" class="modal-content"></div>
       <div id="detailEvent" class="modal-content"></div>

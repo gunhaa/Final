@@ -23,6 +23,7 @@ public class CalendarData {
 	private int userNo;
 	private String userName;
 	private int scheduleNo;
+	private int projectNo;
 	private String scheduleType;
 	private String scheduleTitle;
 	private String startDate;

@@ -1,4 +1,4 @@
-const modal = document.getElementById("modal")
+const scheduleModal = document.getElementById("scheduleModal")
 const addEventBtn = document.getElementById("addEventBtn")
 const addHolidayBtn = document.getElementById("addHolidayBtn")
 
@@ -48,7 +48,7 @@ function closeModal(){
 
 // 모달 창 열기
 function openModal(contentEl) {
-  modal.style.display = 'block';
+  scheduleModal.style.display = 'block';
   contentEl.style.display = 'block';
 }
 
@@ -75,18 +75,18 @@ window.onclick = function(event) {
   // 드래그가 끝난 직후 클릭 이벤트가 발생하지 않도록 설정
   if (dragTimeout || isDragging) return;
   
-  if (event.target === modal) {  // 모달 바깥 클릭 시 닫기
-    modal.style.display = "none";
+  if (event.target === scheduleModal) {  // 모달 바깥 클릭 시 닫기
+    scheduleModal.style.display = "none";
     closeModal();
     clearEventForm();
     clearHolidayForm();
   }
 };
 
-modal.addEventListener('click', function(event) {
+scheduleModal.addEventListener('click', function(event) {
   if (event.target.classList.contains('close')) {
     closeModal(); // 모든 모달 닫기
-    modal.style.display='none';
+    scheduleModal.style.display='none';
   }
 });
 
@@ -128,7 +128,7 @@ addEventBtn.addEventListener("click",function(){
               <span id="insertEventTitle">일정 등록하기</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
-          <form action="/calendar/eventForm" id="eventForm" method="post">
+          <form action="/calendar/eventForm?projectNo=${projectNo}" id="eventForm" method="post">
               <div>
                   <div class="eachForm">
                       <div>제목</div>
@@ -184,7 +184,7 @@ addHolidayBtn.addEventListener("click",function(){
               <span id="insertHolidayTitle">휴가 등록하기</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
-          <form action="/calendar/holidayForm" id="holidayForm" method="post" enctype="multipart/form-data">
+          <form action="/calendar/holidayForm?projectNo=${projectNo}" id="holidayForm" method="post" enctype="multipart/form-data">
               <div>
                   <div class="eachForm">
                       <div>종류</div>
@@ -309,7 +309,7 @@ function showEventDetails(event) {
               <span>${event.title}</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
-          <form action="/calendar/deleteEvent" id="eventForm" method="post">
+          <form action="/calendar/deleteEvent?projectNo=${projectNo}" id="eventForm" method="post">
             <div>
                 <div class="eachForm">
                   <div>내용</div>
@@ -359,7 +359,7 @@ function showEventDetails(event) {
               <span>${event.title}</span>
               <span class="close" id="closeInsert">&times;</span>
             </div>
-            <form action="/calendar/deleteHoliday" id="eventForm" method="post">
+            <form action="/calendar/deleteHoliday?projectNo=${projectNo}" id="eventForm" method="post">
               <div>
                 <div class="eachForm">
                   <div>종류</div>
@@ -455,7 +455,7 @@ function updateDetailEvent(event) {
               <span id="insertEventTitle">일정 수정하기</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
-          <form action="/calendar/eventUpdate" id="eventForm" method="post">
+          <form action="/calendar/eventUpdate?projectNo=${projectNo}" id="eventForm" method="post">
               <div>
                   <div class="eachForm">
                       <div>제목</div>
@@ -489,6 +489,28 @@ function updateDetailEvent(event) {
 
   if (updateEventBtn) {
       updateEventBtn.addEventListener("click", function() {
+
+        const eventForm = document.getElementById("eventForm");
+
+        // HTML5 기본 폼 검증을 먼저 수행
+        if (!eventForm.checkValidity()) {
+          // 폼이 유효하지 않으면 기본 HTML5 폼 검증 메시지를 보여주고 함수를 종료
+          eventForm.reportValidity(); // 브라우저의 기본 오류 메시지 출력
+          return;
+        }
+        const startDateInput = document.getElementById("startDate").value;
+        const endDateInput = document.getElementById("endDate").value;
+      
+        // 날짜를 Date 객체로 변환
+        const startDate = new Date(startDateInput);
+        const endDate = new Date(endDateInput);
+        
+        // 날짜 확인
+        if (endDate < startDate) {
+          alert('일정 기간을 다시 확인해주세요.');
+          return; // 제출 중단
+        }
+        
         if (confirm("정말로 수정하시겠습니까?")) {
           alert('수정이 완료되었습니다.')
           updateEventBtn.setAttribute("type", "submit")
@@ -499,7 +521,7 @@ function updateDetailEvent(event) {
   if (cancelEventBtn) {
       cancelEventBtn.addEventListener("click", function() {
         insertEvent.style.display = 'none';
-        modal.style.display = 'none';
+        scheduleModal.style.display = 'none';
         clearEventForm(); // 폼 초기화
     });
   }
@@ -524,7 +546,7 @@ function updateHolidayEvent(event){
               <span id="insertHolidayTitle">휴가 수정하기</span>
               <span class="close" id="closeInsert">&times;</span>
           </div>
-          <form action="/calendar/holidayUpdate" id="holidayForm" method="post" enctype="multipart/form-data">
+          <form action="/calendar/holidayUpdate?projectNo=${projectNo}" id="holidayForm" method="post" enctype="multipart/form-data">
               <div>
                   <div class="eachForm">
                       <div>종류</div>
@@ -569,6 +591,28 @@ function updateHolidayEvent(event){
       const scheduleType = document.querySelector('input[name="scheduleType"]:checked').value;
       const fileInput = document.getElementById("holidayFile");
   
+      const holidayForm = document.getElementById("holidayForm");
+
+      // HTML5 기본 폼 검증을 먼저 수행
+      if (!holidayForm.checkValidity()) {
+        // 폼이 유효하지 않으면 기본 HTML5 폼 검증 메시지를 보여주고 함수를 종료
+        holidayForm.reportValidity(); // 브라우저의 기본 오류 메시지 출력
+        return;
+      }
+
+      const startDateInput = document.getElementById("holidayStartDate").value;
+      const endDateInput = document.getElementById("holidayEndDate").value;
+    
+      // 날짜를 Date 객체로 변환
+      const startDate = new Date(startDateInput);
+      const endDate = new Date(endDateInput);
+      
+      // 날짜 확인
+      if (endDate < startDate) {
+        alert('일정 기간을 다시 확인해주세요.');
+        return; // 제출 중단
+      }
+
       // 병가일 경우 관련 서류가 필수
       if (scheduleType == "3" && fileInput.files.length === 0) {
         alert('병가의 경우 관련 서류를 제출해야 합니다.');
@@ -586,7 +630,7 @@ function updateHolidayEvent(event){
   if (cancelHolidayBtn) {
     cancelHolidayBtn.addEventListener("click", function() {
       insertHoliday.style.display = 'none';
-      modal.style.display = 'none';
+      scheduleModal.style.display = 'none';
       clearHolidayForm(); // 폼 초기화
     });
   }

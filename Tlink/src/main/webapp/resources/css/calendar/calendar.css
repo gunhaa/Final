@@ -17,7 +17,7 @@ body{
     height: 80%;
 }
 
-#modal {
+#scheduleModal {
     display: none;
     position: fixed;
     z-index: 1;
@@ -31,7 +31,7 @@ body{
     padding-top: 60px;
 }
 
-#modal>div{
+#scheduleModal>div{
     display: none;
 }
 

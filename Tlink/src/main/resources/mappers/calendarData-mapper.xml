@@ -15,6 +15,7 @@
 		<result property="endDate" column="END_DATE" />
 		<result property="scheduleContent" column="SCHEDULE_CONTENT" />
 		<result property="fileCode" column="FILE_CODE" />
+		<result property="projectNo" column="PROJECT_NO" />
 		
 		<collection property="fileList" 
 			select="selectFileList"
@@ -55,14 +56,14 @@
    	</selectKey>
 
 		INSERT INTO SCHEDULE VALUES( 	
-			 #{scheduleNo},
+			#{scheduleNo},
 		    #{scheduleType},
 		    #{scheduleTitle},
 		    TO_DATE(#{startDate}, 'YYYY-MM-DD"T"HH24:MI'),
 		    TO_DATE(#{endDate}, 'YYYY-MM-DD"T"HH24:MI'),
 		    #{scheduleContent},
-			 #{userNo},
-			 1
+			#{userNo},
+			#{projectNo}
 	   )
    </insert>
 	
