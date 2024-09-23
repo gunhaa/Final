@@ -404,6 +404,10 @@ const option1btn = () => {
         option1.innerText = "카메라(사용중)";
         option2.innerText = "화면공유";
         state = "camera";
+        /* 추가부분 */
+        const screenTrack = myStream.getTracks()[0];
+        // 화면 공유 종료
+        screenTrack.stop();
         getMedia();
     }
     else {
