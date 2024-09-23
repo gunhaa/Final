@@ -55,8 +55,11 @@ public class CalendarController {
     // 일정 등록하기
     @PostMapping("/eventForm")
     public String event(CalendarData calendar
-    		, @SessionAttribute("loginUser") User loginUser 
+    		, Model model
+    		, @SessionAttribute("loginUser") User loginUser
+    		, @RequestParam(value="projectNo") int projectNo
     		) {
+    	calendar.setProjectNo(projectNo);
     	calendar.setUserNo(loginUser.getUserNo());
     	calendar.setUserName(loginUser.getUserName());
         calendar.setScheduleType("1");
@@ -65,6 +68,9 @@ public class CalendarController {
         if(result>0) {
         	System.out.println("일정 등록 성공");
         }
+        
+        model.addAttribute("projectNo", projectNo);
+        
         return "redirect:/calendar"; // 변경된 리다이렉트 URL
     }
 
@@ -74,11 +80,14 @@ public class CalendarController {
     		, @SessionAttribute("loginUser") User loginUser
     		, @RequestParam(value="scheduleFile", required=false) MultipartFile scheduleFile
     		, HttpSession session
+    		, Model model
+    		, @RequestParam(value="projectNo") int projectNo
     		) throws IllegalStateException, IOException {
     	
     	String webPath = "/resources/images/calendar/";
 		String filePath = session.getServletContext().getRealPath(webPath);
     	
+		calendar.setProjectNo(projectNo);
     	calendar.setUserNo(loginUser.getUserNo());
     	calendar.setUserName(loginUser.getUserName());
         
@@ -109,37 +118,20 @@ public class CalendarController {
             System.out.println("휴가 등록 성공");
         }
 
+        model.addAttribute("projectNo", projectNo);
+        
         return "redirect:/calendar"; // 변경된 리다이렉트 URL
-    }
-    
-    
-    private String setTimeToEndOfDay(String dateStr, int hour, int minute) throws ParseException {
-    	
-        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = inputFormat.parse(dateStr); // String -> Date 변환
-
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.set(Calendar.HOUR_OF_DAY, hour);
-        cal.set(Calendar.MINUTE, minute);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-
-        // 종료일 다음 날로 설정 (FullCalendar가 날짜를 포함하기 위해)
-        cal.add(Calendar.DATE, 1); // 하루 추가
-
-        // 데이터베이스가 인식할 수 있도록 'T'를 제거한 형식으로 변경
-        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-        return outputFormat.format(cal.getTime()); // Date -> String 변환
     }
     
     // 일정 업데이트
     @PostMapping("/eventUpdate")
     public String updateEvent(CalendarData calendar
     		, @SessionAttribute("loginUser") User loginUser
+    		, @RequestParam(value="projectNo") int projectNo
+    		, Model model
     		) {
     	
-    	
+    	calendar.setProjectNo(projectNo);
     	calendar.setUserNo(loginUser.getUserNo());
     	calendar.setUserName(loginUser.getUserName());
     	
@@ -147,6 +139,9 @@ public class CalendarController {
     	if (result > 0) {
             System.out.println("일정 수정 성공");
         }
+    	
+    	model.addAttribute("projectNo", projectNo);
+    	
     	return "redirect:/calendar";
     }
     
@@ -156,12 +151,15 @@ public class CalendarController {
     		, @SessionAttribute("loginUser") User loginUser
     		, @RequestParam(value="scheduleFile", required=false) MultipartFile scheduleFile
     		, @RequestParam(value="deleteList", required=false) String deleteList
+    		, @RequestParam(value="projectNo") int projectNo
     		, HttpSession session
+    		, Model model
     		) throws IllegalStateException, IOException {
     	
     	String webPath = "/resources/images/calendar/";
 		String filePath = session.getServletContext().getRealPath(webPath);
-    	
+		
+		calendar.setProjectNo(projectNo);
     	calendar.setUserNo(loginUser.getUserNo());
     	calendar.setUserName(loginUser.getUserName());
     	
@@ -185,6 +183,9 @@ public class CalendarController {
     	if (result > 0) {
             System.out.println("휴가 수정 성공");
         }
+    	
+    	model.addAttribute("projectNo", projectNo);
+    	
     	return "redirect:/calendar";
     }
     
@@ -192,6 +193,8 @@ public class CalendarController {
     @PostMapping("/deleteEvent")
     public String deleteEvent(int scheduleNo
     		, @SessionAttribute("loginUser") User loginUser
+    		, Model model
+    		, @RequestParam(value="projectNo") int projectNo
     		) {
     	
     	System.out.println("일정 삭제" + scheduleNo);
@@ -201,6 +204,9 @@ public class CalendarController {
     	if (result > 0) {
             System.out.println("일정 삭제 성공");
         }
+    	
+    	model.addAttribute("projectNo", projectNo);
+    	
     	return "redirect:/calendar";
     }
     
@@ -208,6 +214,8 @@ public class CalendarController {
     @PostMapping("/deleteHoliday")
     public String deleteHoliday(int scheduleNo
     		, @SessionAttribute("loginUser") User loginUser
+    		, Model model
+    		, @RequestParam(value="projectNo") int projectNo
     		) {
     	
     	System.out.println("휴가 삭제 : "+ scheduleNo);
@@ -217,10 +225,32 @@ public class CalendarController {
     	if (result > 0) {
             System.out.println("휴가 삭제 성공");
         }
+    	
+    	model.addAttribute("projectNo", projectNo);
+    	
     	return "redirect:/calendar";
     }
     
-    
+    // 날자 형식 / 종료일 변경하기
+    private String setTimeToEndOfDay(String dateStr, int hour, int minute) throws ParseException {
+    	
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = inputFormat.parse(dateStr); // String -> Date 변환
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
+        // 종료일 다음 날로 설정 (FullCalendar가 날짜를 포함하기 위해)
+        cal.add(Calendar.DATE, 1); // 하루 추가
+
+        // 데이터베이스가 인식할 수 있도록 'T'를 제거한 형식으로 변경
+        SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        return outputFormat.format(cal.getTime()); // Date -> String 변환
+    }
     
     
 }
