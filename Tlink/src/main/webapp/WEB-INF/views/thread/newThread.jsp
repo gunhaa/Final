@@ -47,11 +47,6 @@
                                     <span>${loginUser.userName}</span>
                                     <span class="email">${loginUser.email}/span>
                                 </div>
-                                <!-- <div>
-                                    <c:if test="${loginUser.userNo != user.userNo}"> 
-                                        <button id="removeMember"></button>
-                                    </c:if>
-                                </div> -->
                             </div>
                         </div>
                     </div>

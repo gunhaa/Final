@@ -3,8 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+
+    <link rel="stylesheet" href="/resource/css/thread/threadUtil-style.css">
 </head>
 <body>
     <!-- 모달 파트 -->
@@ -19,25 +21,23 @@
             <form action="/thread/createThread" method="post" onsubmit="return invalid()">
                 <div class="modalBody">
                     <p>스레드 이름</p>
-                    <input type="text" name="threadTitle" id="threadTitle" >
+                    <input type="text" name="threadTitle" id="threadTitle" class="searchBar">
                     <p>채널에서는 특정 주제에 대한 대화가 이루어집니다. 찾고 이해하기 쉬운 이름을 사용하세요.</p>
                     <p>멤버 검색</p>
-                    <input type="search" name="query" id="query" placeholder="아이디 또는 이름을 입력해주세요." autocomplete="off" value="${param.query}">
+                    <input type="search" name="query" id="query" placeholder="아이디 또는 이름을 입력해주세요." autocomplete="off" value="${param.query}" class="searchBar">
     
                     <ul id="queryResult"></ul>
     
                     <div id="listArea" class="memberArea">
                         <div class="memberItem">
-                            <div class="memberProfile">
-                                <img src="/resources/images/common/user.png">
-                                <span>${loginUser.userName}</span>
-                                <span class="email">hanggh@gmail.com</span>
+                            <div class="memberInfo">
+                                <div class="memberProfile">
+                                    <img src="/resources/images/common/user.png">
+                                </div>
+                                <div class="userName">${loginUser.userName}</div>
+                                <div class="email">${loginUser.userEmail}</div>
                             </div>
-                            <div>
-                                <c:if test="${loginUser.userNo != user.userNo}"> 
-                                    <button id="removeMember"></button>
-                                </c:if>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
