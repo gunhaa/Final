@@ -32,6 +32,7 @@ button {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 20px 20px 1px 0px #a78fd1;
 }
 
 .card-row {
