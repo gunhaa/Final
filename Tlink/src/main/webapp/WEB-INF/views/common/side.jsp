@@ -8,6 +8,7 @@
 <c:forEach var="project" items="${projectList}">
   <c:if test="${project.projectNo==projectNo}">
      <c:set var="projectTitle" value="${project.projectTitle}"/>
+     <c:set var="manager" value="${project.manager}"></c:set>
   </c:if>
 </c:forEach>
 
@@ -62,7 +63,7 @@
                 </div>
                 <div>
                     <ul style="list-style-type: none; padding: 0; text-align: center; margin: 0;">
-                            <li><a href="#"><span class="material-symbols-outlined"
+                            <li><a href="/myPage/project"><span class="material-symbols-outlined"
                                         style="transform: rotate(180deg); font-size: 30px;">logout</span></a></li>
                     </ul>
                 </div>
@@ -89,7 +90,9 @@
                 <ul style="">
                     <li><a href="/project/member?projectNo=${projectNo}">멤버관리</a></li>
                     <li><a href="/project/secession?projectNo=${projectNo}">프로젝트 탈퇴</a></li>
-                    <li><a href="/project/delete?projectNo=${projectNo}">프로젝트 삭제</a> -매니저한테만</li>
+                    <c:if test="${loginUser.userNo == manager}">
+                        <li><a href="/project/delete?projectNo=${projectNo}">프로젝트 삭제</a></li>
+                    </c:if>
                     <li></li>
                     <li></li>
                     <li></li>
@@ -110,7 +113,6 @@
             // 문자열의 경우 따옴표가 없는 상태이니 붙여줘야한다!!!
             alert('${message}');
             
-            const contextPath = "${pageContext.request.contextPath}";
         </script>
 
     </c:if>
