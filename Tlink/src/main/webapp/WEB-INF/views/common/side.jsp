@@ -73,11 +73,10 @@
             </div>
             <div id="tab1">
                 <ul>
-                    <li style=""><a href="/workList/gantChart?projectNo=${projectNo}">워크스페이스</a></li>
+                    <li><a href="/workList/gantChart?projectNo=${projectNo}">워크스페이스</a></li>
                     <li><a href="/todoList?projectNo=${projectNo}">해야할 일</a></li>
                     <li><a href="/calendar?projectNo=${projectNo}">캘린더</a></li>
-                    <li><span id="btn_videoConference">화상회의</span></li>
-                    <li></li>
+                    <li><span id="btn_videoConference" style="color:white; cursor:pointer; font-size:16px">화상회의</span></li>
                 </ul>
             </div>
             <div id="tab2">
@@ -240,7 +239,7 @@
     );
 
     $('.sort').siblings().find("ul").attr("style", `list-style-type: none; padding: 0 0 0 10px;`);
-    $('.sort').siblings().find("li").attr("style" , `margin: 15px;`);
+    $('.sort').siblings().find("li").attr("style" , `margin: 15px; margin-bottom: 45px; font-size:16px;`);
 
     $(`.asideTop`).attr("style", `
             height:70px;

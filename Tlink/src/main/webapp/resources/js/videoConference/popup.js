@@ -237,7 +237,7 @@ const connectWebsocket = () => {
                     whiteBoard.postMessage(parsedMessage[projectNo], "*");
                 }
             }
-            if (parsedMessage.type === "whiteBoard") {
+            if (parsedMessage.type === "title") {
                 const nowtitle = document.querySelector("#title-container");
                 nowtitle.innerHTML = `<b>${parsedMessage.title}</b>`;
             }
@@ -315,6 +315,7 @@ const getMedia = () => __awaiter(void 0, void 0, void 0, function* () {
             option2.innerText = "화면공유(사용중)";
             state = "display";
             getDisplay();
+            changeBtn.removeEventListener("click", handleChangeBtn);
         }
         else {
             console.log("예상 못한 에러 발생(getUserMedia)", e);
@@ -562,7 +563,7 @@ const sendAnswer = (myPeerConnection, targetNo) => {
 const roomlimit = () => {
     if (otherMemberNoSet.size > 3) {
         socket.close();
-        alert("인원이 초과되었습니다");
+        alert$2(main, "red", "white", "화상회의 인원이 초과 되었습니다.", "2s", 2000);
         setTimeout(() => {
             byebye();
         }, 2000);
@@ -573,7 +574,7 @@ const sendChat = () => {
         console.log("문자열은 '/'로 시작합니다.");
         let str = chatInput.value.slice(1);
         if (str.startsWith("prompt")) {
-            let prompt$1 = str.slice(6);
+            let prompt$1 = str.slice(6) + "100토큰이내로 알려줘";
             chatInput.value = "";
             fetch("/video/prompt", {
                 method: "POST",
@@ -639,8 +640,8 @@ const videoSizeHandler = () => {
     const video = document.querySelectorAll("video");
     if (otherMemberNoSet.size === 0) {
         Array.from(video).forEach(item => {
-            item.height = 500;
-            item.width = 500;
+            item.height = 550;
+            item.width = 550;
             const tag = item.nextElementSibling;
             tag.classList.remove("nameTag2");
             tag.classList.add("nameTag1");
