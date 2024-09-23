@@ -12,7 +12,7 @@ let memberNo = new URLSearchParams(location.search).get("memberNo");
 let projectNo = new URLSearchParams(location.search).get("projectNo");
 let memberName = new URLSearchParams(location.search).get("memberName");
 let main = document.querySelector("main");
-let myStream;
+let myStream = new MediaStream();
 let camera = true;
 let mic = true;
 let display = true;
@@ -181,7 +181,7 @@ const connectWebsocket = () => {
         };
         socket.onmessage = (e) => __awaiter(void 0, void 0, void 0, function* () {
             //console.log("받은거" + e);
-            var _a;
+            var _a, _b;
             const parsedMessage = yield JSON.parse(e.data);
             console.log("Received Message:", parsedMessage);
             // 모두가 실행되는 코드
@@ -245,7 +245,7 @@ const connectWebsocket = () => {
                 peerConnectionMap.delete(parsedMessage.exitMemberNo);
                 otherMemberNoSet.delete(parsedMessage.exitMemberNo);
                 const video = document.getElementById(parsedMessage.exitMemberNo);
-                video.parentElement.remove();
+                (_b = video === null || video === void 0 ? void 0 : video.parentElement) === null || _b === void 0 ? void 0 : _b.remove();
                 videoSizeHandler();
                 console.log("제거 완료");
             }
@@ -308,13 +308,13 @@ const getMedia = () => __awaiter(void 0, void 0, void 0, function* () {
         }
     }
     catch (e) {
-        console.error('Error getUserMedia:', e);
+        console.error("getUserMedia 에러:", e);
         if (e.name === 'NotFoundError' || e.name === 'DevicesNotFoundError' || e.name === 'NotReadableError') {
-            console.log('No media devices found.');
+            console.log("카메라가 없어서 카메라 끄고 실행중");
             getDisplay();
         }
         else {
-            console.log('unexpected error:', e);
+            console.log("예상 못한 에러 발생(getUserMedia)", e);
         }
     }
 });
@@ -332,6 +332,19 @@ const getDisplay = () => __awaiter(void 0, void 0, void 0, function* () {
         let video = document.querySelectorAll("video")[0];
         if (video) {
             video.srcObject = myStream;
+            // 비디오 클릭 시 전체화면 전환 이벤트 추가
+            video.addEventListener("click", () => {
+                video.requestFullscreen();
+            });
+            //재협상
+            otherMemberNoSet.forEach((otherMemberNo) => {
+                console.log("재협상중");
+                const videoTrack = screenStream.getVideoTracks()[0];
+                const sender = peerConnectionMap.get(otherMemberNo).getSenders().find((s) => s.track.kind === 'video');
+                sender.replaceTrack(videoTrack);
+                peerConnectionMap.set(otherMemberNo, createConnection(otherMemberNo));
+                sendOffer(peerConnectionMap.get(otherMemberNo), otherMemberNo);
+            });
         }
         else {
             console.log("display video 만들기 실행");
@@ -353,19 +366,6 @@ const getDisplay = () => __awaiter(void 0, void 0, void 0, function* () {
                 newVideo.requestFullscreen();
             });
         }
-        // 비디오 클릭 시 전체화면 전환 이벤트 추가
-        video.addEventListener("click", () => {
-            video.requestFullscreen();
-        });
-        //재협상
-        otherMemberNoSet.forEach((otherMemberNo) => {
-            console.log("재협상중");
-            const videoTrack = screenStream.getVideoTracks()[0];
-            const sender = peerConnectionMap.get(otherMemberNo).getSenders().find((s) => s.track.kind === 'video');
-            sender.replaceTrack(videoTrack);
-            peerConnectionMap.set(otherMemberNo, createConnection(otherMemberNo));
-            sendOffer(peerConnectionMap.get(otherMemberNo), otherMemberNo);
-        });
     }
     catch (e) {
         console.log(e);
@@ -469,6 +469,7 @@ const trackHandler = (event, otherMemberNo) => {
     })
         .then(resp => resp.text())
         .then(data => {
+        console.log("trackHandler 실행");
         otherMemberName = data;
         if (document.getElementById(`${otherMemberNo}`) === null) {
             let videoParent = document.createElement("div");
@@ -479,7 +480,15 @@ const trackHandler = (event, otherMemberNo) => {
             video.width = 270;
             video.autoplay = true;
             video.id = otherMemberNo;
-            video.srcObject = event.streams[0];
+            // streams[0]이 있는지 확인
+            if (event.streams && event.streams[0]) {
+                video.srcObject = event.streams[0]; // 정상적인 스트림 할당
+            }
+            else {
+                // 빈 스트림 할당
+                const emptyStream = new MediaStream();
+                video.srcObject = emptyStream; // 빈 스트림을 비디오에 할당
+            }
             video.addEventListener("click", () => {
                 video.requestFullscreen();
             });
@@ -754,6 +763,15 @@ const alert$2 = (block, color, fontColor, content, duration, time) => {
         document.head.removeChild(style);
     }, time + 500);
 };
+const limitAndNegotiation = () => {
+    roomlimit();
+    otherMemberNoSet.forEach((otherMemberNo) => {
+        if (!peerConnectionMap.has(otherMemberNo)) {
+            peerConnectionMap.set(otherMemberNo, createConnection(otherMemberNo));
+            sendOffer(peerConnectionMap.get(otherMemberNo), otherMemberNo);
+        }
+    });
+};
 const startVideoConference = () => __awaiter(void 0, void 0, void 0, function* () {
     // 1. 소켓을 연결한다.
     yield connectWebsocket();
@@ -762,16 +780,8 @@ const startVideoConference = () => __awaiter(void 0, void 0, void 0, function* (
     // 3. signaling server에 신호를 보내 otherMemberList를 채운다.
     yield needMemberKey();
     // 방의 인원을 select해오고, 인원이 맞으면 해당 코드 실행으로 바꾸기 넣어야함
-    setTimeout(() => {
-        // 해당 방의 현재인원을 검색해서, 4명이 넘는다면 창을 끄고 종료시킨다.(경고 모달 출력)
-        roomlimit();
-        otherMemberNoSet.forEach((otherMemberNo) => {
-            if (!peerConnectionMap.has(otherMemberNo)) {
-                peerConnectionMap.set(otherMemberNo, createConnection(otherMemberNo));
-                sendOffer(peerConnectionMap.get(otherMemberNo), otherMemberNo);
-            }
-        });
-    }, 1000);
+    // 해당 방의 현재인원을 검색해서, 4명이 넘는다면 창을 끄고 종료시킨다.(경고 모달 출력)
+    yield limitAndNegotiation();
 });
 option1.addEventListener("click", option1btn);
 option2.addEventListener("click", option2btn);
