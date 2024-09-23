@@ -72,7 +72,6 @@
 		UPDATE WORK SET
 		WORK_TITLE= #{workTitle}
 		WHERE WORK_NO=#{workNo}
-		AND PROJECT_NO=#{projectNo}
 	</update>
 	<update id="updateDueDate">
 		UPDATE WORK SET

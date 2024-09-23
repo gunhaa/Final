@@ -22,14 +22,48 @@
 		SELECT * FROM TODO
 		WHERE TODO_MN_NO=#{userNo}
 		AND PROJECT_NO=#{projectNo}
+		AND TODO_ST=1
 	</select>
 	
 	
+	<update id="updateTodoState">
+		UPDATE TODO SET
+		TODO_PR_ST=#{todoState}
+		WHERE TODO_NO=#{todoNo}
+		AND PROJECT_NO=#{projectNo}
+	</update>
 	
 	
 	
+	<insert id="insertTodo">
+		INSERT INTO TODO
+		VALUES(
+			SEQ_TODO_NO.NEXTVAL, DEFAULT, DEFAULT, 
+			DEFAULT, DEFAULT, DEFAULT, #{todoState},
+			#{userNo}, DEFAULT, #{projectNo}
+		)
+	</insert>
+	<select id="selectTodoNo" resultType="_int">
+		SELECT SEQ_TODO_NO.CURRVAL
+		FROM DUAL
+	</select>
+	<select id="selectTodo" resultMap="todo_rm">
+		SELECT *
+		FROM TODO
+		WHERE TODO_NO=#{todoNo}
+	</select>
 	
+	<delete id="deleteTodo">
+		UPDATE TODO SET
+		TODO_ST=0
+		WHERE TODO_NO=#{todoNo}
+	</delete>
 	
+	<update id="updateTodoTitle">
+		UPDATE TODO SET
+		TODO_TITLE= #{todoTitle}
+		WHERE TODO_NO=#{todoNo}
+	</update>
 	
 	
 	

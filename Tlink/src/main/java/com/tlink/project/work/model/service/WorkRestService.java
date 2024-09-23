@@ -35,6 +35,14 @@ public interface WorkRestService {
 
 	List<Todo> todoTList(Map<String, Object> data);
 
+	int updateTodoState(Map<String, Object> data);
+
+	Todo insertTodo(Map<String, Object> data);
+
+	int deleteTodo(Map<String, Object> data);
+
+	int updateTodoTitle(Map<String, Object> data);
+
 
 
 }
