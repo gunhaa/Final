@@ -246,6 +246,13 @@ COMMENT ON COLUMN "WORK"."WORK_MN_NO" IS '작업자번호(사용자지정)';
 COMMENT ON COLUMN "WORK"."PARENT_NO" IS '상위';
 COMMENT ON COLUMN "WORK"."PROJECT_NO" IS '프로젝트 번호';
 
+
+CREATE SEQUENCE SEQ_WORK_NO NOCACHE;
+
+
+--------------------------------------------------------------------------------
+
+
 CREATE TABLE "VIDEO_MEMBER" (
 	"PROJECT_NO"	NUMBER		NOT NULL,
 	"USER_NO"	    NUMBER		NOT NULL,

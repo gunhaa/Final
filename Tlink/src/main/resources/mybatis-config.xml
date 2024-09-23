@@ -22,7 +22,8 @@
 		<typeAlias type="com.tlink.project.chatting.model.dto.MyObjectType" alias="MyObjectType" />
 		<typeAlias type="com.tlink.project.chatting.model.dto.videoConference" alias="videoConference" />
 		<typeAlias type="com.tlink.project.chatting.model.dto.Chat" alias="Chat" />
-    <typeAlias type="com.tlink.project.work.model.dto.Work" alias="Work" />
+    	<typeAlias type="com.tlink.project.work.model.dto.Work" alias="Work" />
+    	<typeAlias type="com.tlink.project.work.model.dto.Todo" alias="Todo" />
 		<typeAlias type="com.tlink.project.calendar.model.dto.CalendarData" alias="CalendarData" />
 		<typeAlias type="com.tlink.project.notice.model.dto.Notice" alias="Notice" />
 		<typeAlias type="com.tlink.project.notice.model.dto.NoticeComment" alias="NoticeComment" />
@@ -47,6 +48,7 @@
 	 	 <mapper resource="/mappers/video-mapper.xml" />
 	 	 <mapper resource="/mappers/work-mapper.xml" />
 	 	 <mapper resource="/mappers/workRest-mapper.xml" />
+	 	 <mapper resource="/mappers/todoRest-mapper.xml" />
 	 	 <mapper resource="/mappers/calendarData-mapper.xml" />
 		 <mapper resource="/mappers/notice-mapper.xml" />
 		 <mapper resource="/mappers/noticeComment-mapper.xml" />

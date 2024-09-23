@@ -12,7 +12,7 @@ $(document).on("focusin", `.parentNo`,     function(){updateOn()})
 
 
 $(document).on("focusout", `.workTitle`, function(){
-    const workNo=$(this).parents(`tr`).find(`.workNo`).text();
+    const workNo=$(this).parents(updateParent).find(`.workNo`).text();
     const data={
         "workNo"         : workNo, 
         "workTitle"      : $(this).text(), 
@@ -23,7 +23,7 @@ $(document).on("focusout", `.workTitle`, function(){
 })
 
 $(document).on("focusout", `.dueDate`, function(){
-    const workNo=$(this).parents(`tr`).find(`.workNo`).text();
+    const workNo=$(this).parents(updateParent).find(`.workNo`).text();
     const data={
         "workNo"         : workNo, 
         "dueDate"        : $(this).val(), 
@@ -33,7 +33,7 @@ $(document).on("focusout", `.dueDate`, function(){
     .then(res => { res!=0 ?  updateDone()  : alert("수정실패") ; }).catch(err => console.log(err))
 })
 $(document).on("focusout", `.workState`, function(){
-    const workNo=$(this).parents(`tr`).find(`.workNo`).text();
+    const workNo=$(this).parents(updateParent).find(`.workNo`).text();
     const data={
         "workNo"         : workNo, 
         "workState"      : $(this).val(), 
@@ -43,7 +43,7 @@ $(document).on("focusout", `.workState`, function(){
     .then(res => { res!=0 ?  updateDone()  : alert("수정실패") ; }).catch(err => console.log(err))
 })
 $(document).on("focusout", `.workPriority`, function(){
-    const workNo=$(this).parents(`tr`).find(`.workNo`).text();
+    const workNo=$(this).parents(updateParent).find(`.workNo`).text();
     const data={
         "workNo"         : workNo, 
         "workPriority"   : $(this).val(), 
@@ -53,7 +53,7 @@ $(document).on("focusout", `.workPriority`, function(){
     .then(res => { res!=0 ?  updateDone()  : alert("수정실패") ; }).catch(err => console.log(err))
 })
 $(document).on("focusout", `.workManager`, function(){
-    const workNo=$(this).parents(`tr`).find(`.workNo`).text();
+    const workNo=$(this).parents(updateParent).find(`.workNo`).text();
     const data={
         "workNo"         : workNo, 
         "workManager"    : $(this).val(), 
@@ -63,7 +63,7 @@ $(document).on("focusout", `.workManager`, function(){
     .then(res => { res!=0 ?  updateDone()  : alert("수정실패") ; }).catch(err => console.log(err))
 })
 $(document).on("focusout", `.parentNo`, function(){
-    const workNo=$(this).parents(`tr`).find(`.workNo`).text();
+    const workNo=$(this).parents(updateParent).find(`.workNo`).text();
     const data={
         "workNo"         : workNo, 
         "parentNo"       : $(this).val(), 

@@ -1,9 +1,11 @@
 package com.tlink.project.work.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.tlink.project.work.model.dto.Todo;
 import com.tlink.project.work.model.dto.Work;
 
 
@@ -30,6 +32,8 @@ public interface WorkRestService {
 	Map<Integer, Object> managerByMList(Map<String, Object> data);
 
 	Map<Integer, Object> projectByPList(Map<String, Object> data);
+
+	List<Todo> todoTList(Map<String, Object> data);
 
 
 

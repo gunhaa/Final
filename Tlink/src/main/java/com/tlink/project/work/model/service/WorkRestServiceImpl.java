@@ -1,5 +1,6 @@
 package com.tlink.project.work.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tlink.project.work.model.dao.WorkDAO;
 import com.tlink.project.work.model.dao.WorkRestDAO;
+import com.tlink.project.work.model.dto.Todo;
 import com.tlink.project.work.model.dto.Work;
 
 @Service
@@ -79,6 +81,11 @@ public class WorkRestServiceImpl implements WorkRestService{
 	@Override
 	public Work insertStateBy(Map<String, Object> data) {
 		return dao.insertStateBy(data);
+	}
+
+	@Override
+	public List<Todo> todoTList(Map<String, Object> data) {
+		return dao.todoTList(data);
 	}
 
 
