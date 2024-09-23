@@ -31,28 +31,27 @@ public class ThreadController  {
 	@Autowired
 	private ThreadService service;
 
-	@GetMapping("/thread")
-	public String selectThread(@RequestParam(value="projectNo", required=false, defaultValue="1") int projectNo,
-							   @SessionAttribute("loginUser") User loginUser,
-							   HttpSession session) {
-		
-		
-		List<ThreadInfo> threadInfo = service.selectThread(projectNo, loginUser.getUserNo());
-		session.setAttribute("threadInfo", threadInfo);
-		
-		String path = "";
-
-		if( threadInfo.isEmpty() ) {
-			path = "thread/newThread";
-		} else {
-			path = "thread/thread";
-		}
-
-		return path;
-	}
+	/*
+	 * @GetMapping("/thread") public String
+	 * selectThread(@RequestParam(value="projectNo", required=false,
+	 * defaultValue="1") int projectNo,
+	 * 
+	 * @SessionAttribute("loginUser") User loginUser, HttpSession session) {
+	 * 
+	 * List<ThreadInfo> threadInfo = service.selectThread(projectNo,
+	 * loginUser.getUserNo());
+	 * 
+	 * String path = "";
+	 * 
+	 * if( threadInfo.isEmpty() ) { path = "thread/newThread"; } else {
+	 * session.setAttribute("threadInfo", threadInfo);
+	 * 
+	 * path = "thread/thread"; }
+	 * 
+	 * return path; }
+	 */
 	
-	@GetMapping("/message")
-	@ResponseBody
+	@GetMapping("/thread")
 	public String selectChat(@RequestParam(value="threadNo") int threadNo,
 							 @SessionAttribute("loginUser") User loginUser,
 							 Model model) {
@@ -61,7 +60,7 @@ public class ThreadController  {
 		
 		model.addAttribute("chatList", chatList);
 				
-		return "redirect:/thread/thread";
+		return "thread/thread";
 	}
 
 	@GetMapping("/selectMember")
