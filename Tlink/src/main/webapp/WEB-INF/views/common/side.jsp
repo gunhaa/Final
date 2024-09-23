@@ -362,3 +362,9 @@ const makeChatBlock = (chatUserName, chatContent, chatTimestamp, chatProfileImg)
 }
 
 </script>
+
+<script>
+
+
+
+</script>

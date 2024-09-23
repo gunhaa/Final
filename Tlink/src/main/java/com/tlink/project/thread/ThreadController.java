@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -93,21 +94,25 @@ public class ThreadController  {
 	}
 
 	@PostMapping("/insert")
-	public String insertThread(
-			@RequestParam(value="chatType", required=false) String chatType,
-			@RequestParam(value="message", required=false) String message,
-			@RequestParam(value="threadNo") int threadNo,
+	@ResponseBody
+	public ThreadChat insertThread(
+			@RequestBody ThreadChat thread,
 			@RequestParam(value="files", required=false) List<MultipartFile> files,
 			@SessionAttribute("loginUser") User loginUser,
 			HttpSession session) throws IOException {
-
+		
+		System.out.println(thread);
+		
 		String webPath = "/resources/chatFile/"; 
 		String filePath = session.getServletContext().getRealPath(webPath);
 
 		ThreadChat threadChat = new ThreadChat();
-		threadChat.setChatType(chatType);
-		threadChat.setChatMessage(message);
+		threadChat.setChatType(thread.getChatType());
+		threadChat.setChatMessage(thread.getChatMessage());
 		threadChat.setMemberNo(loginUser.getUserNo());
+		threadChat.setThreadNo(thread.getThreadNo());
+		threadChat.setMemberProfile(loginUser.getProfileImg());
+		threadChat.setMemberNickname(loginUser.getUserName());
 
 		int result = service.insertChat(threadChat, files, webPath, filePath);
 		if( result > 0 ) {
@@ -117,6 +122,6 @@ public class ThreadController  {
 
 		}
 
-		return "redirect:";
+		return threadChat;
 	}
 }

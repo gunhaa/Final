@@ -71,74 +71,58 @@ function drowFile(fileName){
 }
 
 sendBtn.addEventListener("click", ()=>{
-
+    console.log(new URLSearchParams(location.search).get("threadNo"));
+    
     formData.append("message", message.value);
     formData.append("chatType", "normal");
+    formData.append("threadNo", new URLSearchParams(location.search).get("threadNo"));
+
 
     fetch('/thread/insert', {
         method: 'POST',
-        body: formData
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "chatMessage" : message.value,
+            "chatType": "normal",
+            "threadNo" : new URLSearchParams(location.search).get("threadNo")
+        })
     })
     .then( resp => resp.json())
-    .then( result => {
+    .then( res => {
         // 화면 만드는 코드
-        for( chat of result ){
-            const chatrow = document.createElement("li");
-            if( chat.chatType == "normal"){
-                chatrow.classList.add("chatNormal");
-            } else if ( chat.chatType == "system" ){
-                chatrow.classList.add("chatSystem");
-            }
+        console.log("fetch 작동");
     
-            const profile = document.createElement("div");
-            profile.classList.add("profile");
-    
-            const img = document.createElement("img");
-            if( chat.memberProfile != "" ){
-                img.setAttribute("src", chat.memberProfile);
-            } else {
-                img.setAttribute("src", "/resources/images/common/user.png");
-            }
-            profile.append(img);
-    
-            const content = document.createElement("div");
-            const infoLine = document.createElement("div");
-            infoLine.classList.add(infoLine);
-            
-            const userName = document.createElement("span");
-            userName.innerText = chat.memberNickname;
-            const createDate = document.createElement("span");
-            createDate.classList.add("createDate");
-            createDate.innerText = chat.chatCreateDate;
-    
-            infoLine.append(userName, createDate);
-    
-            const message = docuemnt.createDate("div");
-            message.innerText = chat.chatMessage;
-
-            const fileList = document.createElement("div");
-            fileList.classList.add("fileListBox");
-
-            for( file of chat.fileList ){
-                
-                const fileBox = document.createElement("div");
-                fileBox.classList.add("fileBox");
-                fileBox.innerText = fileName;
-                fileBox.setAttribute("contenteditable", false);
-            
-                const deleteBtn = document.createElement("span");
-                deleteBtn.classList.add("delete-image");
-                deleteBtn.innerHTML = '&times;';
-            
-                fileBox.append(deleteBtn);
-            
-                fileList.append(fileBox);
-            }
-    
-            content.append(infoLine, message);
-    
-            chatrow.append(profile, content, fileList);
+        if(res.memberProfile=="" || res.memberProfile==null){
+            res.memberProfile = "/resources/images/common/user.png";
         }
+
+        const now = new Date();
+
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        
+        const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+        document.querySelector("#chatBox").insertAdjacentHTML("beforeend", `<li class="chatNormal">
+                                    <div class="profile">
+                                        <img src="${res.memberProfile}">
+                                    </div>
+                                    <div>
+                                        <div class="infoLine">
+                                            <span>${res.memberNickname}</span>
+                                            <span class="createDate">${formattedTime}</span>
+                                        </div>
+                                        <div>${res.chatMessage}</div>
+                                    </div>
+                                </li>`);
+        
+        inputBox.value="";
+
         /*
         socket.send({
             type: "chat",
@@ -151,15 +135,15 @@ sendBtn.addEventListener("click", ()=>{
 
 let threadNo = new URLSearchParams(location.search).get("threadNo");
 
-const joinChat = document.getElementById("joinChat");
-joinChat.addEventListener("click", ()=>{
-    fetch("/thread/message", {
-        method:"POST",
-        headers: {
-            "Content-Type" : "application/json"
-        },
-        body: {
+// const joinChat = document.getElementById("joinChat");
+// joinChat.addEventListener("click", ()=>{
+//     fetch("/thread/message", {
+//         method:"POST",
+//         headers: {
+//             "Content-Type" : "application/json"
+//         },
+//         body: {
             
-        }
-    })
-})
+//         }
+//     })
+// })
