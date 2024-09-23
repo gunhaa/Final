@@ -780,8 +780,18 @@ const startVideoConference = () => __awaiter(void 0, void 0, void 0, function* (
     // 3. signaling server에 신호를 보내 otherMemberList를 채운다.
     yield needMemberKey();
     // 방의 인원을 select해오고, 인원이 맞으면 해당 코드 실행으로 바꾸기 넣어야함
-    // 해당 방의 현재인원을 검색해서, 4명이 넘는다면 창을 끄고 종료시킨다.(경고 모달 출력)
-    yield limitAndNegotiation();
+    setTimeout(() => {
+        // 해당 방의 현재인원을 검색해서, 4명이 넘는다면 창을 끄고 종료시킨다.(경고 모달 출력)
+        roomlimit();
+        otherMemberNoSet.forEach((otherMemberNo) => {
+            if (!peerConnectionMap.has(otherMemberNo)) {
+                peerConnectionMap.set(otherMemberNo, createConnection(otherMemberNo));
+                sendOffer(peerConnectionMap.get(otherMemberNo), otherMemberNo);
+            }
+        });
+    }, 5000);
+    // ** await을 하면 이벤트가 끝나기전에 실행되버린다**
+    // await limitAndNegotiation();
 });
 option1.addEventListener("click", option1btn);
 option2.addEventListener("click", option2btn);
