@@ -31,36 +31,42 @@ public class ThreadServiceImpl implements ThreadService {
    public int insertChat(ThreadChat threadChat, List<MultipartFile> files, String webPath, String filePath) throws IllegalStateException, IOException {
       int chatNo = dao.insertChat(threadChat);
       
-      if( chatNo > 0 ) {
-         List<ThreadFile> uploadList = new ArrayList<>();
-         
-         for( int i = 0; i < files.size(); i++ ) {
-            ThreadFile file = new ThreadFile();
-            
-            file.setChatNo(chatNo);
-            file.setFilePath(filePath);
-            file.setFileOriginName(files.get(i).getOriginalFilename());
-            file.setFileRename(Util.fileRename(files.get(i).getOriginalFilename()));
-            file.setFileCode(2);
-            file.setTargetNumber(chatNo);
-            
-            uploadList.add(file);
-         }
-         
-         if( !uploadList.isEmpty() ) {
-            int result = dao.insertChatFile(uploadList);
-            
-            if( result == uploadList.size() ) {
-               for( int i = 0; i < uploadList.size(); i++ ) {
-                  String rename = uploadList.get(i).getFileRename();
-                  
-                  files.get(i).transferTo(new File(filePath + rename));
-               }
-            } else {
-               throw new FileUploadException();
-            }
-         }
+      if(files!=null) {
+    	  
+          if( chatNo > 0 ) {
+              List<ThreadFile> uploadList = new ArrayList<>();
+              
+              for( int i = 0; i < files.size(); i++ ) {
+                 ThreadFile file = new ThreadFile();
+                 
+                 file.setChatNo(chatNo);
+                 file.setFilePath(filePath);
+                 file.setFileOriginName(files.get(i).getOriginalFilename());
+                 file.setFileRename(Util.fileRename(files.get(i).getOriginalFilename()));
+                 file.setFileCode(2);
+                 file.setTargetNumber(chatNo);
+                 
+                 uploadList.add(file);
+              }
+              
+              if( !uploadList.isEmpty() ) {
+                 int result = dao.insertChatFile(uploadList);
+                 
+                 if( result == uploadList.size() ) {
+                    for( int i = 0; i < uploadList.size(); i++ ) {
+                       String rename = uploadList.get(i).getFileRename();
+                       
+                       files.get(i).transferTo(new File(filePath + rename));
+                    }
+                 } else {
+                    throw new FileUploadException();
+                 }
+              }
+           }
       }
+      
+      
+
       return chatNo;
    }
 
