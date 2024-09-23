@@ -217,7 +217,7 @@ CREATE SEQUENCE SEQ_NOTICE_NO NOCACHE; -- 게시글 번호 시퀀스
 
 
 --------------------------------------------------------------------------------
---Work
+--작업
 CREATE TABLE "WORK" (
 	"WORK_NO"	    NUMBER		                        NOT NULL,
 	"WORK_TITLE"	VARCHAR2(150)	DEFAULT '제목'	    NULL,
@@ -248,6 +248,60 @@ COMMENT ON COLUMN "WORK"."PROJECT_NO" IS '프로젝트 번호';
 
 
 CREATE SEQUENCE SEQ_WORK_NO NOCACHE;
+
+
+
+
+--작업댓글
+CREATE TABLE "WORK_COMMENT" (
+	"COMMENT_NO"	NUMBER		                        NOT NULL,
+	"COMMENT_CON"	VARCHAR2(4000)		                NOT NULL,
+	"COMMENT_ST"	NUMBER(1)	    DEFAULT 1	        NOT NULL,
+	"COMMENT_DT"	DATE	        DEFAULT SYSDATE	    NOT NULL,
+	"PARENT_NO"	    NUMBER	        DEFAULT NULL	    NULL,
+	"WORK_NO"	    NUMBER		                        NOT NULL,
+	"USER_NO"	    NUMBER		                        NOT NULL
+);
+
+COMMENT ON COLUMN "WORK_COMMENT"."COMMENT_NO" IS '답변번호(시퀀스)';
+COMMENT ON COLUMN "WORK_COMMENT"."COMMENT_CON" IS '답변내용';
+COMMENT ON COLUMN "WORK_COMMENT"."COMMENT_ST" IS '삭제0 기본1';
+COMMENT ON COLUMN "WORK_COMMENT"."COMMENT_DT" IS '댓글작성일';
+COMMENT ON COLUMN "WORK_COMMENT"."PARENT_NO" IS '부모 댓글 번호';
+COMMENT ON COLUMN "WORK_COMMENT"."WORK_NO" IS '작업번호(시퀀스)';
+COMMENT ON COLUMN "WORK_COMMENT"."USER_NO" IS '회원번호';
+
+
+CREATE SEQUENCE SEQ_WORK_COMMENT_NO NOCACHE;
+
+
+
+--투두
+CREATE TABLE "TODO" (
+	"TODO_NO"	    NUMBER		                        NOT NULL,
+	"TODO_TITLE"	VARCHAR2(150)	DEFAULT '제목'	    NULL,
+	"TODO_CONTENT"	VARCHAR2(4000)	DEFAULT '내용'	    NULL,
+	"CREATE_DT"	    DATE	        DEFAULT SYSDATE	    NOT NULL,
+	"UPDATE_DT"	    DATE	        DEFAULT NULL	    NULL,
+	"TODO_ST"	    NUMBER(1)	    DEFAULT 1	        NOT NULL,
+	"TODO_PR_ST"	NUMBER(1)	    DEFAULT 0   	    NOT NULL,
+	"TODO_MN_NO"	NUMBER	                    	    NOT NULL,
+	"PARENT_NO"	    NUMBER      	DEFAULT NULL	    NULL,
+	"PROJECT_NO"	NUMBER		                        NOT NULL
+);
+COMMENT ON COLUMN "TODO"."TODO_NO" IS '투두번호(시퀀스)';
+COMMENT ON COLUMN "TODO"."TODO_TITLE" IS '투두제목';
+COMMENT ON COLUMN "TODO"."TODO_CONTENT" IS '투두내용';
+COMMENT ON COLUMN "TODO"."CREATE_DT" IS '투두작성일';
+COMMENT ON COLUMN "TODO"."UPDATE_DT" IS '투두수정일';
+COMMENT ON COLUMN "TODO"."TODO_ST" IS '삭제0 / 기본 1';
+COMMENT ON COLUMN "TODO"."TODO_PR_ST" IS '0=시작전,/1=진행중/2=완료후';
+COMMENT ON COLUMN "TODO"."TODO_MN_NO" IS '회원번호';
+COMMENT ON COLUMN "TODO"."PARENT_NO" IS '부모번호';
+COMMENT ON COLUMN "TODO"."PROJECT_NO" IS '프로젝트 번호';
+
+CREATE SEQUENCE SEQ_TODO_NO NOCACHE;
+
 
 
 --------------------------------------------------------------------------------
