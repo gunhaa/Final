@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tlink.project.work.model.dto.CommentWork;
 import com.tlink.project.work.model.dto.Todo;
 import com.tlink.project.work.model.dto.Work;
 
@@ -165,6 +166,20 @@ public class WorkRestDAO {
 
 	public int updateTodoTitle(Map<String, Object> data) {
 		return sqlSession.update("todoRestMapper.updateTodoTitle", data);
+	}
+
+
+
+
+	public int commentInsert(Map<String, Object> data) {
+		return sqlSession.insert("workRestMapper.commentInsert", data);
+	}
+
+	public int commentDelete(Map<String, Object> data) {
+		return sqlSession.update("workRestMapper.commentDelete", data);
+	}
+	public List<CommentWork> commentSelect(Map<String, Object> data) {
+		return sqlSession.selectList("workRestMapper.commentSelect", data);
 	}
 
 

@@ -134,24 +134,49 @@ ${work}
 
 
                             <tr>
-                                <td colspan="2">
-                                    <span class="material-symbols-outlined">person_pin_circle</span>
-                                    <span hidden>memberNo</span>
-                                    <span>김길동</span>
-                                    <h6>지나가는 길입니다.</h6>
-                                </td>
+                                <td colspan="2" class="commentList">
 
+                                    <section>
+                                        <span class="material-symbols-outlined">person_pin_circle</span>
+                                        <span class="commentNo" hidden>1</span>
+                                        <span class="userNo" hidden></span>
+                                        <span>김길동</span>
+                                        <sup class="commentDelete">x</sup>
+                                        <h6 class="commentContent" contenteditable="true">지나가는 길입니다.</h6>
+                                    </section>
+
+                                    <section>
+                                        <span class="material-symbols-outlined">person_pin_circle</span>
+                                        <span class="commentNo" hidden>2</span>
+                                        <span class="userNo" hidden></span>
+                                        <span>김길동</span>
+                                        <sup class="commentDelete">x</sup>
+                                        <h6 class="commentContent" contenteditable="true">지나가는 길입니다.</h6>
+                                    </section>
+
+
+                                </td>
                             </tr>
+                            
+
+
+
+
+
 
 
                             <tr>
-                                <td   colspan="2" >
+                                <td colspan="2" >
                                     <section style="display: flex; justify-content: space-between;" >
-                                        <span   class="commentWork" contenteditable="true" placeholder='댓글을 입력해주세요.'></span>
-                                        <button class="commentWork" contenteditable="false" style="border:none; background-color: transparent;"><span class="material-symbols-outlined">arrow_upward</span>댓글등록</button>
+                                        <span   class="commentInsertContent" contenteditable="true" placeholder='댓글을 입력해주세요.'></span>
+                                        <button class="commentWork commentInsert" contenteditable="false" style="border:none; background-color: transparent;"><span class="material-symbols-outlined">arrow_upward</span>댓글등록</button>
                                     </section>
                                 </td>
                             </tr>
+
+
+
+
 
 
 
@@ -180,36 +205,9 @@ ${work}
 
 
 
-        <aside class="btnBox">
-            
-            <table style="font-weight: bold;">
-                <tbod>
-                    <tr>
-                        <td><button><span class="material-symbols-outlined tgB">description</span>상단접기</button></td>
-                        <td><sub>Alt+Q</sub></td>
-                    </tr>
-                    <tr>
-                        <td><button><span class="material-symbols-outlined tgB">description</span>중단접기</td></button>
-                        <td><small>Alt+A</small></td>
-                    </tr>
-                    <tr>
-                        <td><button><span class="material-symbols-outlined tgB">description</span>하단접기</button></td>
-                        <td><small>Alt+Z</small></td>
-                    </tr>
-                    <tr>
-                        <td><button class="saveBtn"><span class="material-symbols-outlined">save</span>저장하기</button></td>
-                        <td><small>Alt+Shift+S</small></td>
-                    </tr>
-                    <tr>
-                        <td><button class="deleteBtn"><span class="material-symbols-outlined">scan_delete</span>삭제하기</button></td>
-                        <td><small>Alt+Shift+D</small></td>
-                    </tr>
-                </tbod>
-            </table>
 
-            
-            
-        </aside>
+
+        <jsp:include page="/WEB-INF/views/workList/z9z0BtnBox.jsp" />
 
 
     </main>
@@ -272,38 +270,24 @@ ${work}
         outline: none;
     }
 
-    .btnBox{
-        display:flex;
-        flex-direction:column;
-    }
-    .btnBox button{
-        background-color:transparent; 
-        border:none;
-        font-weight: bold;
-    }
 
 
 
 </style>
 
+
+
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js" integrity="sha256-Fb0zP4jE3JHqu+IBB9YktLcSjI1Zc6J2b6gTjB0LpoM=" crossorigin="anonymous"></script>
 <script src="/resources/js/work/udf.js"></script>
+
 
 <script>
   
 
     $(`.dueDt`).val(new Date().toISOString().substring(0, 10));
 
-    const obj={arrStyle:[`transition-duration: 100ms; transform: rotateY(360deg);`,`transition-duration: 100ms; transform: rotateY(0deg);`], arr:[`thead`, `tbody`, `tfoot`]}
-    for (let i = 0; i < 3; i++){ $($('.tgB')[i]).on(`click`, function () { $(this).toggleText(`folder`,`description`).toggleStyle(obj.arrStyle[0], obj.arrStyle[1]); $(`\${obj.arr[i]}`).parents("div").toggle("100");}) } //토글버튼
-    $(document).keyup( function(e){ 
-        if(e.altKey &&               (e.key=='q' || e.key=='Q')){ $(`\${obj.arr[0]}`).parents("div").toggle("100");}
-        if(e.altKey &&               (e.key=='a' || e.key=='A')){ $(`\${obj.arr[1]}`).parents("div").toggle("100");}
-        if(e.altKey &&               (e.key=='z' || e.key=='Z')){ $(`\${obj.arr[2]}`).parents("div").toggle("100");}
-        if(e.altKey && e.shiftKey && (e.key=='S' || e.key=='s')){ updateWork();}
-        if(e.altKey && e.shiftKey && (e.key=='D' || e.key=='d')){ deleteWork();}
-    })
 
     
     
@@ -379,10 +363,15 @@ ${work}
     $(`.deleteBtn`).on("click", function(e){ deleteWork(); })
 
 
-    
 
-    $(`.commentWork`).on("click", function(){
-      alert(1);  
-    })
+
+
+
 </script>
+<script>
+    const workNo    =${work.workNo};
+    const commentCon=$(`.commentInsertContent`).text();
+    const userNo    =${loginUser.userNo};
 
+</script>
+<script src="/resources/js/work/comment.js"></script>

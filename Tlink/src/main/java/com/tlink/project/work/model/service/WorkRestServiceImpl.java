@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tlink.project.work.model.dao.WorkDAO;
 import com.tlink.project.work.model.dao.WorkRestDAO;
+import com.tlink.project.work.model.dto.CommentWork;
 import com.tlink.project.work.model.dto.Todo;
 import com.tlink.project.work.model.dto.Work;
 
@@ -106,6 +107,23 @@ public class WorkRestServiceImpl implements WorkRestService{
 	@Override
 	public int updateTodoTitle(Map<String, Object> data) {
 		return  dao.updateTodoTitle(data);
+	}
+
+	
+	
+	@Override
+	public int commentInsert(Map<String, Object> data) {
+		return dao.commentInsert(data);
+	}
+
+	@Override
+	public int commentDelete(Map<String, Object> data) {
+		return dao.commentDelete(data);
+	}
+
+	@Override
+	public List<CommentWork> commentSelect(Map<String, Object> data) {
+		return dao.commentSelect(data);
 	}
 
 
