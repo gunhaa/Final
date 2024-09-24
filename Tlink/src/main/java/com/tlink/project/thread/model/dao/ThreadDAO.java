@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tlink.project.thread.model.dto.Crong;
 import com.tlink.project.thread.model.dto.ThreadChat;
 import com.tlink.project.thread.model.dto.ThreadFile;
 import com.tlink.project.thread.model.dto.ThreadInfo;
@@ -55,7 +56,7 @@ public class ThreadDAO {
 		return sqlSession.selectList("threadMapper.selectThreadChat", threadNo);
 	}
 
-	public List<String> selectThreadLoppy(String threadNo) {
+	public List<Crong> selectThreadLoppy(String threadNo) {
 		return sqlSession.selectList("threadMapper.selectThreadLoppy", threadNo);
 	}
 }

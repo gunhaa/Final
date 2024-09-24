@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.tlink.project.thread.model.dto.Crong;
 import com.tlink.project.thread.model.dto.ThreadChat;
 import com.tlink.project.thread.model.dto.ThreadInfo;
 import com.tlink.project.user.model.dto.User;
@@ -22,5 +23,5 @@ public interface ThreadService {
 
 	List<ThreadChat> selectChat(int threadNo);
 	
-	List<String> selectThreadLoppy(String threadNo);
+	List<Crong> selectThreadLoppy(String threadNo);
 }
