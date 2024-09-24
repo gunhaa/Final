@@ -389,10 +389,15 @@
 }
 
 .topComment{
-    background-color: #c6b6e2;
+    background-color: #dcd1f0;
 }
 
 .fixBtn{
     border: 0;
     background-color: transparent;
+}
+
+.fixText{
+    color: gray;
+    font-size: 14px;
 }

@@ -119,9 +119,7 @@
         // 게시글 번호 변수로 선언
         const noticeNo = "${notice.noticeNo}";
 
-        const notice = "${notice}"
         const noticeCopy = "${notice.noticeCopy}"
-
         // 로그인한 회원 번호 변수로 선언
         const loginUserNo = "${loginUser.userNo}";
         const loginUserRole = "${loginUser.role}";

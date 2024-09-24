@@ -60,6 +60,7 @@
 		<result property="parentNo" column="PARENT_NO" />
 		<result property="userName" column="USER_NAME" />
 		<result property="profileImage" column="PROFILE_IMG" />
+		<result property="role" column="ROLE" />
 	</resultMap>
 
 	<!-- 일반 공지사항 게시글 갯수 조회하기 -->
@@ -192,7 +193,7 @@
 					   ELSE TO_CHAR(C_CREATE_DATE, 'YYYY-MM-DD')
 					END C_CREATE_DATE,
 					]]>
-		NOTICE_NO, USER_NO, USER_NAME, PROFILE_IMG, PARENT_NO, COMMENT_DEL_FL
+		NOTICE_NO, USER_NO, USER_NAME, PROFILE_IMG, PARENT_NO, COMMENT_DEL_FL, ROLE
 		FROM NOTICE_COMMENT
 		JOIN "USER" USING(USER_NO)
 		WHERE NOTICE_NO = #{noticeNo}

@@ -260,12 +260,29 @@ END;
 /
 
 
-INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 2, 3, 1, 1, '상단 고정 내용임',  SYSDATE, NULL, '상단 고정 내용임', 328, 1 );
-INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 2, 3, 2, 2, '상단 고정 내용임2', SYSDATE, NULL, '상단 고정 내용임',234, 1 );
+INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 2, 3, 2, 2, '상단 고정 내용임',  SYSDATE, NULL, '상단 고정 내용임', 328, 1 );
+INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 2, 3, 1, 1, '홈페이지 서버 해킹 피해에 대한 공지', SYSDATE, NULL, '해킹 피해에 대한 개요
+</br></br>
+1. 2024년 9월 중순경 TLINK와 홈페이지 호스팅을 계약한 미**** 업체가 해커로부터 공격을 받아 자료가 삭제되는 사고가 발생하였습니다.
+</br>
+2. 이에 해당 업체가 본학회의 데이터를 백업자료로 복구하는 과정에서 9월 1일 이후에 등록된 자료가 소실되는 피해가 발생하였습니다.
+</br>
+3. 그 후에도 계속된 해커의 공격으로 호스팅 업체의 서버 다운이 또다시 발생하여 홈페이지에 접속이 안되는 피해가 발생하였습니다.
+</br></br>
+TLINK의 대응
+</br></br>
+1. TLINK는 소실된 데이터를 최대한 복구하였으나, 9월 초에 가입하신 회원님의 경우 재가입 이외에는 복구 방법이 없어 회원님의 양해를 부탁드립니다.
+</br>
+2. 해킹으로 발생될 수 있는 회원님들의 개인정보 유출 예방을 위하여, TLINK는 회원 가입시 수집하는 개인정보를 최소화 하는 것으로 변경하였고, 기존에 수집한 추가적인 개인정보는 모두 삭제하였습니다.
+</br>
+3. 본 홈페이지는 이번 사태에 대한 기존 계약 업체의 대응이 미숙함을 인지하고, 2024-9-20일에 학회 서버를 보안이 철저한 타 업체로 이전 완료 하였습니다.
+</br>
+4. 이번 사태와 관련하여 회원님들께서 큰 불편을 겪은 점 사과드리며, 한국실리콘학회는 소중한 회원정보 보호를 위하여 최선을 다할 것을 약속드립니다.'
+,234, 1 );
 
 INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 1, 1, 1, 1, '서버점검중', SYSDATE, NULL, '오늘 서버 점검합니다', 22, 1 );
 INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 2, 1, 2, 2, '이제 캘린더 사용 가능', SYSDATE, NULL, '캘린더 사용 가능합니다.', 52, 1 );
-INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 2, 1, 1, 1, '이제 캘린더 사용 가능2', SYSDATE, NULL, '캘린더 사용 가능합니다.', 122, 1 );
+INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 2, 1, 1, 1, '화상채팅의 화질이 더욱 좋아집니다', SYSDATE, NULL, '화상채팅의 화질이 더욱 좋아집니다.', 122, 1 );
 INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 1, 1, 1, 1, '서버점검중2', SYSDATE, NULL, '오늘 서버 점검합니다', 45, 1 );
 INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 1, 1, 2, 2, '서버점검중3', SYSDATE, NULL, '오늘 서버 점검합니다', 59, 1 );
 INSERT INTO NOTICE VALUES(SEQ_NOTICE_NO.NEXTVAL, 2, 1, 2, 2, '이제 캘린더 사용 가능3', SYSDATE, NULL, '캘린더 사용 가능합니다.', 66, 1 );
@@ -377,6 +394,28 @@ BEGIN
    END LOOP;
 END;
 /
+
+INSERT INTO NOTICE_COMMENT
+VALUES(SEQ_COMMENT_NO.NEXTVAL, '보안 신경쓰세요', DEFAULT, DEFAULT, 312, 3, NULL);
+
+INSERT INTO NOTICE_COMMENT
+VALUES(SEQ_COMMENT_NO.NEXTVAL, '회원 분들의 질문 답변으로 해당 업체와의 계약은 2024-09-20 상호합의 하 해지되었음을 알립니다.', DEFAULT, 3, 312, 1, NULL);
+
+INSERT INTO NOTICE_COMMENT
+VALUES(SEQ_COMMENT_NO.NEXTVAL, '보안 신경쓰세요!@!@!@!@', DEFAULT, DEFAULT, 312, 4, NULL);
+
+INSERT INTO NOTICE_COMMENT
+VALUES(SEQ_COMMENT_NO.NEXTVAL, '아직도 로그인을 못하고 있어요', DEFAULT, DEFAULT, 312, 4, 1002);
+
+INSERT INTO NOTICE_COMMENT
+VALUES(SEQ_COMMENT_NO.NEXTVAL, '언제 부터 이용 가능한가요', DEFAULT, DEFAULT, 312, 5, 1002);
+
+INSERT INTO NOTICE_COMMENT
+VALUES(SEQ_COMMENT_NO.NEXTVAL, '지금 복구 완료하여 이용 가능합니다.', DEFAULT, DEFAULT, 312, 2, 1002);
+
+INSERT INTO NOTICE_COMMENT
+VALUES(SEQ_COMMENT_NO.NEXTVAL, '보안 신경쓰세요!@!@!@!@', DEFAULT, DEFAULT, 312, 5, NULL);
+
 -- 파일 데이터 추가 
 INSERT INTO FILES
 VALUES(SEQ_FILE_NO.NEXTVAL, '/resources/images/notice/', 
@@ -405,5 +444,21 @@ VALUES(SEQ_FILE_NO.NEXTVAL, '/resources/images/notice/',
 INSERT INTO FILES
 VALUES(SEQ_FILE_NO.NEXTVAL, '/resources/images/calendar/', 
     '20240809111920_00001.jpg', 'cat1.jpg', 0, 4, 7);
+    
+INSERT INTO FILES
+VALUES(SEQ_FILE_NO.NEXTVAL, '/resources/images/notice/', 
+    'mailtype.jpg', 'mailtype.jpg', 1, 1, 312);
+    
+INSERT INTO FILES
+VALUES(SEQ_FILE_NO.NEXTVAL, '/resources/images/notice/', 
+    'mailtype2.jpg', 'mailtype2.jpg', 2, 1, 312);
+    
+INSERT INTO FILES
+VALUES(SEQ_FILE_NO.NEXTVAL, '/resources/images/notice/', 
+    'mailtype3.jpg', 'mailtype3.jpg', 3, 1, 312);
+    
+    INSERT INTO FILES
+VALUES(SEQ_FILE_NO.NEXTVAL, '/resources/images/notice/', 
+    'notice.zip', 'notice.zip', 0, 1, 312);
 
 COMMIT;

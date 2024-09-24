@@ -174,7 +174,7 @@ public class NoticeController  {
 			path = "notice/noticeDetail";
 			model.addAttribute("notice", notice);
 			model.addAttribute("noticeTitleList", noticeTitleList);
-
+			System.out.println("notice"+notice);
 		}else { // 조회된 결과가 없을 경우
 
 			// 게시판 첫 페이지로 리다이렉트
