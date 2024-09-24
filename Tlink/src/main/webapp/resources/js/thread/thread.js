@@ -2,6 +2,8 @@ const inputBox = document.getElementById("inputBox");
 const message = document.getElementById("message");
 const sendBtn = document.getElementById("send");
 const inputFile = document.getElementById("inputFile");
+let threadNo = new URLSearchParams(location.search).get("threadNo");
+
 
 let formData = new FormData();
 
@@ -129,7 +131,7 @@ sendBtn.addEventListener("click", ()=>{
     });
 })
 
-let threadNo = new URLSearchParams(location.search).get("threadNo");
+
 
 // const joinChat = document.getElementById("joinChat");
 // joinChat.addEventListener("click", ()=>{

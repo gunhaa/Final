@@ -1,5 +1,6 @@
 const modal = document.getElementById("modalContainer");
 let memberList = document.getElementById("listArea");
+let projectNo = new URLSearchParams(location.search).get("projectNo");
 
 const createBtn = document.getElementById("createThread");
 createBtn.addEventListener("click", ()=>{

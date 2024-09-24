@@ -73,17 +73,17 @@ public class ThreadController  {
 	}
 
 	@PostMapping("/createThread")
-	public String createThread(ThreadInfo threadInfo, Integer[] userList, int projectNo, 
+	public String createThread(ThreadInfo threadInfo, Integer[] userList, String projectNo, 
 							   @SessionAttribute("loginUser") User loginUser,
 							   HttpSession session) {
 		
 		threadInfo.setUserList(Arrays.asList(userList));
-		threadInfo.setProjectNo(projectNo);
+		threadInfo.setProjectNo(Integer.parseInt(projectNo));
 				
 		int result = service.insertThread(threadInfo);
 
 		if( result > 0 ) {
-			List<ThreadInfo> threadInfos = service.selectThread(projectNo, loginUser.getUserNo());
+			List<ThreadInfo> threadInfos = service.selectThread(Integer.parseInt(projectNo), loginUser.getUserNo());
 			System.out.println(threadInfos);
 			
 			session.setAttribute("threadInfo", threadInfos);

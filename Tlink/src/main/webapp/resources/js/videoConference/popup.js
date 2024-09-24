@@ -587,7 +587,7 @@ const sendChat = () => {
             })
                 .then(resp => resp.text())
                 .then(data => {
-                const content = makeChatBlock("bot", data, "나에게만 보임", "/resources/images/common/user.png");
+                const content = makeChatBlock("bot", data, "나에게만 보임", "/resources/images/common/robot.png");
                 insertChatBlock(content);
             })
                 .catch(e => {
