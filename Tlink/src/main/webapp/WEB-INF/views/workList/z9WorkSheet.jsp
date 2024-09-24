@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:set var="user" value="${loginUser}"/>
-${work}
 
 
 <!DOCTYPE html>
@@ -131,40 +130,9 @@ ${work}
                                 <td></td>
                                 <td></td>
                             </tr>
-
-
                             <tr>
-                                <td colspan="2" class="commentList">
-
-                                    <section>
-                                        <span class="material-symbols-outlined">person_pin_circle</span>
-                                        <span class="commentNo" hidden>1</span>
-                                        <span class="userNo" hidden></span>
-                                        <span>김길동</span>
-                                        <sup class="commentDelete">x</sup>
-                                        <h6 class="commentContent" contenteditable="true">지나가는 길입니다.</h6>
-                                    </section>
-
-                                    <section>
-                                        <span class="material-symbols-outlined">person_pin_circle</span>
-                                        <span class="commentNo" hidden>2</span>
-                                        <span class="userNo" hidden></span>
-                                        <span>김길동</span>
-                                        <sup class="commentDelete">x</sup>
-                                        <h6 class="commentContent" contenteditable="true">지나가는 길입니다.</h6>
-                                    </section>
-
-
-                                </td>
+                                <td colspan="2" class="commentList"></td>
                             </tr>
-                            
-
-
-
-
-
-
-
                             <tr>
                                 <td colspan="2" >
                                     <section style="display: flex; justify-content: space-between;" >
@@ -173,13 +141,6 @@ ${work}
                                     </section>
                                 </td>
                             </tr>
-
-
-
-
-
-
-
                         </tbody>
 
                     </table>
@@ -269,6 +230,9 @@ ${work}
         border: none;
         outline: none;
     }
+
+
+    select, input, .commentInsert, .commentDelete{ cursor: pointer; }
 
 
 
@@ -370,7 +334,6 @@ ${work}
 </script>
 <script>
     const workNo    =${work.workNo};
-    const commentCon=$(`.commentInsertContent`).text();
     const userNo    =${loginUser.userNo};
 
 </script>

@@ -276,6 +276,7 @@ CREATE SEQUENCE SEQ_WORK_COMMENT_NO NOCACHE;
 
 
 
+
 --투두
 CREATE TABLE "TODO" (
 	"TODO_NO"	    NUMBER		                        NOT NULL,

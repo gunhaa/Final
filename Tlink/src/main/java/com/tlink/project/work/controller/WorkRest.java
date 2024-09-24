@@ -44,6 +44,13 @@ public class WorkRest {
 	
 	
 	
+	//작업차트
+	@PostMapping(value=("/work/select"))
+	public List<Work> selectWork(@RequestBody Map<String, Object> data) {
+		int projectNo=(Integer)data.get("projectNo");
+		return workService.table(projectNo);
+	}
+	
 	
 	
 

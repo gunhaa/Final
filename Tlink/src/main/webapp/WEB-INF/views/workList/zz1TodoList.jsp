@@ -102,7 +102,9 @@
         min-height: 1px;
     }
 
-
+    .insert, .deleteTodo{
+        cursor: pointer;
+    }
 
 </style>
 

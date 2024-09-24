@@ -40,7 +40,11 @@ public class CommentWorkRest {
 		System.out.println(data);
 		return service.commentDelete(data);
 	}
-
+	@PutMapping(value=("/commentWork"))
+	public int commentUpdate(@RequestBody Map<String, Object> data) {
+		System.out.println(data);
+		return service.commentUpdate(data);
+	}
 
 	@PostMapping(value=("/commentWork/select"))
 	public List<CommentWork> commentSelect(@RequestBody Map<String, Object> data) {
