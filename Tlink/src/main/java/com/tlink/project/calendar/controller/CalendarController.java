@@ -10,12 +10,17 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,7 +51,7 @@ public class CalendarController {
         List<CalendarData> schedules = service.selectAll(projectNo);
        
         System.out.println(schedules);
-        
+
         model.addAttribute("loginUser", loginUser);
         model.addAttribute("schedules", schedules);
         return "calendar/calendar"; // 캘린더 페이지를 렌더링하는 JSP
@@ -250,6 +255,32 @@ public class CalendarController {
         // 데이터베이스가 인식할 수 있도록 'T'를 제거한 형식으로 변경
         SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         return outputFormat.format(cal.getTime()); // Date -> String 변환
+    }
+    
+    
+    // 비동기, 드래그 이벤트오 일정 수정하기
+    @PutMapping(value = "/eventUpdate", produces = "application/json; charset=UTF-8")
+    @ResponseBody // JSON 응답을 위해 추가
+    public ResponseEntity<String> updateEventDrop(
+            @RequestBody CalendarData calendar,
+            @SessionAttribute("loginUser") User loginUser,
+            @RequestParam(value = "projectNo") int projectNo,
+            Model model) {
+        
+        calendar.setProjectNo(projectNo);
+        calendar.setUserNo(loginUser.getUserNo());
+        calendar.setUserName(loginUser.getUserName());
+
+        System.out.println("Received Calendar Data: " + calendar);
+        int result = service.updateEventDrop(calendar);
+        
+        if (result > 0) {
+            System.out.println("일정 수정 성공");
+            return ResponseEntity.ok("일정 수정 성공");
+        } else {
+            System.out.println("일정 수정 실패");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("일정 수정 실패");
+        }
     }
     
     

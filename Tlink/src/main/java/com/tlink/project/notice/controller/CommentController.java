@@ -51,7 +51,17 @@ public class CommentController {
 		return service.delete(commentNo);
 	}
 	
+	// 댓글 고정
+	@PutMapping("/comment/fix")
+	private int updateFix(@RequestBody NoticeComment noticeComment) {
+		return service.updateFix(noticeComment);
+	}
 	
+	// 댓글 고정
+	@PutMapping("/comment/disableFix")
+	private int updateDisableFix(@RequestBody NoticeComment noticeComment) {
+		return service.updateDisableFix(noticeComment);
+	}
 	
 	
 	

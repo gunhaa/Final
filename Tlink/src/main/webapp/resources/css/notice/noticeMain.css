@@ -80,7 +80,16 @@
     height: 70px;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: space-between;
+}
+
+.main-middle>div:nth-child(2)>div>button{
+    border-radius: 20px;
+    border: 1px solid #643BAB;
+    background-color: transparent;
+    width: 120px;
+    height: 30px;
+    font-weight: bold;
 }
 
 .main-middle>div:nth-child(2)>fieldset{

@@ -62,4 +62,18 @@ public interface NoticeService {
 	 */
 	Map<String, Object> selectDeleteNoticeList(Map<String, Object> paramMap, int cp);
 
+	/**조회순으로 공지사항 정렬하기
+	 * @param cp
+	 * @param paramMap 
+	 * @return
+	 */
+	Map<String, Object> noticeArrayRead(int cp, Map<String, Object> paramMap);
+
+	/**댓글순으로 공지사항 정렬하기
+	 * @param cp
+	 * @param paramMap 
+	 * @return
+	 */
+	Map<String, Object> noticeArrayComment(int cp, Map<String, Object> paramMap);
+
 }

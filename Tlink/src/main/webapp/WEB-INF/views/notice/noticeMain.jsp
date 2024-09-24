@@ -38,11 +38,12 @@
                 </div>
                 <div>
                     <div>
-
+                        <button id="arrayRead">조회순</button>
+                        <button id="arrayComment">댓글순</button>
                     </div>
                     <fieldset>
                         <form action="/notice" method="get" id="boardSearch">
-                            <input type="text" name="query"  id="searchQuery" placeholder="검색어를 입력해주세요.">
+                            <input type="text" name="query"  id="searchQuery" placeholder="검색어를 입력해주세요." value="${param.query}">
                             <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
                     </fieldset>
@@ -129,7 +130,7 @@
 
                 
 
-                <div class="pagination-area">
+                <div class="pagination-area" id="paginationArea">
 
                     <ul class="pagination">
                         <li><a href="/notice?cp=1${sURL}">&lt;&lt;</a></li>
@@ -153,6 +154,8 @@
             </article>
         </section>
     </section>
+
+    <script src="/resources/js/notice/noticeMain.js"></script>
 
 
 </body>
