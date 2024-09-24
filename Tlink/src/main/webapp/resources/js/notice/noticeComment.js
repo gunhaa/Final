@@ -11,36 +11,40 @@ function selectCommentList() {
 
         // 고정된 댓글과 일반 댓글을 분리
         const fixedComments = cList.filter(comment => comment.commentDeleteFlag == 3);
-        const regularComments = cList.filter(comment => comment.commentDeleteFlag == 1);
+        const regularComments = cList.filter(comment => comment.commentDeleteFlag == 1 || comment.commentDeleteFlag == 3); // 고정된 댓글 포함
 
         // 고정된 댓글이 있는지 여부 확인
-        let hasFixedComment = fixedComments.length > 0;
+        const hasFixedComment = fixedComments.length > 0;
 
-        // 고정된 댓글 먼저 렌더링 (상단에 위치)
+        // 고정된 댓글 렌더링 (상단에 위치)
         for (let comment of fixedComments) {
-            const commentRow = createCommentRow(comment, true); // 고정 댓글
+            const commentRow = createCommentRow(comment, true, hasFixedComment); // 고정 댓글
             commentRow.classList.remove("child-comment");
-            commentList.append(commentRow);
+            commentList.append(commentRow);  // 고정 댓글은 상단 고정 영역에 출력
         }
 
-        // 일반 댓글 렌더링
-        for (let comment of regularComments) {
-            const commentRow = createCommentRow(comment, false, hasFixedComment); // 고정 여부 전달
-            commentList.append(commentRow);
-        }
-
-        // 삭제된 댓글 렌더링
-        for (let comment of cList.filter(comment => comment.commentDeleteFlag == 2)) {
-            const commentRow = document.createElement("li");
-            commentRow.classList.add("comment-row", "addcolor");
-            commentRow.innerText = "삭제된 댓글입니다.";
-            commentList.append(commentRow);
+        // 댓글 렌더링
+        for (let comment of cList) {
+            // 삭제된 댓글 처리
+            if (comment.commentDeleteFlag == 2) {
+                const deletedCommentRow = document.createElement("li");
+                deletedCommentRow.classList.add("comment-row", "addcolor");
+                deletedCommentRow.innerText = "삭제된 댓글입니다.";
+                commentList.append(deletedCommentRow);
+            } 
+            // 고정된 댓글 및 일반 댓글 처리
+            else {
+                const isFixed = comment.commentDeleteFlag == 3;
+                const commentRow = createCommentRow(comment, isFixed, hasFixedComment);
+                commentList.append(commentRow);
+            }
         }
     })
     .catch(err => console.log(err));
 }
 
-// 댓글 행을 만드는 함수
+
+
 function createCommentRow(comment, isFixed, hasFixedComment) {
     const commentRow = document.createElement("li");
     commentRow.classList.add("comment-row");
@@ -53,9 +57,14 @@ function createCommentRow(comment, isFixed, hasFixedComment) {
     
     const commentWriter = document.createElement("div");
     commentWriter.classList.add("comment-writer");
-
     const profileImage = document.createElement("img");
-    profileImage.setAttribute("src", comment.profileImage ? comment.profileImage : "/resources/images/common/user.png");
+    if (comment.role == 'U') {
+        profileImage.setAttribute("src", comment.profileImage ? comment.profileImage : "/resources/images/common/user.png");
+    }
+
+    if (comment.role != 'U') {
+        profileImage.setAttribute("src", "/resources/images/common/admin_profile.png");
+    }
 
     const userName = document.createElement("span");
     userName.innerText = comment.userName;
@@ -65,40 +74,33 @@ function createCommentRow(comment, isFixed, hasFixedComment) {
     commentDate.innerText = "(" + comment.commentCreateDate + ")";
 
     const buttonArea = document.createElement("div");
-
-    // 고정된 댓글인 경우 해제 버튼만 표시
-    if (isFixed) {
-        const fixDisableBtn = document.createElement("button");
-        fixDisableBtn.classList.add("fixBtn");
-        fixDisableBtn.innerHTML = '<i class="fa-solid fa-thumbtack-slash"></i>';
-        fixDisableBtn.setAttribute("onclick", `commentFixDisabled(${comment.commentNo}, this)`);
-        buttonArea.append(fixDisableBtn);
+    if (loginUserRole != 'U') {
+        // 고정된 댓글인 경우 해제 버튼만 표시
+        if (isFixed) {
+            const fixDisableBtn = document.createElement("button");
+            fixDisableBtn.classList.add("fixBtn");
+            fixDisableBtn.innerHTML = '<i class="fa-solid fa-thumbtack-slash"></i>';
+            fixDisableBtn.setAttribute("onclick", `commentFixDisabled(${comment.commentNo}, this)`);
+            buttonArea.append(fixDisableBtn);
+        }
+        // 고정된 댓글이 없을 경우에만 고정 버튼 출력
+        else if (!hasFixedComment) {  
+            const fixBtn = document.createElement("button");
+            fixBtn.classList.add("fixBtn");
+            fixBtn.innerHTML = '<i class="fa-solid fa-thumbtack"></i>';
+            fixBtn.setAttribute("onclick", `commentFixd(${comment.commentNo}, this)`);
+            buttonArea.append(fixBtn);
+        }
     }
-    // 고정된 댓글이 없을 경우에만 고정 버튼 출력
-    else if (!hasFixedComment) {
-        const fixBtn = document.createElement("button");
-        fixBtn.classList.add("fixBtn");
-        fixBtn.innerHTML = '<i class="fa-solid fa-thumbtack"></i>';
-        fixBtn.setAttribute("onclick", `commentFixd(${comment.commentNo}, this)`);
-        buttonArea.append(fixBtn);
-    }
-
-    // 모든 댓글에 대해 좋아요 영역 추가
-    const likeArea = document.createElement("div");
-    likeArea.classList.add("likeArea");
-    
-    const likeBtn = document.createElement("button");
-    likeBtn.classList.add("likeBtn");
-    likeBtn.innerText = "좋아요"; // 여기에 좋아요 버튼의 텍스트를 추가하세요.
-    
-    const likeCount = document.createElement("span");
-    likeCount.classList.add("likeCount");
-    likeCount.innerText = comment.likeCount || 0; // 댓글 데이터에서 좋아요 수를 가져옵니다.
-
-    likeArea.append(likeBtn, likeCount);
-    commentWriter.append(likeArea); // 댓글 행에 좋아요 영역 추가
 
     commentWriter.append(profileImage, userName, commentDate, buttonArea);
+    
+    if (isFixed) {
+        const fixText = document.createElement("span");
+        fixText.classList.add("fixText");
+        fixText.innerText = '관리자가 고정한 댓글입니다.';
+        commentWriter.append(fixText); // 댓글 행에 고정된 텍스트 추가
+    }
 
     const commentContent = document.createElement("p");
     commentContent.classList.add("comment-content");
@@ -106,8 +108,6 @@ function createCommentRow(comment, isFixed, hasFixedComment) {
 
     commentRow.append(commentWriter, commentContent);
     
-   
-
     const commentBtnArea = document.createElement("div");
     commentBtnArea.classList.add("comment-btn-area");
     // 현재 로그인한 유저가 있는 경우 버튼 추가
@@ -145,6 +145,9 @@ function createCommentRow(comment, isFixed, hasFixedComment) {
 
     return commentRow;
 }
+
+
+
 
 
 

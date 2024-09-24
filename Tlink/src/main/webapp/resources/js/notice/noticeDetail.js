@@ -1,5 +1,3 @@
-console.log(notice)
-console.log(noticeCopy)
 
 document.addEventListener('copy', function (event) {
     if (noticeCopy == 2) {

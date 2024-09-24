@@ -42,7 +42,7 @@
                                 <label for="img1">
                                     <img class="preview">
                                 </label>
-                                <input type="file" name="images" class="inputImage" id="img1" accept="image/*">
+                                <input type="file" name="images" class="inputImage" id="img1" accept="image/*,application/zip">
                                 <span class="delete-image">&times;</span>
                             </div>
                             <div>
