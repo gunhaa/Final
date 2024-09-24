@@ -58,10 +58,8 @@
                     <ul style="list-style-type: none; padding: 0 0 0 0px; text-align: center; margin: 0;">
                         <li><a href="#tab1"><span class="material-symbols-outlined"
                                     style="font-size: 30px;">home</span></a></li>
-                        <li><a href="#tab2"
-                           <%-- <c:if test="${!empty threadInfo}">  href="#tab2"</c:if>
-                           <c:if test="${empty threadInfo }" >  href="/thread/thread"</c:if> --%>
-                        >
+                        <li><a href="#tab2">
+
 
                         <span class="material-symbols-outlined"
                                     style="font-size: 30px;">sms</span></a></li>
