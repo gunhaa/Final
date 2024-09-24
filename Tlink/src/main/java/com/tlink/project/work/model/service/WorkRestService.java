@@ -52,6 +52,8 @@ public interface WorkRestService {
 
 	int commentUpdate(Map<String, Object> data);
 
+	List<Work> selectList(Map<String, Object> data);
+
 
 
 }

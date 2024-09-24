@@ -231,21 +231,6 @@
     );
 
 
-    // const pathname = window.location.pathname;
-    // if(pathname=="/thread/newThread"){
-    //     $('.sort').find("li").eq(1).attr("style",
-    //         $('.sort').find("li").eq(1).attr(`style`) +
-    //         `
-    //             background-color: rgba(255, 255, 255, 0.1);
-    //             border-radius: 10% 0 0 10%;
-    //             padding: 10px;
-    //             filter: drop-shadow(0 0 3px white);
-    //             width: 70px;
-    //             height: 70px;
-    //             `
-    //         + cen()
-    //     );
-    // }
 
 
 
