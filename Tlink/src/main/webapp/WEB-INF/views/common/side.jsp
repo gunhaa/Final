@@ -390,30 +390,7 @@ const makeChatBlock = (chatUserName, chatContent, chatTimestamp, chatProfileImg)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script>
 
-   let socket;
    
-	console.log("1");
-	
-   socket = new SockJS("/ThreadWebsocket");
-
-
-    socket.onopen = function() {
-        console.log('SockJS connection opened');
-        // 서버로 메시지 전송
-        socket.send(JSON.stringify({message: "Hello from client!"}));
-    };
-
-
-    socket.onmessage = function(event) {
-        var data = JSON.parse(event.data);
-        console.log('Message received from server: ', data);
-    };
-
-
-    socket.onclose = function() {
-        console.log('SockJS connection closed');
-    };
-
 
 
 </script>

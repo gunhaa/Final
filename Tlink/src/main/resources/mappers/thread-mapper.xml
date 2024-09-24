@@ -19,6 +19,8 @@
 					javaType="java.util.ArrayList"
 					ofType="ThreadFile">
 		</collection>
+		
+		
 	</resultMap>
 
 	<resultMap type="ThreadInfo" id="threadInfo_rm">
@@ -40,6 +42,8 @@
 		<result property="targetNo" column="TARGET_NO" />
 
 	</resultMap>
+	
+	
 	
 
 	<select id="selectThreadChat" resultMap="threadChat_rm">
@@ -99,4 +103,7 @@
 		INSERT INTO "THREAD_MESSAGE" VALUES(#{chatNo}, #{chatMessage}, SYSDATE, #{chatType}, #{threadNo} , #{memberNo})
 	</insert>
 
+	<select id="selectThreadLoppy" resultMap="threadChat_rm">
+		SELECT USER_NO FROM THREAD_MEMBER WHERE THREAD_NO=#{threadNo}
+	</select>
 </mapper>
