@@ -117,6 +117,14 @@ public class WorkRest {
 	}
 	
 	
+	//리스트
+	@PostMapping(value=("/workList/list"))
+	public List<Work> selectList(@RequestBody Map<String, Object> data) {
+		return service.selectList(data);
+	}
+	
+	
+	
 	
 	
 	//담장자별

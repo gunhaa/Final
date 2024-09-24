@@ -130,6 +130,11 @@ public class WorkRestServiceImpl implements WorkRestService{
 		return dao.commentSelect(data);
 	}
 
+	@Override
+	public List<Work> selectList(Map<String, Object> data) {
+		return dao.selectList(data);
+	}
+
 
 
 

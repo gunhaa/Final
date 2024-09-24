@@ -194,5 +194,12 @@ public class WorkRestDAO {
 
 
 
+	public List<Work> selectList(Map<String, Object> data) {
+		return sqlSession.selectList("workRestMapper.selectList", data);
+	}
+
+
+
+
 	
 }
