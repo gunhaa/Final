@@ -80,14 +80,7 @@ sendBtn.addEventListener("click", ()=>{
 
     fetch('/thread/insert', {
         method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            "chatMessage" : message.value,
-            "chatType": "normal",
-            "threadNo" : new URLSearchParams(location.search).get("threadNo")
-        })
+        body: formData
     })
     .then( resp => resp.json())
     .then( res => {
@@ -108,7 +101,8 @@ sendBtn.addEventListener("click", ()=>{
         
         const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-        document.querySelector("#chatBox").insertAdjacentHTML("beforeend", `<li class="chatNormal">
+        document.querySelector("#chatBox").insertAdjacentHTML("beforeend", 
+                                `<li class="chatNormal">
                                     <div class="profile">
                                         <img src="${res.memberProfile}">
                                     </div>
@@ -123,13 +117,15 @@ sendBtn.addEventListener("click", ()=>{
         
         inputBox.value="";
 
-        /*
-        socket.send({
-            type: "chat",
-            content: message.value
-        })
         
-        */
+       /*  socket.send({
+            type: "chat",
+            content: {
+                message.value
+            } 
+
+        }) */
+        
     });
 })
 
