@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
 
-    <link rel="stylesheet" href="/resource/css/thread/threadUtil-style.css">
 </head>
 <body>
     <!-- 모달 파트 -->
