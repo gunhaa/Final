@@ -14,7 +14,7 @@
             <!--모달 팝업-->
             <form action="/sendEmail/invite" method="post" id="inviteFrm">
                 <input type="hidden" name="projectNo" value="${param.projectNo}">
-                <div class="modal">
+                <div class="modal1">
                     <div class="modal_popup">
                         <h3 style="margin-bottom: 20px;">멤버 초대</h3>
                         <div class="modal-row">
@@ -29,19 +29,19 @@
             </form>
 
             <script>
-                const modal = document.querySelector('.modal');
+                const modal1 = document.querySelector('.modal1');
                 const modalOpen = document.querySelector('.modal-btn');
                 const modalClose = document.querySelector('.close-btn');
 
                 //열기 버튼을 눌렀을 때 모달팝업이 열림
                 modalOpen.addEventListener('click', function () {
                     //'on' class 추가
-                    modal.classList.add('on');
+                    modal1.classList.add('on');
                 });
                 //닫기 버튼을 눌렀을 때 모달팝업이 닫힘
                 modalClose.addEventListener('click', function () {
                     //'on' class 제거
-                    modal.classList.remove('on');
+                    modal1.classList.remove('on');
                 });
 
                 document.getElementById("inviteFrm").addEventListener("submit",e=>{

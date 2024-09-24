@@ -11,7 +11,7 @@
 <body>
 <!--모달 팝업-->
 <form action="/project/create" method="post" id="createFrm">
-    <div class="modal">
+    <div class="modal1">
         <div class="modal_popup">
             <h3 style="margin-bottom: 20px;">프로젝트 생성</h3>
             <div class="modal-row">
