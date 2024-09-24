@@ -19,7 +19,7 @@ h2{
 
 
 /*모달 팝업 영역 스타일링*/
-.modal {
+.modal1 {
 /*팝업 배경*/
 	display: none; /*평소에는 보이지 않도록*/
     position: absolute;
@@ -31,7 +31,7 @@ h2{
     background: rgba(0,0,0,0.5);
     z-index: 100;
 }
-.modal .modal_popup {
+.modal1 .modal_popup {
 /*팝업*/
     position: absolute;
     top: 50%;
@@ -47,7 +47,7 @@ h2{
     justify-content: end;
 }
 
-.modal .modal_popup button {
+.modal1 .modal_popup button {
     display: block;
     padding: 10px 20px;
     border: none;
@@ -86,6 +86,6 @@ h2{
 }
 
 
-.modal.on {
+.modal1.on {
     display: block;
 }

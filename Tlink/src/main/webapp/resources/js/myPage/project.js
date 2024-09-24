@@ -15,19 +15,19 @@ var swiper = new Swiper(".swiper-project", {
     }
 });
 
-const modal = document.querySelector('.modal');
+const modal1 = document.querySelector('.modal1');
 const modalOpen = document.querySelector('.modal-btn');
 const modalClose = document.querySelector('.close-btn');
 
 //열기 버튼을 눌렀을 때 모달팝업이 열림
 modalOpen.addEventListener('click',function(){
   	//'on' class 추가
-    modal.classList.add('on');
+    modal1.classList.add('on');
 });
 //닫기 버튼을 눌렀을 때 모달팝업이 닫힘
 modalClose.addEventListener('click',function(){
     //'on' class 제거
-    modal.classList.remove('on');
+    modal1.classList.remove('on');
 });
 
 // 자동완성
