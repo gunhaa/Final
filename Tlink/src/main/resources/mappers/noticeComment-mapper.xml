@@ -29,5 +29,16 @@
 		WHERE COMMENT_NO = #{commentNo}
 	</update>
 
+	<update id="updateFix">
+		UPDATE NOTICE_COMMENT SET
+		COMMENT_DEL_FL = 3
+		WHERE COMMENT_NO = #{commentNo}
+	</update>
+	
+	<update id="updateDisableFix">
+		UPDATE NOTICE_COMMENT SET
+		COMMENT_DEL_FL = 1
+		WHERE COMMENT_NO = #{commentNo}
+	</update>
 
 </mapper>

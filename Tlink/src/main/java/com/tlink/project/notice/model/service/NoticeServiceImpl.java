@@ -118,6 +118,39 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		return map;
 	}
+
+
+	// 조회순으로 공지사항 정렬하기
+	@Override
+	public Map<String, Object> noticeArrayRead(int cp, Map<String, Object> paramMap) {
+		int listCount = dao.selectNoticeList(paramMap);
+		
+		NoticePagination pagination = new NoticePagination(cp, listCount);
+		
+		List<Notice> noticeList = dao.noticeArrayRead(paramMap, pagination);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("pagination", pagination);
+		map.put("noticeList", noticeList);
+		return map;
+	}
+
+	// 댓글으로 공지사항 정렬하기
+	@Override
+	public Map<String, Object> noticeArrayComment(int cp, Map<String, Object> paramMap) {
+		int listCount = dao.selectNoticeList(paramMap);
+		
+		NoticePagination pagination = new NoticePagination(cp, listCount);
+		
+		List<Notice> noticeList = dao.noticeArrayComment(paramMap, pagination);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noticeList", noticeList);
+		map.put("pagination", pagination);
+		
+		
+		return map;
+	}
 	
 	
 	

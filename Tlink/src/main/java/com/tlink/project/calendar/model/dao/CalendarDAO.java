@@ -80,6 +80,14 @@ public class CalendarDAO {
 		return sqlSession.delete("calendarDataMapper.deleteHolidayFile", scheduleNo);
 	}
 
+	/**비동기로 일정 수정하기
+	 * @param calendar
+	 * @return
+	 */
+	public int updateEventDrop(CalendarData calendar) {
+		return sqlSession.update("calendarDataMapper.updateEventDrop", calendar);
+	}
+
 
 
 

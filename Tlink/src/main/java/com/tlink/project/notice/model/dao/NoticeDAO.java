@@ -146,6 +146,35 @@ public class NoticeDAO {
 		return sqlSession.selectList("noticeMapper.getDeleteListForSearch", paramMap, rowBounds);
 	}
 
+	/**조회순으로 공지사항 조회하기
+	 * @param paramMap 
+	 * @param pagination
+	 * @return
+	 */
+	public List<Notice> noticeArrayRead(Map<String, Object> paramMap, NoticePagination pagination) {
+		
+		// 1) offset 계산
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		
+		// 2) RowBounds 객체 생성
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("noticeMapper.noticeArrayRead", paramMap, rowBounds);
+	}
+
+	/**댓글순으로 공지사항 조회하기
+	 * @param paramMap 
+	 * @param pagination
+	 * @return
+	 */
+	public List<Notice> noticeArrayComment(Map<String, Object> paramMap, NoticePagination pagination) {
+		// 1) offset 계산
+		int offset = (pagination.getCurrentPage() -1) * pagination.getLimit();
+		
+		// 2) RowBounds 객체 생성
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("noticeMapper.noticeArrayComment", paramMap, rowBounds);
+	}
+
 
 	
 

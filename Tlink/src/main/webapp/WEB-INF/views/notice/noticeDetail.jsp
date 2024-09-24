@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
+    <script src="https://kit.fontawesome.com/71eaa9d255.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/resources/css/notice/noticeDetail.css">
 </head>
 <body>
@@ -124,6 +124,7 @@
 
         // 로그인한 회원 번호 변수로 선언
         const loginUserNo = "${loginUser.userNo}";
+        const loginUserRole = "${loginUser.role}";
 
     </script>
 

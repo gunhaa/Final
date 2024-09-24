@@ -638,3 +638,42 @@ function updateHolidayEvent(event){
 }
 
 
+// dropEvent
+function testfun(event){
+
+  const formatDate = (date) => {
+    return new Date(date).toISOString().slice(0, 19).replace('T', ' '); // 'T'를 공백으로 대체
+  };
+  
+  const projectNo = event.extendedProps.projectNo
+
+  const data = {
+    "scheduleTitle" : event.title,
+    "scheduleContent" : event.extendedProps.description,
+    "projectNo" : event.extendedProps.projectNo,
+    "scheduleNo" : event.extendedProps.scheduleNo,
+    "startDate" : formatDate(event.start),
+    "endDate" : formatDate(event.end),
+    "projectNo" : projectNo,
+    "scheduleType" : event.extendedProps.scheduleType
+  }
+
+  fetch("/calendar/eventUpdate?projectNo=" + projectNo,{
+    method : "PUT",
+    headers : {"Content-Type" : "application/json"},
+    body : JSON.stringify(data)
+  }) // GET 방식은 주소에 파라미터를 담아서 전달
+  .then(response=>{
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+    return response.json();
+  }) // 응답 객체 -> 파싱
+  .then(response => {
+    console.log(response);
+  })
+  .catch(err => console.log(err));
+  
+  
+}
+

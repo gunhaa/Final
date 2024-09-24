@@ -45,7 +45,9 @@
                         borderColor: "blue",
                         extendedProps: {
                           scheduleType: '${schedule.scheduleType}',
-                          userNo : '${schedule.userNo}'
+                          userNo : '${schedule.userNo}',
+                          projectNo : '${projectNo}',
+                          scheduleNo : '${schedule.scheduleNo}'
                         }
                       }<c:if test="${!loop.last}">,</c:if>
                     </c:when>
@@ -62,7 +64,9 @@
                         extendedProps: {
                           scheduleType: '${schedule.scheduleType}',
                           holidayTitle: '${schedule.scheduleTitle}',
-                          userNo : '${schedule.userNo}'
+                          userNo : '${schedule.userNo}',
+                          projectNo : '${projectNo}',
+                          scheduleNo : '${schedule.scheduleNo}'
                         }
                       }<c:if test="${!loop.last}">,</c:if>
                     </c:when>
@@ -80,7 +84,9 @@
                           scheduleType: '${schedule.scheduleType}',
                           holidayTitle: '${schedule.scheduleTitle}',
                           userNo : '${schedule.userNo}',
-                          fileList: '${schedule.fileList}'
+                          fileList: '${schedule.fileList}',
+                          projectNo : '${projectNo}',
+                          scheduleNo : '${schedule.scheduleNo}'
                         }
                       }<c:if test="${!loop.last}">,</c:if>
                     </c:when>
@@ -99,10 +105,13 @@
             },
               // eventDrop 핸들러 추가
             eventDrop: function(info) {
-              console.log('Event dropped:', info.event);
-              console.log('New start date:', info.event.start);
-              console.log('New end date:', info.event.end);
-              // 추가적인 데이터 출력 가능
+                if (confirm('일부 일정이 변경되었습니다. 변경하시겠습니까?')) {
+                  // '예'를 선택한 경우, 일정 업데이트 로직 실행
+                  testfun(info.event);
+                } else {
+                  // '아니요'를 선택한 경우, 드래그된 이벤트를 원래 위치로 되돌림
+                  info.revert();
+                }
             },
             plugins: [dayGridPlugin, interactionPlugin],
             headerToolbar: {

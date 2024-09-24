@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -247,5 +249,92 @@ public class NoticeController  {
 
 		return path;
 	}
+	
+	
+	// 공지사항 조회순으로 정렬하기
+	@GetMapping(value = "/arrayRead", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> noticeArrayRead(
+	        @SessionAttribute("loginUser") User loginUser,
+	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+	        @RequestParam(value = "sort", required = false) String sort,
+	        @RequestParam(value = "query", required = false) String query, 
+	        HttpSession session,
+	        @RequestParam Map<String, Object> paramMap) {
+
+	    // 세션에 정렬 상태 저장
+	    if (sort != null) {
+	        session.setAttribute("sortOrder", sort);
+	    }
+
+	    // 세션에서 정렬 상태 가져오기
+	    String currentSortOrder = (String) session.getAttribute("sortOrder");
+
+	    Map<String, Object> map = new HashMap<>();
+
+	    // 검색어가 있는 경우 필터링 처리
+	    if (query != null && !query.isEmpty()) {
+	        paramMap.put("query", query);
+	    }
+
+	    if ("arrayRead".equals(currentSortOrder)) {
+	        // 조회순 정렬 로직
+	        map = service.noticeArrayRead(cp, paramMap);  // 검색어 전달
+	    } else {
+	        // 기본 정렬 로직
+	        map = service.selectNoticeList(paramMap, cp);
+	    }
+
+	    // 상단 고정 공지사항 추가
+	    List<Notice> topNoticeList = service.selectTopNotice();
+	    map.put("topNoticeList", topNoticeList);
+
+	    return map;
+	}
+	
+	// 공지사항 조회순으로 정렬하기
+	@GetMapping(value = "/arrayComment", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> noticeArrayComment(
+	        @SessionAttribute("loginUser") User loginUser,
+	        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+	        @RequestParam(value = "sort", required = false) String sort,
+	        @RequestParam(value = "query", required = false) String query, 
+	        HttpSession session,
+	        @RequestParam Map<String, Object> paramMap) {
+
+	    // 세션에 정렬 상태 저장
+	    if (sort != null) {
+	        session.setAttribute("sortOrder", sort);
+	    }
+
+	    // 세션에서 정렬 상태 가져오기
+	    String currentSortOrder = (String) session.getAttribute("sortOrder");
+
+	    Map<String, Object> map = new HashMap<>();
+
+	    // 검색어가 있는 경우 필터링 처리
+	    if (query != null && !query.isEmpty()) {
+	        paramMap.put("query", query);
+	        System.out.println(query);
+	    }
+
+	    if ("arrayComment".equals(currentSortOrder)) {
+	        // 댓글순 정렬 로직
+	        map = service.noticeArrayComment(cp, paramMap); // 검색어 전달
+	    } else {
+	        // 기본 정렬 로직
+	        map = service.selectNoticeList(paramMap, cp);
+	    }
+	    // 상단 고정 공지사항 추가
+	    List<Notice> topNoticeList = service.selectTopNotice();
+	    map.put("topNoticeList", topNoticeList);
+
+	    return map;
+	}
+
+
+
+	
     
 }

@@ -123,4 +123,16 @@
 		   AND FILE_CODE = 4
 	</delete>
 	
+	
+	<!-- 비동기로 일정 수정하기 -->
+	<insert id="updateEventDrop">
+		UPDATE SCHEDULE SET 
+		    SCHEDULE_TYPE = #{scheduleType}, 
+		    SCHEDULE_TITLE = #{scheduleTitle}, 
+		    START_DATE = TO_DATE(#{startDate}, 'YYYY-MM-DD HH24:MI:SS'),
+		    END_DATE =TO_DATE(#{endDate}, 'YYYY-MM-DD HH24:MI:SS'),
+		    SCHEDULE_CONTENT = #{scheduleContent}
+		WHERE SCHEDULE_NO = #{scheduleNo}
+	</insert>
+	
 </mapper>
