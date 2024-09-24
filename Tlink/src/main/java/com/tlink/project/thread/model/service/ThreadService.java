@@ -22,5 +22,5 @@ public interface ThreadService {
 
 	List<ThreadChat> selectChat(int threadNo);
 	
-	List<String> selectThreadLoppy(String threadNo);
+	List<ThreadChat> selectThreadLoppy(String threadNo);
 }

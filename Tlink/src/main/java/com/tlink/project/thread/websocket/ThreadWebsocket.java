@@ -26,6 +26,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tlink.project.chatting.common.Util;
 import com.tlink.project.thread.model.dto.Loppy;
+import com.tlink.project.thread.model.dto.ThreadChat;
 import com.tlink.project.thread.model.service.ThreadService;
 
 
@@ -74,17 +75,25 @@ public class ThreadWebsocket extends TextWebSocketHandler{
 			
 			String jsonMsg = objectMapper.writeValueAsString(msg);
 			
-			List<String> memberList = service.selectThreadLoppy(loppy.getThreadNo());
+			List<ThreadChat> memberList = service.selectThreadLoppy(loppy.getThreadNo());
 			System.out.println("lulu");
 			
 			for( int i = 0; i < memberList.size(); i++ ) {
+				
+				System.out.println(memberList.get(i).getMemberNo());
+				
 				for( Map.Entry<WebSocketSession, String> entry : sessions.entrySet() ) {
+					
 					System.out.println(memberList.get(i));
-					if( entry.getValue().equals(memberList.get(i)))
+
+					if( entry.getValue().equals(memberList.get(i).getMemberNo()))
+					
 					{
 						entry.getKey().sendMessage(new TextMessage(jsonMsg));
 						break;
 					}
+				
+					
 				}
 			}
 			
