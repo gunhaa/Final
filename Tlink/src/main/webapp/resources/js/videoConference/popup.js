@@ -574,7 +574,7 @@ const sendChat = () => {
         console.log("문자열은 '/'로 시작합니다.");
         let str = chatInput.value.slice(1);
         if (str.startsWith("prompt")) {
-            let prompt$1 = str.slice(6) + "100토큰이내로 알려줘";
+            let prompt$1 = str.slice(6) + "50토큰이내로 알려줘";
             chatInput.value = "";
             fetch("/video/prompt", {
                 method: "POST",
@@ -596,11 +596,11 @@ const sendChat = () => {
             console.log("prompt 실행");
         }
         else if (str.startsWith("?")) {
-            const content = makeChatBlock("bot", "/prompt '질문' : bot에게 질문", "나에게만 보임", "/resources/images/common/user.png");
+            const content = makeChatBlock("bot", "/prompt '질문' : bot에게 질문", "나에게만 보임", "/resources/images/common/robot.png");
             insertChatBlock(content);
         }
         else {
-            const content = makeChatBlock("bot", "올바른 명령어를 입력해주세요.", "나에게만 보임", "/resources/images/common/user.png");
+            const content = makeChatBlock("bot", "올바른 명령어를 입력해주세요.", "나에게만 보임", "/resources/images/common/robot.png");
             insertChatBlock(content);
         }
     }
