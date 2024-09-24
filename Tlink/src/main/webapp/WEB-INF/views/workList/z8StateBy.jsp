@@ -179,6 +179,10 @@
 
     }
 
+    .insert, .deleteWork{
+        cursor: pointer;
+    }
+
 
 </style>
 
@@ -250,7 +254,6 @@
                         <span class="workTitle" contenteditable="true">\${work.workTitle}</span>
                         <span class="material-symbols-outlined deleteWork">close</span>
                     </li>`)
-
 
              }})
             .catch(err => console.log(err))

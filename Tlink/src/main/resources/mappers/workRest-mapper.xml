@@ -221,6 +221,14 @@
 		COMMENT_ST=0
 		WHERE COMMENT_NO=#{commentNo}
 	</update>
+	<update id="commentUpdate">
+		UPDATE WORK_COMMENT SET
+		COMMENT_CON=#{commentCon}
+		WHERE COMMENT_NO=#{commentNo}
+	</update>
+	
+	
+	
 	
 	
 	<select id="commentSelect" resultMap="comment_rm">
@@ -230,6 +238,8 @@
 		FROM WORK_COMMENT W
 		LEFT OUTER JOIN "USER" ON W.USER_NO="USER".USER_NO
 		WHERE WORK_NO=#{workNo}
+		AND COMMENT_ST=1
+		ORDER BY COMMENT_NO
 	</select>
 	
 	
