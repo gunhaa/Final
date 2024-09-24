@@ -25,7 +25,7 @@
     position: absolute;
     background-color: #ffffff;
     width: 500px;
-    height: 500px;
+    height: 550px;
     border: 2px solid black;
     border-radius: 10px;
 }
@@ -187,4 +187,20 @@
 .Btn:hover{
     background-color: white;
     color: #643BAB;
+}
+
+/* 쓰레드 추가 */
+
+#createThread{
+    border-radius: 100%;
+    border: 1px solid grey;
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin: 20px;
+}
+
+#createThread:hover{
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1);
 }

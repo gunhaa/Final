@@ -90,7 +90,7 @@
                         <li><a href="/thread/thread?threadNo=${thread.threadNo}">${thread.threadTitle}</a></li>
                     </c:forEach>
                 </ul>
-                <button id="createThread">++모달++</button>
+                <button id="createThread"><span class="material-symbols-outlined">add</span></button>
             </div>
             <div id="tab3">
                 <ul style="">
