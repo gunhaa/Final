@@ -54,11 +54,13 @@ public class ThreadController  {
 	@GetMapping("/thread")
 	public String selectChat(@RequestParam(value="threadNo") int threadNo,
 							 @SessionAttribute("loginUser") User loginUser,
+							 String projectNo,
 							 Model model) {
 		
 		List<ThreadChat> chatList = service.selectChat(threadNo);
 		
 		model.addAttribute("chatList", chatList);
+		model.addAttribute("projectNo", projectNo);
 				
 		return "thread/thread";
 	}
@@ -79,7 +81,7 @@ public class ThreadController  {
 		
 		threadInfo.setUserList(Arrays.asList(userList));
 		threadInfo.setProjectNo(Integer.parseInt(projectNo));
-				
+
 		int result = service.insertThread(threadInfo);
 
 		if( result > 0 ) {
@@ -89,7 +91,7 @@ public class ThreadController  {
 			session.setAttribute("threadInfo", threadInfos);
 		}
 
-		return "redirect:/thread/thread?threadNo=" + threadInfo.getThreadNo();
+		return "redirect:/thread/thread?threadNo=" + threadInfo.getThreadNo()+"&projectNo="+ threadInfo.getProjectNo() ;
 	}
 
 	@PostMapping("/insert")

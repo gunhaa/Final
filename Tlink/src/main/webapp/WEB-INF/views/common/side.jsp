@@ -85,10 +85,10 @@
             <div id="tab2">
                 <ul style="">
                     <c:forEach var="thread" items="${threadInfo}">
-                        <li><a href="/thread/thread?threadNo=${thread.threadNo}">${thread.threadTitle}</a></li>
+                        <li><a href="/thread/thread?threadNo=${thread.threadNo}&projectNo=${projectNo}">${thread.threadTitle}</a></li>
                     </c:forEach>
                 </ul>
-                <button id="createThread"><span class="material-symbols-outlined">add</span></button>
+                <button id="createThread">asd</button>
             </div>
             <div id="tab3">
                 <ul style="">
@@ -303,10 +303,10 @@
 
 <script>
 const btn = document.querySelector("#btn_videoConference");
-const profileImg = "${loginUser.profileImg}";
-const memberNo = "${loginUser.userNo}";
-const memberName = "${loginUser.userName}"
-let projectNo = new URLSearchParams(location.search).get("projectNo");
+const profileImg_1 = "${loginUser.profileImg}";
+const memberNo_1 = "${loginUser.userNo}";
+const memberName_1 = "${loginUser.userName}"
+let projectNo_1 = new URLSearchParams(location.search).get("projectNo");
 let popup;
 if (btn) {
 
@@ -319,15 +319,15 @@ if (btn) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                "projectNo": projectNo
+                "projectNo": projectNo_1
             })
         })
             .then((resp) => resp.text())
             .then(data => {
 
-                popup = window.open(`/resources/popup/popup.jsp?memberNo=\${memberNo}&projectNo=\${projectNo}&memberName=\${memberName}`, "VideoConference", "width=920,height=830")
+                popup = window.open(`/resources/popup/popup.jsp?memberNo=\${memberNo_1}&projectNo=\${projectNo_1}&memberName=\${memberName_1}`, "VideoConference", "width=920,height=830")
                 popup.onload = () => {
-                    console.log(data);
+                    // console.log(data);
                     console.log(popup.document.querySelector("#title-container"));
                     popup.document.querySelector("#title-container").innerHTML = `<b>\${data}</b>`;
 
@@ -337,7 +337,7 @@ if (btn) {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            "projectNo": projectNo
+                            "projectNo": projectNo_1
                         })
                     })
                         .then(resp => resp.json())
@@ -345,11 +345,11 @@ if (btn) {
 
                             
                             data.forEach((item) => {
-                                console.log("each 실행중 : ", item);
+                                // console.log("each 실행중 : ", item);
 
                                 const content = makeChatBlock(item.chatUserName, item.chatContent, item.chatTimestamp , item.chatProfileImg);
-                                console.log(content);
-                                popup.postMessage({"type" : "popup", "profileImg" : profileImg}, "*");
+                                // console.log(content);
+                                popup.postMessage({"type" : "popup", "profileImg" : profileImg_1}, "*");
 
                                 popup.document.querySelector(".chat-itembox").insertAdjacentHTML("beforeend", content);
                             });
