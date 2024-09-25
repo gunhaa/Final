@@ -257,6 +257,7 @@
 .comment-area{
     width: 100%;
     min-height: 100px;
+    margin-top: 30px;
 }
 
 .comment-write-area {
@@ -290,6 +291,7 @@
 .comment-writer {
 	display: flex;
 	align-items: center;
+    position: relative;
 }
 
 .comment-writer > img{
@@ -374,4 +376,28 @@
 /* 댓글 내용 */
 .comment-content{
 	white-space:pre-wrap; /* 작성된 문자열 모양 그대로(공백 유지)*/
+}
+
+.likeArea{
+    position: absolute;
+    right: 30px;
+    top: 5px;
+}
+
+#commentPix{
+    cursor: pointer;
+}
+
+.topComment{
+    background-color: #dcd1f0;
+}
+
+.fixBtn{
+    border: 0;
+    background-color: transparent;
+}
+
+.fixText{
+    color: gray;
+    font-size: 14px;
 }

@@ -120,11 +120,22 @@ public class WorkRestServiceImpl implements WorkRestService{
 	public int commentDelete(Map<String, Object> data) {
 		return dao.commentDelete(data);
 	}
-
+	@Override
+	public int commentUpdate(Map<String, Object> data) {
+		return dao.commentUpdate(data);
+	}
+	
 	@Override
 	public List<CommentWork> commentSelect(Map<String, Object> data) {
 		return dao.commentSelect(data);
 	}
+
+	@Override
+	public List<Work> selectList(Map<String, Object> data) {
+		return dao.selectList(data);
+	}
+
+
 
 
 	

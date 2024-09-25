@@ -1,130 +1,159 @@
 // 댓글 목록 조회
 // 댓글 수정 / 삭제 / 등록 시 해당 함수를 호출해 비동기식으로 목록 조회하기 위해 함수 생성
-function selectCommentList(){
-    
-    // REST(REpresentational State Transfer) API
-    // - 자원을 이름으호 구분(REpresentational)하여
-    //   자원의 상태(State)를 주고 받는 것(Transfer)
-
-    // -> 주소를 명시하고
-    // Http Method(GET, POST, PUT, DELETE)를 이용해
-    // 지정된 자원에 대한 CRUD 진행
-
-    // Create : 생성, 삽입 (POST)
-    // Read   : 조회 (GET)
-    // Update : 수정 (PUT, PATCH)
-    // Delete : 삭제 (DELETE)
-
-    // 기본적으로 form 태그는 GET/POST만 지원
-
-    fetch("/comment?noticeNo=" + noticeNo) // GET 방식은 주소에 파라미터를 담아서 전달
-    .then(response => response.json()) // 응답 객체 -> 파싱
+function selectCommentList() {
+    fetch("/comment?noticeNo=" + noticeNo)
+    .then(response => response.json())
     .then(cList => {
         console.log(cList);
 
-        // 화면에 출력되어 있는 댓글 목록 삭제
-        const commentList = document.getElementById("commentList"); // ul태그
+        const commentList = document.getElementById("commentList");
         commentList.innerHTML = "";
 
-        // cList에 저장된 요소를 하나씩 접근
+        // 고정된 댓글과 일반 댓글을 분리
+        const fixedComments = cList.filter(comment => comment.commentDeleteFlag == 3);
+        const regularComments = cList.filter(comment => comment.commentDeleteFlag == 1 || comment.commentDeleteFlag == 3); // 고정된 댓글 포함
 
-        for(let comment of cList){
-            if(comment.commentDeleteFlag == 1){
-                // 행
-                const commentRow = document.createElement("li");
-                commentRow.classList.add("comment-row");
-    
-                // 답글일 경우 child-comment 클래스 추가
-                if(comment.parentNo != 0)  commentRow.classList.add("child-comment");
-    
-                // 작성자
-                const commentWriter = document.createElement("p");
-                commentWriter.classList.add("comment-writer");
-    
-                // 프로필 이미지
-                const profileImage = document.createElement("img");
-                console.log(comment.profileImage)
-                if( comment.profileImage != null ){ // 프로필 이미지가 있을 경우
-                    profileImage.setAttribute("src", comment.profileImage);
-                }else{ // 없을 경우 == 기본이미지
-                    profileImage.setAttribute("src", "/resources/images/common/user.png");
-                }
-    
-                // 작성자 닉네임
-                const userName = document.createElement("span");
-                userName.innerText = comment.userName;
-                
-                // 작성일
-                const commentDate = document.createElement("span");
-                commentDate.classList.add("comment-date");
-                commentDate.innerText =  "(" + comment.commentCreateDate + ")";
-    
-                // 작성자 영역(p)에 프로필,닉네임,작성일 마지막 자식으로(append) 추가
-                commentWriter.append(profileImage , userName , commentDate);
-    
-                // 댓글 내용
-                const commentContent = document.createElement("p");
-                commentContent.classList.add("comment-content");
-                commentContent.innerHTML = comment.commentContent;
-    
-                // 행에 작성자, 내용 추가
-                commentRow.append(commentWriter, commentContent);
-                
-                // 로그인이 되어있는 경우 답글 버튼 추가
-                if(loginUserNo != ""){
-                    // 버튼 영역
-                    const commentBtnArea = document.createElement("div");
-                    commentBtnArea.classList.add("comment-btn-area");
-    
-                    // 답글 버튼
-                    const childCommentBtn = document.createElement("button");
-                    childCommentBtn.setAttribute("onclick", "showInsertComment("+comment.commentNo+", this)");
-                    childCommentBtn.innerText = "답글";
-    
-                    // 버튼 영역에 답글 버튼 추가
-                    commentBtnArea.append(childCommentBtn);
-    
-                    // 로그인한 회원번호와 댓글 작성자의 회원번호가 같을 때만 버튼 추가
-                    if( loginUserNo == comment.userNo   ){
-    
-                        // 수정 버튼
-                        const updateBtn = document.createElement("button");
-                        updateBtn.innerText = "수정";
-    
-                        // 수정 버튼에 onclick 이벤트 속성 추가
-                        updateBtn.setAttribute("onclick", "showUpdateComment("+comment.commentNo+", this)");                        
-    
-                        // 삭제 버튼
-                        const deleteBtn = document.createElement("button");
-                        deleteBtn.innerText = "삭제";
-                        // 삭제 버튼에 onclick 이벤트 속성 추가
-                        deleteBtn.setAttribute("onclick", "deleteComment("+comment.commentNo+")");                       
-    
-                        // 버튼 영역 마지막 자식으로 수정/삭제 버튼 추가
-                        commentBtnArea.append(updateBtn, deleteBtn);
-    
-                    } // if 끝
-    
-                    // 행에 버튼영역 추가
-                    commentRow.append(commentBtnArea); 
-                }
-    
-                // 댓글 목록(ul)에 행(li)추가
-                commentList.append(commentRow);
-            }
-            
-            if(comment.commentDeleteFlag == 2){
-                const commentRow = document.createElement("li");
-                commentRow.classList.add("comment-row");
-                commentRow.classList.add('addcolor')
-                commentRow.innerHTML= '삭제된 댓글입니다.'
+        // 고정된 댓글이 있는지 여부 확인
+        const hasFixedComment = fixedComments.length > 0;
+
+        // 고정된 댓글 렌더링 (상단에 위치)
+        for (let comment of fixedComments) {
+            const commentRow = createCommentRow(comment, true, hasFixedComment); // 고정 댓글
+            commentRow.classList.remove("child-comment");
+            commentList.append(commentRow);  // 고정 댓글은 상단 고정 영역에 출력
+        }
+
+        // 댓글 렌더링
+        for (let comment of cList) {
+            // 삭제된 댓글 처리
+            if (comment.commentDeleteFlag == 2) {
+                const deletedCommentRow = document.createElement("li");
+                deletedCommentRow.classList.add("comment-row", "addcolor");
+                deletedCommentRow.innerText = "삭제된 댓글입니다.";
+                commentList.append(deletedCommentRow);
+            } 
+            // 고정된 댓글 및 일반 댓글 처리
+            else {
+                const isFixed = comment.commentDeleteFlag == 3;
+                const commentRow = createCommentRow(comment, isFixed, hasFixedComment);
                 commentList.append(commentRow);
             }
         }
-
     })
     .catch(err => console.log(err));
 }
+
+
+
+function createCommentRow(comment, isFixed, hasFixedComment) {
+    const commentRow = document.createElement("li");
+    commentRow.classList.add("comment-row");
+
+    if (isFixed) {
+        commentRow.classList.add("topComment"); // 고정된 댓글에 추가 스타일 적용
+    }
+
+    if (comment.parentNo != 0) commentRow.classList.add("child-comment");
+    
+    const commentWriter = document.createElement("div");
+    commentWriter.classList.add("comment-writer");
+    const profileImage = document.createElement("img");
+    if (comment.role == 'U') {
+        profileImage.setAttribute("src", comment.profileImage ? comment.profileImage : "/resources/images/common/user.png");
+    }
+
+    if (comment.role != 'U') {
+        profileImage.setAttribute("src", "/resources/images/common/admin_profile.png");
+    }
+
+    const userName = document.createElement("span");
+    userName.innerText = comment.userName;
+
+    const commentDate = document.createElement("span");
+    commentDate.classList.add("comment-date");
+    commentDate.innerText = "(" + comment.commentCreateDate + ")";
+
+    const buttonArea = document.createElement("div");
+    if (loginUserRole != 'U') {
+        // 고정된 댓글인 경우 해제 버튼만 표시
+        if (isFixed) {
+            const fixDisableBtn = document.createElement("button");
+            fixDisableBtn.classList.add("fixBtn");
+            fixDisableBtn.innerHTML = '<i class="fa-solid fa-thumbtack-slash"></i>';
+            fixDisableBtn.setAttribute("onclick", `commentFixDisabled(${comment.commentNo}, this)`);
+            buttonArea.append(fixDisableBtn);
+        }
+        // 고정된 댓글이 없을 경우에만 고정 버튼 출력
+        else if (!hasFixedComment) {  
+            const fixBtn = document.createElement("button");
+            fixBtn.classList.add("fixBtn");
+            fixBtn.innerHTML = '<i class="fa-solid fa-thumbtack"></i>';
+            fixBtn.setAttribute("onclick", `commentFixd(${comment.commentNo}, this)`);
+            buttonArea.append(fixBtn);
+        }
+    }
+
+    commentWriter.append(profileImage, userName, commentDate, buttonArea);
+    
+    if (isFixed) {
+        const fixText = document.createElement("span");
+        fixText.classList.add("fixText");
+        fixText.innerText = '관리자가 고정한 댓글입니다.';
+        commentWriter.append(fixText); // 댓글 행에 고정된 텍스트 추가
+    }
+
+    const commentContent = document.createElement("p");
+    commentContent.classList.add("comment-content");
+    commentContent.innerHTML = comment.commentContent;
+
+    commentRow.append(commentWriter, commentContent);
+    
+    const commentBtnArea = document.createElement("div");
+    commentBtnArea.classList.add("comment-btn-area");
+    // 현재 로그인한 유저가 있는 경우 버튼 추가
+    if (loginUserNo == comment.userNo) {
+        const childCommentBtn = document.createElement("button");
+        childCommentBtn.setAttribute("onclick", `showInsertComment(${comment.commentNo}, this)`);
+        childCommentBtn.innerText = "답글";
+
+        const updateBtn = document.createElement("button");
+        updateBtn.innerText = "수정";
+        updateBtn.setAttribute("onclick", `showUpdateComment(${comment.commentNo}, this)`);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "삭제";
+        deleteBtn.setAttribute("onclick", `deleteComment(${comment.commentNo})`);
+
+        commentBtnArea.append(childCommentBtn, updateBtn, deleteBtn);
+    }
+    // 댓글 작성자와 로그인한 유저가 동일하지 않은 경우
+    else {
+        if (loginUserRole != 'U') {
+            const childCommentBtn = document.createElement("button");
+            childCommentBtn.setAttribute("onclick", `showInsertComment(${comment.commentNo}, this)`);
+            childCommentBtn.innerText = "답글";
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.innerText = "삭제";
+            deleteBtn.setAttribute("onclick", `deleteComment(${comment.commentNo})`);
+
+            commentBtnArea.append(childCommentBtn, deleteBtn);
+        }
+    }
+
+    commentRow.append(commentBtnArea);
+
+    return commentRow;
+}
+
+
+
+
+
+
+
+
+
 
 
 //-------------------------------------------------------------------------------------------------
@@ -449,4 +478,56 @@ function insertChildComment(parentNo, btn){
 
 }
 
+const commentFix = document.getElementById('commentFix')
 
+function commentFixd(commentNo){
+    const data = {
+        "commentNo" : commentNo,
+    }
+
+    if(confirm('해당 댓글을 고정하시겠습니까?')){
+        fetch("/comment/fix", {
+            method : "PUT",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify(data)
+        })
+        .then(resp => resp.text())
+        .then(result=>{
+            if(result > 0){ // 등록 성공
+                alert("댓글이 고정되었습니다.");
+                selectCommentList(); // 비동기 댓글 목록 조회 함수 호출
+    
+            } else { // 실패
+                alert("댓글 고정에 실패했습니다.");
+            }
+        })
+        .catch(err => console.log(err));
+    }
+}
+
+const commentFixDisable = document.getElementById('commentFixDisable')
+
+function commentFixDisabled(commentNo){
+    const data = {
+        "commentNo" : commentNo,
+    }
+
+    if(confirm('해당 댓글의 고정을 해제하시겠습니까?')){
+        fetch("/comment/disableFix", {
+            method : "PUT",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify(data)
+        })
+        .then(resp => resp.text())
+        .then(result=>{
+            if(result > 0){ // 등록 성공
+                alert("댓글 고정이 해제되었습니다.");
+                selectCommentList(); // 비동기 댓글 목록 조회 함수 호출
+    
+            } else { // 실패
+                alert("댓글 고정 해제에 실패했습니다.");
+            }
+        })
+        .catch(err => console.log(err));
+    }
+}

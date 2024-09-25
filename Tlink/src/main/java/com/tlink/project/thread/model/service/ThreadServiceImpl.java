@@ -127,7 +127,11 @@ public class ThreadServiceImpl implements ThreadService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public List<Crong> selectThreadLoppy(String threadNo) {
+=======
+	public List<ThreadChat> selectThreadLoppy(String threadNo) {
+>>>>>>> 26376e1d9b8e0cd6ac07fa698137f2ccc92986e5
 		return dao.selectThreadLoppy(threadNo);
 	}
 

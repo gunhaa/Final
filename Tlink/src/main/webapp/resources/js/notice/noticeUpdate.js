@@ -1,5 +1,3 @@
-console.log(fileList)
-console.log(notice)
  
 const noticeUpdateFile = document.getElementById('noticeUpdateFile');
 const noticeCancelFile = document.getElementById('noticeCancelFile');

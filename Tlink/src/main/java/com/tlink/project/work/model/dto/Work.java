@@ -24,5 +24,5 @@ public class Work {
     	private String parentName      ;
     private int projectNo     ;
     	private String projectName     ;
- 
+	private int level     ;
 }

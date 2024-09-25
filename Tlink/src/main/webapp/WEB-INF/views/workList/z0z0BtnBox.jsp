@@ -36,31 +36,18 @@
     function fold(ele){ $(ele).parents("details").removeAttr("open"); }
 
 
-    function rightPopup(ele){ 
-        let top=$(ele).offset().top; 
-        let left=$(ele).offset().left; 
-
-        console.log(top);
-        console.log(left);
-
-        const width=ele.offsetWidth; 
-        const height=ele.offsetHeight; 
-        left+=width; 
-        $(`.dataBox`).show("100").offset({ top: top, left: left  }); 
-
-    }
 
 
-    $(document).on("mouseover", `.title`, function(e){ 
+
+    $(document).on("mouseover", `.workTitle`, function(e){ 
             spread(this); 
-            rightPopup(this);
     });
 
     $('.removeEffect').on("click", function(){ 
         $(document).off("mouseover",`.title`); 
 
     })
-    $('.spreadEffect').on("click", function(){ $(`.title`).on("mouseover", function(){ spread(this); rightPopup(this);  } ); })
+    $('.spreadEffect').on("click", function(){ $(`.title`).on("mouseover", function(){ spread(this);   } ); })
     $(`.allFold`)     .on("click", function(){ $(`details`).removeAttr("open"); $(`.dataBox`).css("display", "none"); })
     $(`.allSpread`)   .on("click", function(){ $(`details`).attr("open","open") })
     $(`.draagable`)   .on("click", function(){ $('.btnBox').draggable(); })

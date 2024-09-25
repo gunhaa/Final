@@ -30,4 +30,16 @@ public interface CommentService {
 	 */
 	int delete(int commentNo);
 
+	/**댓글 고정
+	 * @param noticeComment
+	 * @return
+	 */
+	int updateFix(NoticeComment noticeComment);
+
+	/**댓글 고정 해제
+	 * @param noticeComment
+	 * @return
+	 */
+	int updateDisableFix(NoticeComment noticeComment);
+
 }

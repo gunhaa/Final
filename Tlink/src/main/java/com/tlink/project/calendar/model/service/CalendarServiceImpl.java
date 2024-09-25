@@ -156,6 +156,21 @@ public class CalendarServiceImpl implements CalendarService {
 		
 		return result;
 	}
+	
+	// 비동기로 일정 수정하기
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateEventDrop(CalendarData calendar) {
+		
+		
+		calendar.setScheduleTitle(Util.XSShandling(calendar.getScheduleTitle() ));
+		
+		calendar.setScheduleContent(Util.XSShandling(calendar.getScheduleContent() ));
+		calendar.setScheduleContent(Util.newLineHandling(calendar.getScheduleContent() ));
+		
+		return dao.updateEventDrop(calendar);
+		
+	}
 
 	
 	

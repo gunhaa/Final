@@ -108,7 +108,7 @@
                                                 <label for="img${file.fileOrder}">
                                                     <img class="preview" src="${file.filePath}${file.fileReName}">
                                                 </label>
-                                                <input type="file" name="images" class="inputImage" id="img${file.fileOrder}" accept="image/*">
+                                                <input type="file" name="images" class="inputImage" id="img${file.fileOrder}" accept="image/*,application/zip">
                                                 <span class="delete-image">&times;</span>
                                                 <input type="hidden" class="fileOrder" value="${file.fileOrder}">
                                             </div>
@@ -120,7 +120,7 @@
                                 </c:choose>
                             </c:forEach>
                         </div>
-                        <button type="button" id="addImageButton">게시글 사진 추가하기</button>
+                        <button type="button" id="addImageButton"><i class="fa-solid fa-file-circle-plus"></i></button>
                         <!-- 기존 이미지가 있다가 삭제된 이미지의 순서를 기록 -->
                         <input type="hidden" name="deleteList" value="">
 
@@ -177,8 +177,6 @@
         // 게시글 번호 변수로 선언
         const noticeNo = "${notice.noticeNo}";
 
-        const fileList = "${notice.fileList}";
-        const notice = "${notice}";
 
 
         // 로그인한 회원 번호 변수로 선언

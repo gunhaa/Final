@@ -44,6 +44,13 @@ public class WorkRest {
 	
 	
 	
+	//작업차트
+	@PostMapping(value=("/work/select"))
+	public List<Work> selectWork(@RequestBody Map<String, Object> data) {
+		int projectNo=(Integer)data.get("projectNo");
+		return workService.table(projectNo);
+	}
+	
 	
 	
 
@@ -108,6 +115,14 @@ public class WorkRest {
 	public int insertMywork(@RequestBody Map<String, Object> data) {
 		return service.insertMywork(data);
 	}
+	
+	
+	//리스트
+	@PostMapping(value=("/workList/list"))
+	public List<Work> selectList(@RequestBody Map<String, Object> data) {
+		return service.selectList(data);
+	}
+	
 	
 	
 	

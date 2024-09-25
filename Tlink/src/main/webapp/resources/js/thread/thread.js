@@ -6,51 +6,7 @@ let threadNo = new URLSearchParams(location.search).get("threadNo");
 
 let socket;
    	
-   socket = new SockJS("/ThreadWebsocket");
-
-
-    socket.onopen = function() {
-        socket.send(JSON.stringify({type: "bbororo", "memberNo":memberNo_1, "threadNo" : threadNo}));
-    };
-
-    socket.onmessage = function(event){
-        console.log("loppy");
-
-        const data = JSON.parse(event.data);
-
-        if(data.profile=="" || data.profile==null){
-            data.profile = "/resources/images/common/user.png";
-        }
-
-        const now = new Date();
-
-        const year = now.getFullYear();
-        const month = (now.getMonth() + 1).toString().padStart(2, '0');
-        const day = now.getDate().toString().padStart(2, '0');
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        
-        const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}`;
-
-        document.querySelector("#chatBox").insertAdjacentHTML("beforeend", 
-                                `<li class="chatNormal">
-                                    <div class="profile">
-                                        <img src="${data.profile}">
-                                    </div>
-                                    <div>
-                                        <div class="infoLine">
-                                            <span>${data.nickname}</span>
-                                            <span class="createDate">${formattedTime}</span>
-                                        </div>
-                                        <div>${data.message}</div>
-                                    </div>
-                                </li>`);
-    };
-
-    socket.onclose = function() {
-        console.log('SockJS connection closed');
-    };
-
+socket = new SockJS("/ThreadWebsocket");
 
 let formData = new FormData();
 let fileNames = new Array();
@@ -162,3 +118,43 @@ sendBtn.addEventListener("click", ()=>{
     });
 })
 
+socket.onopen = function() {
+    socket.send(JSON.stringify({type: "bbororo", "memberNo":memberNo_1, "threadNo" : threadNo}));
+};
+
+socket.onmessage = function(event){
+
+    const data = JSON.parse(event.data);
+
+    if(data.profile=="" || data.profile==null){
+        data.profile = "/resources/images/common/user.png";
+    }
+
+    const now = new Date();
+
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    
+    const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+    document.querySelector("#chatBox").insertAdjacentHTML("beforeend", 
+                            `<li class="chatNormal">
+                                <div class="profile">
+                                    <img src="${data.profile}">
+                                </div>
+                                <div>
+                                    <div class="infoLine">
+                                        <span>${data.nickname}</span>
+                                        <span class="createDate">${formattedTime}</span>
+                                    </div>
+                                    <div>${data.message}</div>
+                                </div>
+                            </li>`);
+};
+
+socket.onclose = function() {
+    console.log('SockJS connection closed');
+};

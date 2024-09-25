@@ -179,7 +179,23 @@ public class WorkRestDAO {
 		return sqlSession.update("workRestMapper.commentDelete", data);
 	}
 	public List<CommentWork> commentSelect(Map<String, Object> data) {
+		
+		List<CommentWork> a= sqlSession.selectList("workRestMapper.commentSelect", data);
 		return sqlSession.selectList("workRestMapper.commentSelect", data);
+	}
+
+
+
+
+	public int commentUpdate(Map<String, Object> data) {
+		return sqlSession.update("workRestMapper.commentUpdate", data);
+	}
+
+
+
+
+	public List<Work> selectList(Map<String, Object> data) {
+		return sqlSession.selectList("workRestMapper.selectList", data);
 	}
 
 

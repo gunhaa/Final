@@ -17,6 +17,8 @@ public class NoticeComment {
     private String commentDeleteFlag;
     private int parentNo;
     private String userName;
+    private String role;
     private String profileImage;
+    
 
 }

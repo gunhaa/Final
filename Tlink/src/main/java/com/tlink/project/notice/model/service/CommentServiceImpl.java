@@ -42,5 +42,17 @@ public class CommentServiceImpl implements CommentService {
 		return dao.delete(commentNo);
 	}
 	
+	// 댓글 고정하기
+	@Override
+	public int updateFix(NoticeComment noticeComment) {
+		return dao.updateFix(noticeComment);
+	}
+
+	// 댓글 고정 해제하기
+	@Override
+	public int updateDisableFix(NoticeComment noticeComment) {
+		return dao.updateDisableFix(noticeComment);
+	}
+	
 	
 }

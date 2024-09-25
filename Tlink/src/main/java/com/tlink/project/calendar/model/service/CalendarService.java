@@ -64,6 +64,12 @@ public interface CalendarService {
 	 */
 	int deleteHoliday(int scheduleNo, int userNo);
 
+	/**비동기로 일정 수정하기
+	 * @param calendar
+	 * @return
+	 */
+	int updateEventDrop(CalendarData calendar);
+
 
 
 
