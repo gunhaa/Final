@@ -84,10 +84,10 @@ public class WorkRestDAO {
 	public Map<Integer, Object> managerByMList(Map<String, Object> data) {
 		List<Integer> intList = new ArrayList<>();
 		intList=sqlSession.selectList("workRestMapper.selectManager", data);
-		
 		Map<Integer, Object> map=new HashMap<>();
 		for(int managerNo : intList){
-			List<Work> wList=sqlSession.selectList("workRestMapper.selectManagerByWork", managerNo);
+			data.put("managerNo", managerNo);
+			List<Work> wList=sqlSession.selectList("workRestMapper.selectManagerByWork", data);
 			map.put(managerNo, wList);
 		}
 		
