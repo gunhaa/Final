@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 let memberNo = new URLSearchParams(location.search).get("memberNo");
 let projectNo = new URLSearchParams(location.search).get("projectNo");
-let memberName = new URLSearchParams(location.search).get("memberName");
+let memberName = decodeURI(new URLSearchParams(location.search).get("memberName"));
 let main = document.querySelector("main");
 let myStream = new MediaStream();
 let camera = true;
@@ -118,7 +118,7 @@ const inputBookedModal = (title, placeHolder) => {
                     <div id="content-box-item1">${title}</div>
                     <input id="content-box-item2" placeholder="${placeHolder}"></input>
                     <input id="content-box-item2" type="datetime-local" class="datetime"></input>
-                    <button id="content-box-item3" class="btn">확인</button>
+                    <button id="content-box-item3" class="btn">예약</button>
                     <button id="content-box-item4" class="btn">취소</button>
                  </div>
             </div>
