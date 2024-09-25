@@ -25,4 +25,5 @@ public interface ThreadService {
 	
 	List<Crong> selectThreadLoppy(String threadNo);
 
+	ThreadInfo selectThreadInfo(int threadNo);
 }

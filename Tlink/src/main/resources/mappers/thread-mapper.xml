@@ -107,4 +107,8 @@
 	<select id="selectThreadLoppy" resultMap="crong_rm">
 		SELECT USER_NO FROM THREAD_MEMBER WHERE THREAD_NO=#{threadNo}
 	</select>
+	
+	<select id="selectThreadInfo" resultMap="threadInfo_rm">
+		SELECT THREAD_NO, THREAD_TITLE FROM THREAD WHERE THREAD_NO = #{threadNo}
+	</select>
 </mapper>

@@ -57,10 +57,12 @@ public class ThreadController  {
 							 String projectNo,
 							 Model model) {
 		
+		ThreadInfo threadInfo = service.selectThreadInfo(threadNo);
 		List<ThreadChat> chatList = service.selectChat(threadNo);
-		
+
 		model.addAttribute("chatList", chatList);
 		model.addAttribute("projectNo", projectNo);
+		model.addAttribute("threadTitle", threadInfo.getThreadTitle());
 				
 		return "thread/thread";
 	}
@@ -86,7 +88,6 @@ public class ThreadController  {
 
 		if( result > 0 ) {
 			List<ThreadInfo> threadInfos = service.selectThread(Integer.parseInt(projectNo), loginUser.getUserNo());
-			System.out.println(threadInfos);
 			
 			session.setAttribute("threadInfo", threadInfos);
 		}
