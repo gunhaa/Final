@@ -59,4 +59,8 @@ public class ThreadDAO {
 	public List<Crong> selectThreadLoppy(String threadNo) {
 		return sqlSession.selectList("threadMapper.selectThreadLoppy", threadNo);
 	}
+
+	public ThreadInfo selectThreadInfo(int threadNo) {
+		return sqlSession.selectOne("threadMapper.selectThreadInfo", threadNo);
+	}
 }
