@@ -44,12 +44,13 @@ public class ThreadServiceImpl implements ThreadService {
                  file.setFilePath(filePath);
                  file.setFileOriginName(files.get(i).getOriginalFilename());
                  file.setFileRename(Util.fileRename(files.get(i).getOriginalFilename()));
+                 file.setFileOrder(i);
                  file.setFileCode(2);
                  file.setTargetNumber(chatNo);
                  
-                 uploadList.add(file);
+                 uploadList.add(file);                 
               }
-              
+                            
               if( !uploadList.isEmpty() ) {
                  int result = dao.insertChatFile(uploadList);
                  

@@ -28,7 +28,7 @@ public class ThreadDAO {
 		return result;
 	}
 
-	public int insertChatFile(List<ThreadFile> uploadList) {
+	public int insertChatFile(List<ThreadFile> uploadList) {		
 		return sqlSession.insert("threadMapper.insertChatFile", uploadList);
 	}
 
