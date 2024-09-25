@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Todo</title>
 
 
     <link rel="stylesheet" href="/resources/css/work/common.css">
@@ -137,19 +137,23 @@
             const arr=res;
 
             for(let todo of arr){
-                console.log(todo);
-            
-                $(`.table section`).eq(0).append(
-                    `<details>
-                        <summary>
-                            <span class="todoNo" hidden   >\${todo.todoNo}</span>
-                            <span class="todoTitle"           >\${todo.todoTitle}</span>
-                            <span class="todoState" hidden>\${todo.todoState}</span>
-                            <span class="material-symbols-outlined deleteTodo">event_busy</span>
-                        </summary>
-                        <span class="content">\${todo.todoContent}</span> 
-                    </details>`
-                );
+                console.log(todo.todoState);
+                for(let i=0; i<3 ; i++){
+                    if(todo.todoState==i){
+                        $(`.table section`).eq(i).append(
+                            `<details>
+                                <summary>
+                                    <span class="todoNo" hidden   >\${todo.todoNo}</span>
+                                    <span class="todoTitle"           >\${todo.todoTitle}</span>
+                                    <span class="todoState" hidden>\${todo.todoState}</span>
+                                    <span class="material-symbols-outlined deleteTodo">event_busy</span>
+                                </summary>
+                                <span class="content">\${todo.todoContent}</span> 
+                            </details>`
+                        );
+                    }
+                }
+
 
 
             }

@@ -58,8 +58,8 @@ function chart2(){
         var options = {
           series: seriesData,
           chart: {
-          width: 400,
-          height: 400,
+          width: 600,
+          height: 300,
           type: 'pie',
         },
         labels: labelsData,
@@ -67,8 +67,8 @@ function chart2(){
           breakpoint: 480,
           options: {
             chart: {
-              width: 400,
-              height: 400,
+              width: 600,
+              height: 300,
             },
             legend: {
               position: 'bottom'
@@ -110,8 +110,8 @@ function chart3(){
       var options = {
         series: seriesData,
         chart: {
-        width: 400,
-        height: 400,
+        width: 600,
+        height: 600,
         type: 'radialBar',
       },
       plotOptions: {
@@ -136,7 +136,7 @@ function chart3(){
           barLabels: {
             enabled: true,
             useSeriesColors: true,
-            offsetX: -8,
+            offsetX: 0,
             fontSize: '16px',
             formatter: function(seriesName, opts) {
               return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex]
@@ -189,8 +189,8 @@ function chart4(){
       var options = {
         series: seriesData,
         chart: {
-        width: 200,
-        height: 200,
+        width: 300,
+        height: 300,
         type: 'radialBar',
         toolbar: {
           show: true
@@ -302,8 +302,8 @@ function chart4_1(){
       var options = {
         series: seriesData,
         chart: {
-        width: 200,
-        height: 200,
+        width: 300,
+        height: 300,
         type: 'radialBar',
         toolbar: {
           show: true
@@ -380,7 +380,7 @@ function chart4_1(){
       labels: ['Undone(%)'],
       };
 
-      var chart = new ApexCharts(document.querySelector("#chart4"), options);
+      var chart = new ApexCharts(document.querySelector("#chart4-1"), options);
       chart.render();
 
 
@@ -420,7 +420,7 @@ function chart5(){
       },
       chart: {
         width: 600,
-        height: 400,
+        height: 600,
         type: 'treemap'
       },
       title: {
@@ -493,7 +493,7 @@ function chart6(){
       }],
         chart: {
         width: 600,
-        height: 400,
+        height: 600,
         type: 'radar',
       },
       dataLabels: {
