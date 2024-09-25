@@ -79,6 +79,19 @@ INSERT INTO "USER" VALUES(
     DEFAULT                                 -- 탈퇴 여부 (USER_DEL_FL)
 );
 
+INSERT INTO "USER" VALUES(
+    SEQ_USER_NO.NEXTVAL,                  -- 사용자 번호 (USER_NO)
+    'user05@kh.or.kr',              -- 이메일 (USER_EMAIL)
+    '$2a$10$eeylz0XV81KRZBA.UN09Hu52FXyehKvb.z1COFF7Yi1eRmK7feSzq',                      -- 비밀번호 (USER_PW) pass01
+    '유저오',                         -- 이름 (USER_NAME)
+    '01012345678',                      -- 전화번호 (USER_PHONE)
+    '1234^^^테헤란로12^^^101동 201호',-- 주소 (USER_ADDR)
+    NULL,  -- 프로필 이미지 (PROFILE_IMG)
+    SYSDATE,                            -- 가입일 (ENROLL_DATE)
+    DEFAULT,                                -- 역할 (ROLE)
+    DEFAULT                                 -- 탈퇴 여부 (USER_DEL_FL)
+);
+
 -- 프로젝트 삽입1
 INSERT INTO "PROJECT" VALUES(
     SEQ_PROJECT_NO.NEXTVAL,
