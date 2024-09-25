@@ -198,7 +198,7 @@
     width: 40px;
     height: 40px;
     cursor: pointer;
-    margin: 20px;
+    margin-left: 20px;
 }
 
 #createThread:hover{
