@@ -47,7 +47,7 @@
                     </div>
                 </li>
                 <li>
-					${projectTitle}
+					<p style="font-size:24px; font-weight:400; margin-left:15px;">${projectTitle}</p>
                 </li>
             </ul>
         </div>
@@ -76,10 +76,10 @@
             </div>
             <div id="tab1">
                 <ul>
-                    <li><a href="/workList/gantChart?projectNo=${projectNo}">워크스페이스</a></li>
-                    <li><a href="/todoList?projectNo=${projectNo}">해야할 일</a></li>
-                    <li><a href="/calendar?projectNo=${projectNo}">캘린더</a></li>
-                    <li><span id="btn_videoConference" style="color:white; cursor:pointer; font-size:16px">화상회의</span></li>
+                    <li><a href="/workList/gantChart?projectNo=${projectNo}" style="font-weight:400;">워크스페이스</a></li>
+                    <li><a href="/todoList?projectNo=${projectNo}" style="font-weight:400;">해야할 일</a></li>
+                    <li><a href="/calendar?projectNo=${projectNo}" style="font-weight:400;">캘린더</a></li>
+                    <li><span id="btn_videoConference" style="color:white; cursor:pointer; font-size:18px; font-weight:300;">화상회의</span></li>
                 </ul>
             </div>
             <div id="tab2">
@@ -88,7 +88,7 @@
                         <li><a href="/thread/thread?threadNo=${thread.threadNo}&projectNo=${projectNo}">${thread.threadTitle}</a></li>
                     </c:forEach>
                 </ul>
-                <button id="createThread">asd</button>
+                <button id="createThread"><span class="material-symbols-outlined">add</span></button>
             </div>
             <div id="tab3">
                 <ul style="">
@@ -124,6 +124,18 @@
 </html>
 
 <style>
+
+	@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
+
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+	
     * { box-sizing: border-box; }
     body{ margin: 0; }
     .aside {
@@ -157,6 +169,8 @@
     $('a').attr("style", `
                text-decoration: none; 
                color: white; 
+    				font-size:18px;
+    				font-weight:300;
             `);
     $(function () { $("#aside").tabs(); });
 
