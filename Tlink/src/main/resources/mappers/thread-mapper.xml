@@ -35,10 +35,10 @@
 		<id property="fileNo" column="FILE_NO" />
 		<result property="filePath" column="FILE_PATH" />
 		<result property="fileRename" column="FILE_RENAME" />
-		<result property="fileOriginal" column="FILE_ORIGINAL" />
+		<result property="fileOriginName" column="FILE_ORIGINAL" />
 		<result property="fileOrder" column="FILE_ORDER" />
 		<result property="fileCode" column="FILE_CODE" />
-		<result property="targetNo" column="TARGET_NO" />
+		<result property="targetNumber" column="TARGET_NO" />
 
 	</resultMap>
 	
