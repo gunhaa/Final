@@ -3,6 +3,9 @@ package com.tlink.project.main.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,10 +61,11 @@ public class EmailController {
     }
     
     @PostMapping("/invite")
-    public String invite(String userEmail, int projectNo, RedirectAttributes ra) {
+    public String invite(String userEmail, int projectNo, RedirectAttributes ra, HttpServletRequest request) {
 
+    	int portNo = request.getServerPort();
     	
-    	int result = service.invite(userEmail, projectNo);
+    	int result = service.invite(userEmail, projectNo, portNo);
     	
     	String message = null;
     	

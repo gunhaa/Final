@@ -179,7 +179,7 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public int invite(String userEmail, int projectNo) {
+	public int invite(String userEmail, int projectNo, int portNo) {
 		
 		int result = mainDAO.selectDupEmail(userEmail);
 		
@@ -201,7 +201,7 @@ public class EmailServiceImpl implements EmailService {
 				// 메일 내용
 				String mailContent = "<h3 style='color:#643BAB;'>안녕하세요!</h3>"
 						+ "<p>당신은 새로운 프로젝트에 초대되었습니다.</p>"
-						+ "<p><a href='http://localhost:8080/project/accept?projectNo="+ projectNo +"&userEmail="+userEmail+"' style='color:#643BAB;'>프로젝트 가입하기</a></p>"
+						+ "<p><a href='http://localhost:" + portNo + "/project/accept?projectNo="+ projectNo +"&userEmail="+userEmail+"' style='color:#643BAB;'>프로젝트 가입하기</a></p>"
 						+ "<p>감사합니다!</p>";
 				
 				// 송신자(보내는 사람) 지정

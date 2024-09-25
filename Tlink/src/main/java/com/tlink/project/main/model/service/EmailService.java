@@ -16,6 +16,6 @@ public interface EmailService {
 
 	int sendNewPw(String userEmail);
 
-	int invite(String userEmail, int projectNo);
+	int invite(String userEmail, int projectNo, int portNo);
 
 }
