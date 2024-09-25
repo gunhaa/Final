@@ -777,16 +777,17 @@ const limitAndNegotiation = () => {
     });
 };
 const startVideoConference = () => __awaiter(void 0, void 0, void 0, function* () {
-    // 1. 소켓을 연결한다.
+    // 소켓을 연결한다.
     yield connectWebsocket();
-    // 2. 화면을 얻어온다.
+    // 화면을 얻어온다.
     yield getMedia();
-    // 3. signaling server에 신호를 보내 otherMemberList를 채운다.
+    // signaling server에 신호를 보내 otherMemberList를 채운다.
     yield needMemberKey();
-    // 방의 인원을 select해오고, 인원이 맞으면 해당 코드 실행으로 바꾸기 넣어야함
+    // 방의 인원을 select해오고, 인원이 맞으면 해당 코드 실행
     setTimeout(() => {
         // 해당 방의 현재인원을 검색해서, 4명이 넘는다면 창을 끄고 종료시킨다.(경고 모달 출력)
         roomlimit();
+        // 현재 방에 있는 인원에게 협상을 요청한다.
         otherMemberNoSet.forEach((otherMemberNo) => {
             if (!peerConnectionMap.has(otherMemberNo)) {
                 peerConnectionMap.set(otherMemberNo, createConnection(otherMemberNo));
