@@ -103,6 +103,22 @@
 		
 		INSERT INTO "THREAD_MESSAGE" VALUES(#{chatNo}, #{chatMessage}, SYSDATE, #{chatType}, #{threadNo} , #{memberNo})
 	</insert>
+	
+    <insert id="insertChatFile" parameterType="list">
+    	INSERT INTO FILES 
+	    	SELECT SEQ_FILE_NO.NEXTVAL, A.*
+	    		FROM(
+		        	<foreach collection="list" item="file" separator=" UNION ALL ">
+		             	SELECT #{file.filePath} FILE_PATH, 
+		                    #{file.fileRename} FILE_RENAME, 
+		                    #{file.fileOriginName} FILE_ORIGINAL,
+		                    ${file.fileOrder} FILE_ORDER, 
+		                    ${file.fileCode} FILE_CODE,
+		                    ${file.targetNumber} TARGET_NO
+		             	FROM DUAL
+		      		</foreach>
+	      		)A
+    </insert>
 
 	<select id="selectThreadLoppy" resultMap="crong_rm">
 		SELECT USER_NO FROM THREAD_MEMBER WHERE THREAD_NO=#{threadNo}
