@@ -294,7 +294,7 @@ function chart4_1(){
       let sum=0;
       const length=list.length;
       for(let i=0; i<list.length;i++){
-          list[i].createDate <= list[i].dueDate ? sum+=1 : sum+=0 ;
+          list[i].createDate < list[i].dueDate ? sum+=1 : sum+=0 ;
       }
       seriesData[0]=sum/length*100;
       

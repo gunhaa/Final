@@ -110,27 +110,3 @@
 </script>
 <script src="/resources/js/work/workChart2Pie.js"></script>
 
-<script>
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-      
-       
-
-        
-        
-
-</script>
