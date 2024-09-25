@@ -10,6 +10,7 @@ import lombok.ToString;
 public class ThreadFile {
 
 	private int chatNo;
+	private int fileNo;
 	private String filePath;
 	private String fileRename;
 	private String fileOriginName;
