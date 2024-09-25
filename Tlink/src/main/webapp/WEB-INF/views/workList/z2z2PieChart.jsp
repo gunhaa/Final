@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>    
+    <title>Workspace</title>    
     
     <link rel="stylesheet" href="/resources/css/work/common.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -27,10 +27,14 @@
               <section class="workChartBox">
              
                 <div style="display: flex; justify-content: space-evenly;">
-                  <div id="chart2"></div>
+                  <div>
+                    <div id="chart2"></div>
+                    <div style="display: flex;">
+                      <div id="chart4"></div>
+                      <div id="chart4-1"></div>
+                    </div>
+                  </div>
                   <div id="chart3"></div>
-                  <div id="chart4"></div>
-                  <div id="chart4-1"></div>
                 </div>
 
                 <div style="display: flex; justify-content: space-evenly;">
