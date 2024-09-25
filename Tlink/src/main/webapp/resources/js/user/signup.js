@@ -168,7 +168,7 @@ userPw.addEventListener("input", () => {
         // 비밀번호가 유효하게 작성된 상태에서 
         // 비밀번호 확인이 입력되지 않았을 때
         if (pwCheck.value.trim().length == 0) {
-            checkObj.userPw = false;
+            checkObj.pwCheck = false;
         } else {
             // 비밀번호가 유효하게 작성된 상태에서
             // 비밀번호 확인이 입력된 경우
