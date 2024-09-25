@@ -87,7 +87,8 @@ public class WorkRestDAO {
 		
 		Map<Integer, Object> map=new HashMap<>();
 		for(int managerNo : intList){
-			List<Work> wList=sqlSession.selectList("workRestMapper.selectManagerByWork", managerNo);
+			data.put("managerNo", managerNo);
+			List<Work> wList=sqlSession.selectList("workRestMapper.selectManagerByWork", data);
 			map.put(managerNo, wList);
 		}
 		
