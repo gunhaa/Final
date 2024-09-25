@@ -323,8 +323,14 @@ if (btn) {
         })
             .then((resp) => resp.text())
             .then(data => {
+                let uriMemberName = `\${memberName_1}`;
+                let encodeURIMemberName = encodeURIComponent(uriMemberName);
+                console.log(encodeURIMemberName);
+                console.log("적용됨");
 
-                popup = window.open(`/resources/popup/popup.jsp?memberNo=\${memberNo_1}&projectNo=\${projectNo_1}&memberName=\${memberName_1}`, "VideoConference", "width=920,height=830")
+                let uri = `/resources/popup/popup.jsp?memberNo=\${memberNo_1}&projectNo=\${projectNo_1}&memberName=\${encodeURIMemberName}`;
+
+                popup = window.open(uri, "VideoConference", "width=920,height=830");
                 popup.onload = () => {
                     // console.log(data);
                     console.log(popup.document.querySelector("#title-container"));
