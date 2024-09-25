@@ -17,6 +17,10 @@ body{
     height: 80%;
 }
 
+#calendar div{
+    overflow: visible !important; 
+}
+
 #scheduleModal {
     display: none;
     position: fixed;
