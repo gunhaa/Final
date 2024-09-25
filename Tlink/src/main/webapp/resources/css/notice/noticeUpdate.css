@@ -289,3 +289,12 @@
     right: 7px;
     cursor: pointer;
 }
+
+#addImageButton{
+    border: none;
+    background-color: transparent;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+}

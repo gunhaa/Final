@@ -50,7 +50,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" id="addImageButton">게시글 사진 추가하기</button>
+                    <button type="button" id="addImageButton"><i class="fa-solid fa-file-circle-plus"></i></button>
 
                     
                 </article>

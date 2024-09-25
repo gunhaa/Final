@@ -120,7 +120,7 @@
                                 </c:choose>
                             </c:forEach>
                         </div>
-                        <button type="button" id="addImageButton">게시글 사진 추가하기</button>
+                        <button type="button" id="addImageButton"><i class="fa-solid fa-file-circle-plus"></i></button>
                         <!-- 기존 이미지가 있다가 삭제된 이미지의 순서를 기록 -->
                         <input type="hidden" name="deleteList" value="">
 
