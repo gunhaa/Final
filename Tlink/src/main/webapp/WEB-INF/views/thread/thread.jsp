@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +21,7 @@
         <container style="display: flex; flex-direction: column; width: 1200px; margin: 0px;">
             <section class="chatView" style="height: 700px">
                 <div class="viewHeader">
-                    <span>#파이널 프로젝트</span>
+                    <span>${threadTitle}</span>
                     <div>
                         <div class="memberList"></div>
                         <button>Settings</button>
