@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.tlink.project.common.utility.Util;
 import com.tlink.project.thread.model.dao.ThreadDAO;
+import com.tlink.project.thread.model.dto.Crong;
 import com.tlink.project.thread.model.dto.ThreadChat;
 import com.tlink.project.thread.model.dto.ThreadFile;
 import com.tlink.project.thread.model.dto.ThreadInfo;
@@ -126,7 +127,11 @@ public class ThreadServiceImpl implements ThreadService {
 	}
 
 	@Override
+<<<<<<< HEAD
+	public List<Crong> selectThreadLoppy(String threadNo) {
+=======
 	public List<ThreadChat> selectThreadLoppy(String threadNo) {
+>>>>>>> 26376e1d9b8e0cd6ac07fa698137f2ccc92986e5
 		return dao.selectThreadLoppy(threadNo);
 	}
 

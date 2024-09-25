@@ -25,6 +25,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tlink.project.chatting.common.Util;
+import com.tlink.project.thread.model.dto.Crong;
 import com.tlink.project.thread.model.dto.Loppy;
 import com.tlink.project.thread.model.dto.ThreadChat;
 import com.tlink.project.thread.model.service.ThreadService;
@@ -75,7 +76,11 @@ public class ThreadWebsocket extends TextWebSocketHandler{
 			
 			String jsonMsg = objectMapper.writeValueAsString(msg);
 			
+<<<<<<< HEAD
+			List<Crong> memberList = service.selectThreadLoppy(loppy.getThreadNo());
+=======
 			List<ThreadChat> memberList = service.selectThreadLoppy(loppy.getThreadNo());
+>>>>>>> 26376e1d9b8e0cd6ac07fa698137f2ccc92986e5
 			System.out.println("lulu");
 			
 			for( int i = 0; i < memberList.size(); i++ ) {
@@ -83,11 +88,15 @@ public class ThreadWebsocket extends TextWebSocketHandler{
 				System.out.println(memberList.get(i).getMemberNo());
 				
 				for( Map.Entry<WebSocketSession, String> entry : sessions.entrySet() ) {
+<<<<<<< HEAD
+					if( entry.getValue().equals(memberList.get(i).getMemberNo()))
+=======
 					
 					System.out.println(memberList.get(i));
 
 					if( entry.getValue().equals(memberList.get(i).getMemberNo()))
 					
+>>>>>>> 26376e1d9b8e0cd6ac07fa698137f2ccc92986e5
 					{
 						entry.getKey().sendMessage(new TextMessage(jsonMsg));
 						break;
