@@ -203,6 +203,11 @@ INSERT INTO "USER_PROJECT" VALUES(
     1 -- 프로젝트 번호
 );
 
+INSERT INTO "USER_PROJECT" VALUES(
+    7, -- 유저번호
+    1 -- 프로젝트 번호
+);
+
 -- 프로젝트 초대2
 INSERT INTO "USER_PROJECT" VALUES(
     3, -- 유저번호
@@ -216,6 +221,11 @@ INSERT INTO "USER_PROJECT" VALUES(
 
 INSERT INTO "USER_PROJECT" VALUES(
     6, -- 유저번호
+    2 -- 프로젝트 번호
+);
+
+INSERT INTO "USER_PROJECT" VALUES(
+    7, -- 유저번호
     2 -- 프로젝트 번호
 );
 
@@ -235,6 +245,11 @@ INSERT INTO "USER_PROJECT" VALUES(
     3 -- 프로젝트 번호
 );
 
+INSERT INTO "USER_PROJECT" VALUES(
+    7, -- 유저번호
+    3 -- 프로젝트 번호
+);
+
 -- 프로젝트 초대4
 INSERT INTO "USER_PROJECT" VALUES(
     3, -- 유저번호
@@ -248,6 +263,11 @@ INSERT INTO "USER_PROJECT" VALUES(
 
 INSERT INTO "USER_PROJECT" VALUES(
     5, -- 유저번호
+    4 -- 프로젝트 번호
+);
+
+INSERT INTO "USER_PROJECT" VALUES(
+    7, -- 유저번호
     4 -- 프로젝트 번호
 );
 
